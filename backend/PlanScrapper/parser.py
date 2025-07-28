@@ -1,9 +1,16 @@
 from datetime import datetime
+import json
 
 PROGRAM_TYPE = ["S", "N"]
 DEGREE_LEVEL = ["lic", "mgr", "inż."]
 LANGUAGE = ["POL", "ANG"]
 ACADEMIC_YEAR = ["zima", "lato"]
+
+programs = []
+classes = []
+teachers = []
+
+DEBUG = False
 
 # Important!!! This will only work correctly if your system's date locale is Polish.
 def convertDateToTimestamp(date, start, end):
@@ -47,22 +54,10 @@ def parseTeachers(teacher):
     return teachers
 
 def getTokAndPlan(json):
-    programs = []
-    classes = []
-    teachers = []
-    toknum = -1
-    for i in json:
-            obj = eval(i[:-1])
-            if obj["Plan dla toku"] not in programs:
-                programs.append(obj["Plan dla toku"])
-                toknum += 1
-            if obj["Prowadzący"] not in teachers:
-                teachers.append(obj["Prowadzący"])
-            obj["Plan dla toku"] = toknum
-            obj["timestamp"] = convertDateToTimestamp(obj.pop("Data zajęć"), obj.pop("Czas od"), obj.pop("Czas do"))
+    for i in json[:-2]:
+        breakDownTok(i[:-1])
+    breakDownTok(json[-2])
 
-            classes.append(obj)
-    
     temp = []
     for i, teacher in enumerate(teachers):
         for i in parseTeachers(teacher):
@@ -78,6 +73,18 @@ def getTokAndPlan(json):
                 print(f"Unknown teacher format: {i}")
 
     return programs, classes, temp
+
+def breakDownTok(tok):
+    toknum = 0
+    obj = eval(tok)
+    if obj["Plan dla toku"] not in programs:
+        programs.append(obj["Plan dla toku"])
+        toknum += 1
+    if obj["Prowadzący"] not in teachers:
+        teachers.append(obj["Prowadzący"])
+    obj["Plan dla toku"] = toknum
+    obj["timestamp"] = convertDateToTimestamp(obj.pop("Data zajęć"), obj.pop("Czas od"), obj.pop("Czas do"))
+    classes.append(obj)
 
 def readJson():
     with open("plany.json", "r", encoding="utf-8") as file:
@@ -131,19 +138,44 @@ def tokStringToDic(tokString):
 programs, classes, teachers = readJson()
 programs = [tokStringToDic(tok) for tok in programs]
 classes = [{**c, "Prowadzący": " ".join(str(teachers.index(x)) for x in parseTeachers(c["Prowadzący"]))} for c in classes]
-
+'''
 with open("flows.json", "r", encoding="utf-8") as file:
     flows = file.read().splitlines()
-    flows = [tokStringToDic(i[12:]) for i in flows[1:-1]]
+    flows = [tokStringToDic(i[12:-2]) for i in flows[1:-1]]
 
 for program in programs:
-    if program in flows:
-        print("Flow already exists in programs:", flow)
+    if program not in flows:
+        print("Flow does not exist in programs:", program)
+for flow in flows:
+    if flow not in programs:
+        print("Program does not exist in flows:", flow)
+'''
 
-print()
+if DEBUG:
+    print()
+    print(programs[0])
+    print(classes[535])
+    print(teachers[0])
 
-print("\n", programs[12], sep="")
-print(flows[0])
-print(classes[535])
-print(teachers[0])
-print(classes[406])
+with open ("programs.json", "w", encoding="utf-8") as file:
+    file.write(json.dumps({
+        "programs": programs,
+        "classes": classes,
+        "teachers": teachers
+    }, indent=4, ensure_ascii=False).replace("   ", "\t"))
+    # file.write("{\n\t\"programs\": {\n")
+    # for program in programs[:-1]:
+    #     file.write("\t\t" + json.dumps(program))
+    #     file.write(",\n")
+    # file.write("\t\t" + json.dumps(programs[-1]))
+    # file.write("\n\t},\n\t\"classes\": {\n")
+    # for cls in classes[:-1]:
+    #     file.write("\t\t" + json.dumps(cls))
+    #     file.write(",\n")
+    # file.write("\t\t" + json.dumps(classes[-1]))
+    # file.write("\n\t},\n\t\"teachers\": {\n")
+    # for teacher in teachers[:-1]:
+    #     file.write("\t\t" + json.dumps(teacher))
+    #     file.write(",\n")
+    # file.write("\t\t" + json.dumps(teachers[-1]))
+    # file.write("\n\t}\n}")
