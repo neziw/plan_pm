@@ -149,9 +149,8 @@ def tokStringToDic(tokString):
 programs, classes, teachers, rooms = readJson()
 programs = [tokStringToDic(tok) for tok in programs]
 teacher_to_idx = {teacher: str(i) for i, teacher in enumerate(teachers)}
-classes = [{**c, "Prowadzący": " ".join(teacher_to_idx[x] for x in parseTeachers(c["Prowadzący"]))} for c in classes]
 room_to_idx = {room: str(i) for i, room in enumerate(rooms)}
-classes = [{**r, "Sala": room_to_idx[r["Sala"]]} for r in classes]
+classes = [{**c, "Prowadzący": " ".join(teacher_to_idx[x] for x in parseTeachers(c["Prowadzący"])), "Sala": room_to_idx[c["Sala"]]} for c in classes]
 '''
 with open("flows.json", "r", encoding="utf-8") as file:
     flows = file.read().splitlines()
