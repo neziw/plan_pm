@@ -150,7 +150,6 @@ class Scrapper:
     def run(self, max_workers=5):
         with open("./output/flows.json", "r") as f:
             data = json.load(f)
-        pass
 
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
             futures = [executor.submit(self.scrapper, flow_id) for flow_id in sorted(data.keys())]
