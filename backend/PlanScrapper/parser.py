@@ -10,6 +10,7 @@ ACADEMIC_YEAR = ["zima", "lato"]
 programs = []
 classes = []
 teachers = []
+rooms = []
 
 DEBUG = False
 
@@ -81,7 +82,7 @@ def getTokAndPlan(json):
             else:
                 print(f"Unknown teacher format: {i}")
 
-    return programs, classes, temp
+    return programs, classes, temp, rooms
 
 def breakDownTok(tok):
     toknum = 0
@@ -90,6 +91,8 @@ def breakDownTok(tok):
         toknum += 1
     if tok["Prowadzący"] not in teachers:
         teachers.append(tok["Prowadzący"])
+    if tok["Sala"] not in rooms:
+        rooms.append(tok["Sala"])
     tok["Plan dla toku"] = toknum
     tok["timestamp"] = convertDateToTimestamp(tok.pop("Data zajęć"), tok.pop("Czas od"), tok.pop("Czas do"))
     classes.append(tok)
@@ -97,9 +100,9 @@ def breakDownTok(tok):
 def readJson():
     with open(input, "r", encoding="utf-8") as file:
         f = loadJSON(file.read())
-        programs, classes, teachers = getTokAndPlan(f)
+        programs, classes, teachers, rooms = getTokAndPlan(f)
 
-        return programs, classes, teachers
+        return programs, classes, teachers, rooms
 
 def tokStringToDic(tokString):
     tok = {
@@ -143,9 +146,12 @@ def tokStringToDic(tokString):
 
     return tok
 
-programs, classes, teachers = readJson()
+programs, classes, teachers, rooms = readJson()
 programs = [tokStringToDic(tok) for tok in programs]
-classes = [{**c, "Prowadzący": " ".join(str(teachers.index(x)) for x in parseTeachers(c["Prowadzący"]))} for c in classes]
+teacher_to_idx = {teacher: str(i) for i, teacher in enumerate(teachers)}
+classes = [{**c, "Prowadzący": " ".join(teacher_to_idx[x] for x in parseTeachers(c["Prowadzący"]))} for c in classes]
+room_to_idx = {room: str(i) for i, room in enumerate(rooms)}
+classes = [{**r, "Sala": room_to_idx[r["Sala"]]} for r in classes]
 '''
 with open("flows.json", "r", encoding="utf-8") as file:
     flows = file.read().splitlines()
@@ -169,7 +175,8 @@ with open (output + "/programs.json", "w", encoding="utf-8") as file:
     file.write(dumpJSON({
         "programs": programs,
         "classes": classes,
-        "teachers": teachers
+        "teachers": teachers,
+        "rooms": rooms
     }, indent=4, ensure_ascii=False).replace("   ", "\t"))
     # file.write("{\n\t\"programs\": {\n")
     # for program in programs[:-1]:
