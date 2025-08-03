@@ -1,5 +1,6 @@
 from datetime import datetime
-import json
+from json import load, loads as loadJSON, dumps as dumpJSON
+import sys
 
 PROGRAM_TYPE = ["S", "N"]
 DEGREE_LEVEL = ["lic", "mgr", "inż."]
@@ -11,6 +12,15 @@ classes = []
 teachers = []
 
 DEBUG = False
+
+input = "plany.json"
+output = "./output"
+
+if(len(sys.argv) > 1):
+    output = sys.argv[1]
+    if(len(sys.argv) > 2):
+        input = sys.argv[2]
+        DEBUG = True
 
 # Important!!! This will only work correctly if your system's date locale is Polish.
 def convertDateToTimestamp(date, start, end):
@@ -54,9 +64,8 @@ def parseTeachers(teacher):
     return teachers
 
 def getTokAndPlan(json):
-    for i in json[:-2]:
-        breakDownTok(i[:-1])
-    breakDownTok(json[-2])
+    for i in json:
+        breakDownTok(i)
 
     temp = []
     for i, teacher in enumerate(teachers):
@@ -76,20 +85,19 @@ def getTokAndPlan(json):
 
 def breakDownTok(tok):
     toknum = 0
-    obj = eval(tok)
-    if obj["Plan dla toku"] not in programs:
-        programs.append(obj["Plan dla toku"])
+    if tok["Plan dla toku"] not in programs:
+        programs.append(tok["Plan dla toku"])
         toknum += 1
-    if obj["Prowadzący"] not in teachers:
-        teachers.append(obj["Prowadzący"])
-    obj["Plan dla toku"] = toknum
-    obj["timestamp"] = convertDateToTimestamp(obj.pop("Data zajęć"), obj.pop("Czas od"), obj.pop("Czas do"))
-    classes.append(obj)
+    if tok["Prowadzący"] not in teachers:
+        teachers.append(tok["Prowadzący"])
+    tok["Plan dla toku"] = toknum
+    tok["timestamp"] = convertDateToTimestamp(tok.pop("Data zajęć"), tok.pop("Czas od"), tok.pop("Czas do"))
+    classes.append(tok)
 
 def readJson():
-    with open("plany.json", "r", encoding="utf-8") as file:
-        json = file.read().splitlines()
-        programs, classes, teachers = getTokAndPlan(json[1:])
+    with open(input, "r", encoding="utf-8") as file:
+        f = loadJSON(file.read())
+        programs, classes, teachers = getTokAndPlan(f)
 
         return programs, classes, teachers
 
@@ -157,8 +165,8 @@ if DEBUG:
     print(classes[535])
     print(teachers[0])
 
-with open ("programs.json", "w", encoding="utf-8") as file:
-    file.write(json.dumps({
+with open (output + "/programs.json", "w", encoding="utf-8") as file:
+    file.write(dumpJSON({
         "programs": programs,
         "classes": classes,
         "teachers": teachers
