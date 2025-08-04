@@ -52,9 +52,9 @@ class Scrapper:
             lectures.append(subject)
         return lectures
 
-    def scrapper(self, flow_id):
+    def scrapper(self, flow_id, debug=False):
         self.stats["total"] += 1
-        url = f'https://plany.am.szczecin.pl/Index/Jezyk?lang=pl&url=%2FPlany%2FPlanyTokow%2F/{flow_id}'
+        url = f'https://plany.am.szczecin.pl/Plany/PlanyTokow/{flow_id}'
         download_dir = Path(f"./downloads/{flow_id}")
         download_dir.mkdir(parents=True, exist_ok=True)
 
@@ -74,10 +74,26 @@ class Scrapper:
         driver.get(url)
 
         try:
+            if debug:
+                print("Czekam na cc_essential")
             WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.ID, "cc_essential")))
-            driver.find_element(By.CSS_SELECTOR, "button.btn.btn-danger.my-2").click()
+            if debug:
+                print("Odrzucam cookies")
+            driver.find_elements(By.CSS_SELECTOR, "button.btn.my-2")[1].click()
+            if debug:
+                print("Otwieram checkdown z językami")
+            driver.find_element(By.ID, "ho-language").click()
+            if debug:
+                print("Wybieram język Polski")
+            driver.find_element(By.XPATH, "/html/body/div[1]/div/header/nav/div/div[1]/div/div/ul/li/a").click()
+            if debug:
+                print("Wybieram 3 radio button")
             driver.find_elements(By.CLASS_NAME, "custom-control-label")[2].click()
+            if debug:
+                print("Klikam na zapisz jako ical")
             driver.find_element(By.ID, "SzukajLogout").click()
+            
+
 
             saveical = WebDriverWait(driver, 60).until(
                 EC.presence_of_all_elements_located((By.ID, "WrappingTextLink"))
