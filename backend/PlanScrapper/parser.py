@@ -7,10 +7,17 @@ DEGREE_LEVEL = ["lic", "mgr", "inż."]
 LANGUAGE = ["POL", "ANG"]
 ACADEMIC_YEAR = ["zima", "lato"]
 
+BUILDINGS = ["WChrobrego", "HPobożnego", "Willowa", "Szczerbcow", "Żołnierska"]
+
+MAP = {"Plan dla toku" : "program", "Przedmiot" : "subject", "Grupy" : "group", "Sala" : "room"}
+
 programs = []
 classes = []
 teachers = []
 rooms = []
+buildings = []
+
+toknum = 0
 
 DEBUG = False
 
@@ -63,28 +70,67 @@ def parseTeachers(teacher):
 
     return t
 
+def parseRooms(room):
+    if not room:
+        return []
+
+    parsed_rooms = []
+    for r in room.split(","):
+        r = r.strip()
+        if r not in parsed_rooms:
+            parsed_rooms.append(r)
+    return parsed_rooms
+
+def breakDownRoom(room):
+    b = None
+    room = room.split(" ")
+    if room[0] in BUILDINGS:
+        if room[1][0] == 'B' and room[1][1].isdigit():
+            b = " ".join(room[:2])
+            room = room[2:]
+        else:
+            b = room[0]
+            room = room[1:]
+        room = " ".join(room)
+    else:
+        room = " ".join(room)
+    return room, b
+
 def getTokAndPlan(json):
     for i in json:
         breakDownTok(i)
 
     temp = []
     for i, teacher in enumerate(teachers):
-        for i in parseTeachers(teacher):
-            if i in temp:
+        for x in parseTeachers(teacher):
+            if x in temp:
                 continue
-            if "prof." in i:
-                temp.append(i)
-            elif "dr " in i:
-                temp.append(i)
-            elif "mgr " in i:
-                temp.append(i)
-            else:
-                print(f"Unknown teacher format: {i}")
+            if x:
+                temp.append(x)
+    global teachers
+    teachers = temp
 
-    return programs, classes, temp, rooms
+    teacher_to_idx = {teacher: i for i, teacher in enumerate(teachers)}
+    room_to_idx = {room: i for i, room in enumerate(rooms)}
+    
+    cl = [{**c, "Prowadzący": [teacher_to_idx[x] for x in parseTeachers(c["Prowadzący"])], "Sala": (room_to_idx[c["Sala"]] if c["Sala"] in rooms else None)} for c in classes]
+
+    build = []
+    for i, room in enumerate(rooms):
+        r, b = breakDownRoom(room)
+        t = {"building" : b, "room" : r}
+        if not b:
+            rooms[i] = t
+            continue
+        if b not in build:
+            build.append(b)
+        t["building"] = build.index(b)
+        rooms[i] = t
+
+    return programs, cl, temp, rooms, build
 
 def breakDownTok(tok):
-    toknum = 0
+    global toknum
     if tok["Plan dla toku"] not in programs:
         programs.append(tok["Plan dla toku"])
         toknum += 1
@@ -92,7 +138,9 @@ def breakDownTok(tok):
         teachers.append(tok["Prowadzący"])
     if tok["Sala"] not in rooms:
         if tok["Sala"]:
-            rooms.append(tok["Sala"])
+            for s in parseRooms(tok["Sala"]):
+                if s not in rooms:
+                    rooms.append(s)
 
     tok["Plan dla toku"] = toknum
     tok["timestamp"] = convertDateToTimestamp(tok.pop("Data zajęć"), tok.pop("Czas od"), tok.pop("Czas do"))
@@ -101,9 +149,8 @@ def breakDownTok(tok):
 def readJson():
     with open(input, "r", encoding="utf-8") as file:
         f = loadJSON(file.read())
-        programs, classes, teachers, rooms = getTokAndPlan(f)
 
-        return programs, classes, teachers, rooms
+        return getTokAndPlan(f)
 
 def tokStringToDic(tokString):
     tok = {
@@ -147,11 +194,8 @@ def tokStringToDic(tokString):
 
     return tok
 
-programs, classes, teachers, rooms = readJson()
+programs, classes, teachers, rooms, buildings = readJson()
 programs = [tokStringToDic(tok) for tok in programs]
-teacher_to_idx = {teacher: str(i) for i, teacher in enumerate(teachers)}
-room_to_idx = {room: str(i) for i, room in enumerate(rooms)}
-classes = [{**c, "Prowadzący": " ".join(teacher_to_idx[x] for x in parseTeachers(c["Prowadzący"])), "Sala": (room_to_idx[c["Sala"]] if c["Sala"] in rooms else None)} for c in classes]
 
 if DEBUG:
     print()
@@ -164,5 +208,24 @@ with open (output + "/programs.json", "w", encoding="utf-8") as file:
         "programs": programs,
         "classes": classes,
         "teachers": teachers,
-        "rooms": rooms
-    }, indent=4, ensure_ascii=False).replace("   ", "\t"))
+        "rooms": rooms,
+        "building": buildings
+    }, indent=4, ensure_ascii=False).replace("    ", "\t"))
+
+'''
+def recon(c, t, r, b):
+    for i, room in enumerate(r):
+        if room["Building"] != None:
+            r[i]["Building"] = b[room["Building"]]
+
+    for x, cl in enumerate(c):
+        temp = []
+        for teacher in cl["Prowadzący"]:
+            temp.append(t[teacher])
+        c[x]["Prowadzący"] = temp
+        if cl["Sala"] != None:
+            c[x]["Sala"] = r[cl["Sala"]]
+        print(c[x])
+
+recon(classes, teachers, rooms, buildings)
+'''
