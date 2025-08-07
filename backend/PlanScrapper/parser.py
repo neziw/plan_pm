@@ -1,5 +1,6 @@
 from datetime import datetime
 from json import loads as loadJSON, dumps as dumpJSON
+from dataclasses import dataclass, field
 import sys
 
 PROGRAM_TYPE = ["S", "N"]
@@ -11,15 +12,20 @@ BUILDINGS = ["WChrobrego", "HPobożnego", "Willowa", "Szczerbcow", "Żołnierska
 
 MAP = {"Plan dla toku" : "program", "Przedmiot" : "subject", "Grupy" : "group", "Sala" : "room", "Prowadzący" : "teacher"}
 
-programs = []
-classes = []
-teachers = []
-rooms = []
-buildings = []
-sub = []
-teachersclasses = []
+@dataclass
+class ScheduleData:
+    programs: list
+    classes: list
+    teachers: list
+    subjects: list
+    rooms: list
+    buildings: list
 
-toknum = 0
+    _programs_set: set = field(default_factory=set, init=False, repr=False)
+    _teachers_set: set = field(default_factory=set, init=False, repr=False)
+    _subjects_set: set = field(default_factory=set, init=False, repr=False)
+    _rooms_set: set = field(default_factory=set, init=False, repr=False)
+
 
 DEBUG = False
 
@@ -44,6 +50,48 @@ def convertDateToTimestamp(date, start, end):
     end = date.replace(hour=int(end[0]), minute=int(end[1]), second=0).timestamp()
 
     return start, end
+
+def tokStringToDic(tokString):
+    tok = {
+        "name": "",
+        "program_type": "",
+        "degree_level": "",
+        "language": LANGUAGE[0],
+        "academic_year": "",
+        "course_length": 0
+    }
+    
+    original = tokString
+    
+    for program_type in PROGRAM_TYPE:
+        if f' {program_type} ' in original:
+            tok["program_type"] = program_type
+            break
+    
+    for language in LANGUAGE:
+        if f' {language} ' in original:
+            tok["language"] = language
+            break
+    
+    for degree_level in DEGREE_LEVEL:
+        if f'{degree_level} ' in original:
+            tok["degree_level"] = degree_level
+            break
+    
+    remaining = original
+    
+    try:
+        remaining = remaining.replace(f' {tok["program_type"]} ', ' ')
+        remaining = remaining.replace(f' {tok["language"]} ', ' ')
+        parts = remaining.split(f'{tok["degree_level"]} ')
+        tok["name"] = parts[0].strip()
+        length_season = parts[1].strip().split(' ')
+        tok["course_length"] = length_season[0]
+        tok["academic_year"] = ' '.join(length_season[1:])
+    except:
+        print(f"Error processing course: {original}")
+
+    return tok
 
 def parseTeachers(teacher):
     if teacher == "":
@@ -94,66 +142,70 @@ def breakDownRoom(room):
         room = " ".join(room)
     return room, b
 
-
-
-def getTokAndPlan(json):
-    for i in json:
-        breakDownTok(i)
-
-    global teachers
-    temp = []
-    for i, teacher in enumerate(teachers):
-        for x in parseTeachers(teacher):
-            if x in temp:
-                continue
-            if x:
-                temp.append(x)
-
-    teachers = temp
-
-    teacher_to_idx = {teacher: i for i, teacher in enumerate(teachers)}
-    room_to_idx = {room: i for i, room in enumerate(rooms)}
-    
-    cl = [{k: v for k, v in c.items() if k not in {"Liczba godzin", "Forma zajęć", "Forma zaliczenia", "Uwagi"}} | {"Prowadzący": [teacher_to_idx[x] for x in parseTeachers(c["Prowadzący"])], "Sala": (room_to_idx[c["Sala"]] if c["Sala"] in rooms else None)} for c in classes]
-    
+def breakDownTeachers(teachers):
     for i, t in enumerate(teachers):
         t = t.split(" ")
-        temp[i] = {"title": " ".join(t[:-2]), "fullName": " ".join(t[-2:])}
+        teachers[i] = {"title": " ".join(t[:-2]), "fullName": " ".join(t[-2:])}
+    return teachers
 
-    build = []
+def breakDownBuildings(rooms):
+    buildings = []
     for i, room in enumerate(rooms):
         r, b = breakDownRoom(room)
         t = {"building" : b, "room" : r}
         if not b:
             rooms[i] = t
             continue
-        if b not in build:
-            build.append(b)
-        t["building"] = build.index(b)
+        if b not in buildings:
+            buildings.append(b)
+        t["building"] = buildings.index(b)
         rooms[i] = t
+    return rooms, buildings
 
-    return programs, cl, temp, rooms, build
-
-def breakDownTok(tok):
-    global toknum
-    if tok["Plan dla toku"] not in programs:
-        programs.append(tok["Plan dla toku"])
-        toknum += 1
-    if tok["Prowadzący"] not in teachers:
-        teachers.append(tok["Prowadzący"])
-    if tok["Sala"] not in rooms:
-        if tok["Sala"]:
-            for s in parseRooms(tok["Sala"]):
-                if s not in rooms:
-                    rooms.append(s)
-    if tok["Przedmiot"] not in sub:
-        sub.append(tok["Przedmiot"])
+def breakDownTok(tok, sched):
+    if tok["Plan dla toku"] not in sched._programs_set:
+        sched.programs.append(tok["Plan dla toku"])
+        sched._programs_set.add(tok["Plan dla toku"])
+    teachArray = parseTeachers(tok["Prowadzący"])
+    for x in teachArray:
+        if x and x not in sched._teachers_set:
+            sched.teachers.append(x)
+            sched._teachers_set.add(x)
+    if tok["Sala"]:
+        for s in parseRooms(tok["Sala"]):
+            if s not in sched.rooms:
+                sched.rooms.append(s)
+                sched._rooms_set.add(s)
+    if tok["Przedmiot"] not in sched._subjects_set:
+        sched.subjects.append(tok["Przedmiot"])
+        sched._subjects_set.add(tok["Przedmiot"])
     
-    tok["Plan dla toku"] = toknum
-    tok["Przedmiot"] = sub.index(tok["Przedmiot"])
+    tok["Plan dla toku"] = sched.programs.index(tok["Plan dla toku"])
+    tok["Przedmiot"] = sched.subjects.index(tok["Przedmiot"])
     tok["startTime"], tok["endTime"] = convertDateToTimestamp(tok.pop("Data zajęć"), tok.pop("Czas od"), tok.pop("Czas do"))
-        
-    classes.append(tok)
+
+    sched.classes.append(tok)
+
+def normalizeClasses(classes, teachers, rooms):
+    teacher_to_idx = {teacher: i for i, teacher in enumerate(teachers)}
+    room_to_idx = {room: i for i, room in enumerate(rooms)}
+    
+    return [{k: v for k, v in c.items() if k not in {"Liczba godzin", "Forma zajęć", "Forma zaliczenia", "Uwagi"}} | {"Prowadzący": [teacher_to_idx[x] for x in parseTeachers(c["Prowadzący"])], "Sala": (room_to_idx[c["Sala"]] if c["Sala"] in rooms else None)} for c in classes]
+
+def getTokAndPlan(json):
+    sched = ScheduleData([], [], [], [], [], [])
+    for i in json:
+        breakDownTok(i, sched)
+
+    sched.programs = [tokStringToDic(tok) for tok in sched.programs]
+
+    sched.classes = normalizeClasses(sched.classes, sched.teachers, sched.rooms)
+
+    sched.teachers = breakDownTeachers(sched.teachers)
+
+    sched.rooms, sched.buildings = breakDownBuildings(sched.rooms)
+
+    return sched
 
 def readJson():
     with open(input, "r", encoding="utf-8") as file:
@@ -161,71 +213,30 @@ def readJson():
 
         return getTokAndPlan(f)
 
-def tokStringToDic(tokString):
-    tok = {
-        "name": "",
-        "program_type": "",
-        "degree_level": "",
-        "language": LANGUAGE[0],
-        "academic_year": "",
-        "course_length": 0
-    }
-    
-    original = tokString
-    
-    for program_type in PROGRAM_TYPE:
-        if f' {program_type} ' in original:
-            tok["program_type"] = program_type
-            break
-    
-    for language in LANGUAGE:
-        if f' {language} ' in original:
-            tok["language"] = language
-            break
-    
-    for degree_level in DEGREE_LEVEL:
-        if f'{degree_level} ' in original:
-            tok["degree_level"] = degree_level
-            break
-    
-    remaining = original
-    
-    try:
-        remaining = remaining.replace(f' {tok["program_type"]} ', ' ')
-        remaining = remaining.replace(f' {tok["language"]} ', ' ')
-        parts = remaining.split(f'{tok["degree_level"]} ')
-        tok["name"] = parts[0].strip()
-        length_season = parts[1].strip().split(' ')
-        tok["course_length"] = length_season[0]
-        tok["academic_year"] = ' '.join(length_season[1:])
-    except:
-        print(f"Error processing course: {original}")
+sched = readJson()
 
-    return tok
-
-programs, classes, teachers, rooms, buildings = readJson()
-programs = [tokStringToDic(tok) for tok in programs]
-
-for i, cl in enumerate(classes):
+for i, cl in enumerate(sched.classes):
     for old in MAP:
-        classes[i][MAP[old]] = classes[i].pop(old)
+        sched.classes[i][MAP[old]] = sched.classes[i].pop(old)
 
-for i, cl in enumerate(classes):
-    teachersclasses.append({"class": i, "teachers": classes[i].pop("teacher")})
+teachersclasses = []
+
+for i, cl in enumerate(sched.classes):
+    teachersclasses.append({"class": i, "teachers": sched.classes[i].pop("teacher")})
 
 if DEBUG:
     print()
-    print(programs[0])
-    print(classes[535])
-    print(teachers[0])
+    print(sched.programs[0])
+    print(sched.classes[535])
+    print(sched.teachers[0])
 
 with open (output + "/programs.json", "w", encoding="utf-8") as file:
     file.write(dumpJSON({
-        "programs": programs,
-        "classes": classes,
-        "teachers": teachers,
+        "programs": sched.programs,
+        "classes": sched.classes,
+        "teachers": sched.teachers,
         "teachersclasses": teachersclasses,
-        "rooms": rooms,
-        "building": buildings,
-        "subjects": sub
+        "subjects": sched.subjects,
+        "rooms": sched.rooms,
+        "building": sched.buildings
     }, indent=4, ensure_ascii=False).replace("    ", "\t"))
