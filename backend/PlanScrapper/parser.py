@@ -9,13 +9,14 @@ ACADEMIC_YEAR = ["zima", "lato"]
 
 BUILDINGS = ["WChrobrego", "HPobożnego", "Willowa", "Szczerbcow", "Żołnierska"]
 
-MAP = {"Plan dla toku" : "program", "Przedmiot" : "subject", "Grupy" : "group", "Sala" : "room"}
+MAP = {"Plan dla toku" : "program", "Przedmiot" : "subject", "Grupy" : "group", "Sala" : "room", "Prowadzący" : "teacher"}
 
 programs = []
 classes = []
 teachers = []
 rooms = []
 buildings = []
+sub = []
 
 toknum = 0
 
@@ -32,20 +33,16 @@ if(len(sys.argv) > 1):
 
 # Important!!! This will only work correctly if your system's date locale is Polish.
 def convertDateToTimestamp(date, start, end):
-    timestamp = {
-        "start": 0,
-        "end": 0
-    }
-    
+        
     date = date.split(".")
     date = datetime(int(date[0]), int(date[1]), int(date[2].split(" ")[0]))
     start = start.split(":")
     end = end.split(":")
 
-    timestamp["start"] = date.replace(hour=int(start[0]), minute=int(start[1]), second=0).timestamp()
-    timestamp["end"] = date.replace(hour=int(end[0]), minute=int(end[1]), second=0).timestamp()
+    start = date.replace(hour=int(start[0]), minute=int(start[1]), second=0).timestamp()
+    end = date.replace(hour=int(end[0]), minute=int(end[1]), second=0).timestamp()
 
-    return timestamp
+    return start, end
 
 def parseTeachers(teacher):
     if teacher == "":
@@ -96,10 +93,13 @@ def breakDownRoom(room):
         room = " ".join(room)
     return room, b
 
+
+
 def getTokAndPlan(json):
     for i in json:
         breakDownTok(i)
 
+    global teachers
     temp = []
     for i, teacher in enumerate(teachers):
         for x in parseTeachers(teacher):
@@ -107,13 +107,13 @@ def getTokAndPlan(json):
                 continue
             if x:
                 temp.append(x)
-    global teachers
     teachers = temp
 
     teacher_to_idx = {teacher: i for i, teacher in enumerate(teachers)}
     room_to_idx = {room: i for i, room in enumerate(rooms)}
     
-    cl = [{**c, "Prowadzący": [teacher_to_idx[x] for x in parseTeachers(c["Prowadzący"])], "Sala": (room_to_idx[c["Sala"]] if c["Sala"] in rooms else None)} for c in classes]
+    cl = [{k: v for k, v in c.items() if k not in {"Liczba godzin", "Forma zajęć", "Forma zaliczenia", "Uwagi"}} | {"Prowadzący": [teacher_to_idx[x] for x in parseTeachers(c["Prowadzący"])], "Sala": (room_to_idx[c["Sala"]] if c["Sala"] in rooms else None)} for c in classes]
+    # cl = [{**c, {k: v for k, v in c.items() if k not in {"Liczba godzin", "Forma zajęć", "Forma zaliczenia", "Uwagi"}} | "Prowadzący": [teacher_to_idx[x] for x in parseTeachers(c["Prowadzący"])], "Sala": (room_to_idx[c["Sala"]] if c["Sala"] in rooms else None)} for c in classes]
 
     build = []
     for i, room in enumerate(rooms):
@@ -141,9 +141,13 @@ def breakDownTok(tok):
             for s in parseRooms(tok["Sala"]):
                 if s not in rooms:
                     rooms.append(s)
-
+    if tok["Przedmiot"] not in sub:
+        sub.append(tok["Przedmiot"])
+    
     tok["Plan dla toku"] = toknum
-    tok["timestamp"] = convertDateToTimestamp(tok.pop("Data zajęć"), tok.pop("Czas od"), tok.pop("Czas do"))
+    tok["Przedmiot"] = sub.index(tok["Przedmiot"])
+    tok["startTime"], tok["endTime"] = convertDateToTimestamp(tok.pop("Data zajęć"), tok.pop("Czas od"), tok.pop("Czas do"))
+        
     classes.append(tok)
 
 def readJson():
@@ -197,6 +201,25 @@ def tokStringToDic(tokString):
 programs, classes, teachers, rooms, buildings = readJson()
 programs = [tokStringToDic(tok) for tok in programs]
 
+'''
+temp = []
+
+for i, cl in enumerate(classes):
+    t = {}
+    for x in MAP:
+        t[MAP[x]] = cl[x]
+    temp.append(t)
+
+classes = temp
+# print(temp)
+
+
+'''
+for i, cl in enumerate(classes):
+    for old in MAP:
+        classes[i][MAP[old]] = classes[i].pop(old)
+
+
 if DEBUG:
     print()
     print(programs[0])
@@ -209,7 +232,8 @@ with open (output + "/programs.json", "w", encoding="utf-8") as file:
         "classes": classes,
         "teachers": teachers,
         "rooms": rooms,
-        "building": buildings
+        "building": buildings,
+        "subjects": sub
     }, indent=4, ensure_ascii=False).replace("    ", "\t"))
 
 '''
