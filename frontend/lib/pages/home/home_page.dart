@@ -1,0 +1,79 @@
+import 'package:flutter/material.dart';
+import 'package:plan_pm/global/student.dart';
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        spacing: 20,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text('Dane studenta to: '),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              spacing: 10,
+              children: [
+                Column(
+                  spacing: 5,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Wydział",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "Kierunek",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "Specjalizacja",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text("Rok", style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                      "Tryb studiów",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                Column(
+                  spacing: 5,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    SizedBox(
+                      width: 250,
+                      child: Text(Student.faculty ?? "Brak danych"),
+                    ),
+                    SizedBox(
+                      width: 250,
+                      child: Text(Student.degreeCourse ?? "Brak danych"),
+                    ),
+                    SizedBox(
+                      width: 250,
+                      child: Text(Student.specialisation ?? "Brak danych"),
+                    ),
+                    Text(
+                      Student.year != 0
+                          ? Student.year.toString()
+                          : "Brak danych",
+                    ),
+                    Text(Student.term ?? "Brak danych"),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Text(
+            "Piotr Wittig was here.",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+}
