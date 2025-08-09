@@ -295,7 +295,7 @@ class _InputPageState extends State<InputPage> {
                                   : "Niestacjonarne";
                               Student.year = selectedYear;
 
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
