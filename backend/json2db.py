@@ -3,6 +3,7 @@ import json
 from dotenv import load_dotenv
 from supabase import create_client
 import datetime
+import time
 
 # Database structure:
 # Building
@@ -21,7 +22,7 @@ class json2db:
     
     def __init__(self, json_file):
         print("Json2DB loaded.")
-        with open(json_file) as file:
+        with open(json_file, encoding="utf8") as file:
             self.data = json.loads(file.read())
         
         
@@ -35,7 +36,8 @@ class json2db:
         
         self.db = create_client(url, key)
         
-    def clear_db(self):    
+    def clear_db(self):
+        self.db.table("teachersclasses").delete().neq("id", "00000000-0000-0000-0000-000000000000").execute()    
         self.db.table("classes").delete().neq("id", "00000000-0000-0000-0000-000000000000").execute()
         self.db.table("programs").delete().neq("id", "00000000-0000-0000-0000-000000000000").execute()
         self.db.table("rooms").delete().neq("id", "00000000-0000-0000-0000-000000000000").execute()
@@ -69,13 +71,12 @@ class json2db:
     def load_rooms(self):
         print("Loading rooms")
         
-        buildings = self.db.table("building").select("id, name").execute()
+        buildings = self.db.table("building").select("id").execute()
         query = []
         for room in self.data["rooms"]:
             # Get the UUID of the building
             if room["building"] != None:
-                building_name = self.data["building"][room["building"]]
-                id = list(filter(lambda building: building["name"] == building_name, buildings.data))[0]["id"]
+                id = buildings.data[room["building"]]["id"]
                 
                 query.append({
                     "name": room["room"],
@@ -110,20 +111,17 @@ class json2db:
         print("Loading classes")
         
         query = []
-        programs = self.db.table("programs").select("id, name").execute()
-        rooms = self.db.table("rooms").select("id, name").execute()
+        programs = self.db.table("programs").select("id").execute()
+        rooms = self.db.table("rooms").select("id").execute()
         for sclass in self.data["classes"]:
             # Get the id of the program
-            program = sclass["program"]
-            program_name = self.data["programs"][program]["name"]
-            program_id = list(filter(lambda program: program["name"] == program_name, programs.data))[0]["id"]
+            program_id = programs.data[sclass["program"]]["id"]
 
             # Get the id of the room
             room = sclass["room"]
             room_id = None
             if (room != None):
-                room_name = self.data["rooms"][room]["room"]
-                room_id = list(filter(lambda room: room["name"] == room_name, rooms.data))[0]["id"]
+                room_id = rooms.data[sclass["room"]]["id"]
             
             # Get the subject
             subject = sclass["subject"]
@@ -142,17 +140,41 @@ class json2db:
         print("Done")
     
     def load_teachers_classes(self):
-        # TODO: End this madness
-        raise Exception("It's not implemented yet.")
+        print("Loading teachers/classes")
+        classes = self.db.table("classes").select("id").execute()
+        teachers = self.db.table("teachers").select("id").execute()
+        query = []
+        for tc in self.data["teachersclasses"]:
+            class_id = classes.data[tc["class"]]["id"]
+            
+            for teacher in tc["teachers"]:
+                teacher_id = teachers.data[teacher]["id"]
+                query.append({
+                    "teachers": teacher_id,
+                    "classes": class_id
+                })
+            
+        result = self.db.table("teachersclasses").insert(query).execute()
+        print("Done")
+            
+    def run(self):
+        print("Executing json2db.py.")
+        start_time = time.time()
+        self.load_env()
+        self.clear_db()
+        self.load_teachers()
+        self.load_buildings()
+        self.load_rooms()
+        self.load_programs()
+        self.load_classes()
+        self.load_teachers_classes()
+        end_time = time.time()
+        print(f"Done. Total execution time: {end_time - start_time:.2f} seconds")
+            
+        
 
 
 if __name__ == "__main__":
     App = json2db(json_file="./output/programs.json")
-    App.load_env()
-    App.clear_db()
-    App.load_teachers()
-    App.load_buildings()
-    App.load_rooms()
-    App.load_programs()
-    App.load_classes()
-    # App.load_teachers_classes()
+    App.run()
+    
