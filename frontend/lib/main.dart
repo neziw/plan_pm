@@ -4,9 +4,19 @@ import 'package:plan_pm/global/widgets/navigation_bar.dart';
 import 'package:plan_pm/pages/home/home_page.dart';
 import 'package:plan_pm/pages/lectures/lectures_page.dart';
 import 'package:plan_pm/pages/menu/menu_page.dart';
+import 'package:plan_pm/pages/welcome/input_page.dart';
 import 'package:plan_pm/pages/welcome/welcome_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Supabase.initialize(
+    url: "https://nfujukqusxcwkewpeikw.supabase.co",
+    anonKey:
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5mdWp1a3F1c3hjd2tld3BlaWt3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ0MTAyODcsImV4cCI6MjA2OTk4NjI4N30.UbH0dCf15sJxq-aI1HlFt2XxrPAIerod1KeHdEKA6WA",
+  );
   runApp(const App());
 }
 
@@ -16,13 +26,28 @@ class App extends StatelessWidget {
   // Tutaj jest głowa aplikacji, najlepiej aby nic nie zmieniać.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Plan PM',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-      ),
-      home: const WelcomePage(),
+    Future<bool> checkSkip() async {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      return prefs.containsKey("skip_welcome");
+    }
+
+    return FutureBuilder<bool>(
+      future: checkSkip(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return const MaterialApp(
+            home: Scaffold(body: Center(child: CircularProgressIndicator())),
+          );
+        }
+        return MaterialApp(
+          title: 'Plan PM',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+          ),
+          home: snapshot.data == true ? const InputPage() : const WelcomePage(),
+        );
+      },
     );
   }
 }

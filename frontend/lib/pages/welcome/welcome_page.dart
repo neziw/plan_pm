@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:plan_pm/pages/welcome/input_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -77,8 +78,11 @@ class WelcomePage extends StatelessWidget {
                       minimumSize: Size(double.infinity, 50.0),
                       backgroundColor: stages[index]["color"],
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       if (index == stages.length - 1) {
+                        final SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        await prefs.setString("skip_welcome", "true");
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
