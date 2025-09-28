@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:plan_pm/api/models/lecture_model.dart';
-import 'package:plan_pm/global/notifiers.dart';
 import 'package:plan_pm/pages/lectures/widgets/day_selection.dart';
 import 'package:plan_pm/pages/lectures/widgets/lecture.dart';
 import 'package:plan_pm/service/backend_service.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class LecturesPage extends StatefulWidget {
   const LecturesPage({super.key});
@@ -13,41 +13,67 @@ class LecturesPage extends StatefulWidget {
 }
 
 class _LecturesPageState extends State<LecturesPage> {
+  DateTime currentDate = DateTime(2025, 6, 16);
+  late int selectedDay = currentDate.weekday - 1;
+
   @override
   Widget build(BuildContext context) {
     final _backendService = BackendService();
     return Column(
       children: [
-        DaySelection(),
+        DaySelection(
+          currentDate: currentDate,
+          defaultSelected: selectedDay,
+          onChange: (selectedDay, selectedDate) {
+            setState(() {
+              selectedDay = selectedDay;
+              currentDate = selectedDate;
+            });
+          },
+        ),
+        Expanded(
+          child: FutureBuilder<List<LectureModel>>(
+            future: _backendService.fetchLectures(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text('Błąd w FutureBuilder ${snapshot.error}'),
+                );
+              }
+              if (snapshot.data == null) {
+                return Center(child: Text("No data"));
+              }
+              final unfilteredLectures = snapshot.data ?? [];
+              if (unfilteredLectures.isEmpty) {
+                return Center(child: Text("No data"));
+              }
 
-        FutureBuilder<List<LectureModel>>(
-          future: _backendService.fetchLectures(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            }
-            if (snapshot.hasError) {
-              return Center(child: Text('Błąd: ${snapshot.error}'));
-            }
-            if (snapshot.data == null) {
-              return Center(child: Text("No data"));
-            }
-            final lectures = snapshot.data ?? [];
-            if (lectures.isEmpty) {
-              return Center(child: Text("No data"));
-            }
-            return Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: ValueListenableBuilder(
-                valueListenable: Notifiers.selectedDay,
-                builder: (BuildContext context, value, Widget? child) {
-                  return Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [Text("${lectures.length} zajęcia")],
-                      ),
-                      Expanded(
+              final lectures = unfilteredLectures.where((lecture) {
+                final lectureDate = lecture.date;
+                return lectureDate.year == currentDate.year &&
+                    lectureDate.month == currentDate.month &&
+                    lectureDate.day == currentDate.day;
+              }).toList();
+              if (lectures.isEmpty) {
+                return Center(child: Text("No data"));
+              }
+
+              return Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  spacing: 10,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [Text("${lectures.length} zajęcia")],
+                    ),
+                    Expanded(
+                      child: Skeletonizer(
+                        effect: const ShimmerEffect(
+                          baseColor: Color(0x4FFFFFFF),
+                        ),
+                        enabled:
+                            snapshot.connectionState == ConnectionState.waiting,
                         child: ListView.builder(
                           itemCount: lectures.length,
                           itemBuilder: (context, index) {
@@ -65,12 +91,12 @@ class _LecturesPageState extends State<LecturesPage> {
                           },
                         ),
                       ),
-                    ],
-                  );
-                },
-              ),
-            );
-          },
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ],
     );

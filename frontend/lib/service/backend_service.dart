@@ -1,6 +1,7 @@
 import 'package:plan_pm/api/models/lecture_model.dart';
 import 'package:plan_pm/global/student.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+// import 'dart:developer' as developer;
 
 class BackendService {
   static final BackendService _backendService = BackendService._internal();
@@ -14,7 +15,6 @@ class BackendService {
   Future<List<LectureModel>> fetchLectures() async {
     if (Student.specialisation == null) {
       print("Specjalizacja studenta nie została ustawiona");
-      return [];
     }
     final response = await Supabase.instance.client
         .from("classes")
@@ -31,8 +31,14 @@ class BackendService {
           building:building(name)
         )
       ''')
-        .eq("programs.name", Student.specialisation!);
+        .eq(
+          "programs.name",
+          Student.specialisation ?? Student.degreeCourse ?? "",
+        );
     final data = response;
+    // developer.log(data.toString());
+
+    // print(data);
     return data.map((json) => LectureModel.fromJson(json)).toList();
   }
 }

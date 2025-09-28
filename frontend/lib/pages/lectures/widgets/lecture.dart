@@ -82,136 +82,133 @@ class _LectureState extends State<Lecture> {
   //
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      child: Card(
-        child: Column(
-          children: [
-            Material(
-              color: Colors.transparent,
-              child: Ink(
-                decoration: BoxDecoration(
-                  gradient:
-                      softHorizontalGradients[widget.idx %
-                          softHorizontalGradients.length],
+    return Card(
+      child: Column(
+        children: [
+          Material(
+            color: Colors.transparent,
+            child: Ink(
+              decoration: BoxDecoration(
+                gradient:
+                    softHorizontalGradients[widget.idx %
+                        softHorizontalGradients.length],
 
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(12),
-                  onTap: switchExpanded,
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      spacing: 10,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                widget.name,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                ),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(12),
+                onTap: switchExpanded,
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    spacing: 10,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              widget.name,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: Colors.white,
                               ),
                             ),
-                            !expanded
-                                ? Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Icon(
-                                      LucideIcons.chevronDown,
-                                      color: Colors.white,
-                                    ),
-                                  )
-                                : Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Icon(
-                                      LucideIcons.chevronUp,
-                                      color: Colors.white,
-                                    ),
+                          ),
+                          !expanded
+                              ? Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    LucideIcons.chevronDown,
+                                    color: Colors.white,
                                   ),
-                          ],
-                        ),
-                        Row(
-                          spacing: 5,
-                          children: [
-                            Icon(
-                              LucideIcons.clock,
-                              size: 16,
+                                )
+                              : Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    LucideIcons.chevronUp,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                        ],
+                      ),
+                      Row(
+                        spacing: 5,
+                        children: [
+                          Icon(
+                            LucideIcons.clock,
+                            size: 16,
+                            color: Colors.white,
+                          ),
+                          Text(
+                            "${widget.timeFrom} - ${widget.timeTo}",
+                            style: TextStyle(
                               color: Colors.white,
+                              fontWeight: FontWeight.w600,
                             ),
-                            Text(
-                              "${widget.timeFrom} - ${widget.timeTo}",
+                          ),
+                          SizedBox(width: 5),
+                          Icon(
+                            LucideIcons.mapPin,
+                            size: 16,
+                            color: Colors.white,
+                          ),
+                          Expanded(
+                            child: Text(
+                              // Ten kod jest po to, zeby nie dodawać spacji przed przecinkiem jezeli są więcej niz dwie sale.
+                              // Przed: ' , ' Po: ', '
+                              // Ludzie nie stawiajcie spacji przed przecinkiem!!!!!!!!
+                              widget.location.split(" , ").length == 1
+                                  ? widget.location
+                                  : widget.location.split(" , ").join(", "),
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                            SizedBox(width: 5),
-                            Icon(
-                              LucideIcons.mapPin,
-                              size: 16,
-                              color: Colors.white,
-                            ),
-                            Expanded(
-                              child: Text(
-                                // Ten kod jest po to, zeby nie dodawać spacji przed przecinkiem jezeli są więcej niz dwie sale.
-                                // Przed: ' , ' Po: ', '
-                                // Ludzie nie stawiajcie spacji przed przecinkiem!!!!!!!!
-                                widget.location.split(" , ").length == 1
-                                    ? widget.location
-                                    : widget.location.split(" , ").join(", "),
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
-            expanded
-                ? InkWell(
-                    borderRadius: BorderRadius.circular(12),
-                    onTap: switchExpanded,
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        spacing: 20,
-                        children: [
-                          DescriptionItem(
-                            icon: LucideIcons.user,
-                            color: Colors.blue,
-                            name: "Professor",
-                            content: widget.professor,
-                          ),
-                          DescriptionItem(
-                            icon: LucideIcons.bookLock,
-                            color: Colors.green,
-                            name: "Grupa",
-                            content: widget.group,
-                          ),
-                          DescriptionItem(
-                            icon: LucideIcons.clock,
-                            color: Colors.purple,
-                            name: "Czas trwania",
-                            content: widget.duration,
-                          ),
-                        ],
-                      ),
+          ),
+          expanded
+              ? InkWell(
+                  borderRadius: BorderRadius.circular(12),
+                  onTap: switchExpanded,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      spacing: 20,
+                      children: [
+                        DescriptionItem(
+                          icon: LucideIcons.user,
+                          color: Colors.blue,
+                          name: "Professor",
+                          content: widget.professor,
+                        ),
+                        DescriptionItem(
+                          icon: LucideIcons.bookLock,
+                          color: Colors.green,
+                          name: "Grupa",
+                          content: widget.group,
+                        ),
+                        DescriptionItem(
+                          icon: LucideIcons.clock,
+                          color: Colors.purple,
+                          name: "Czas trwania",
+                          content: widget.duration,
+                        ),
+                      ],
                     ),
-                  )
-                : SizedBox(),
-          ],
-        ),
+                  ),
+                )
+              : SizedBox(),
+        ],
       ),
     );
   }

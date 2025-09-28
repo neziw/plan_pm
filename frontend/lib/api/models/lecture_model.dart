@@ -11,6 +11,7 @@ class LectureModel {
   final String professor;
   final String group;
   final String duration;
+  final DateTime date;
 
   LectureModel(
     this.location,
@@ -23,36 +24,62 @@ class LectureModel {
     required this.building,
     required this.group,
     required this.professor,
+    required this.date,
   });
 
   factory LectureModel.fromJson(Map<String, dynamic> json) {
     List<dynamic> teachersObject = json["teachersclasses"];
-    String professors = teachersObject
-        .map((t) {
-          final teacher = t["teachers"];
-          if (teacher == null) return "Brak nauczyciela";
-          return "${teacher["title"] ?? ""} ${teacher["fullName"] ?? ""}"
-              .trim();
-        })
-        .where((name) => name.isNotEmpty)
-        .join(", ");
+    String professors;
+    if (teachersObject.isEmpty) {
+      professors = "Brak nauczyciela";
+    } else {
+      professors = teachersObject
+          .map((t) {
+            final teacher = t["teachers"];
+            if (teacher == null) return "Brak nauczyciela";
+            return "${teacher["title"] ?? ""} ${teacher["fullName"] ?? ""}"
+                .trim();
+          })
+          .where((name) => name.isNotEmpty)
+          .join(", ");
+    }
 
     DateTime timeFrom = DateTime.parse(json["startTime"]);
     DateTime timeTo = DateTime.parse(json["endTime"]);
     int duration = timeTo.difference(timeFrom).inMinutes;
-    String location =
-        "${json["rooms"]["building"]["name"]} ${json["rooms"]["name"]}";
+    String location;
+    String building;
+    if (json["rooms"] == null) {
+      location = "Brak sali";
+      building = "Brak budynku";
+    } else {
+      if (json["rooms"]["building"] == null) {
+        location = "Brak budynku";
+        building = "Brak budynku";
+      } else {
+        if (json["rooms"]["building"]["name"] == null) {
+          location = "Brak nazwy budynku";
+          building = "Brak budynku";
+        } else {
+          location =
+              "${json["rooms"]["building"]["name"]} ${json["rooms"]["name"].toString()}";
+          building = json["rooms"]["building"]["name"];
+        }
+      }
+    }
+
     return LectureModel(
       location,
-      "${duration} min",
+      "$duration min",
       id: json["id"] as String,
       name: json["subject"] as String,
       startTime: DateFormat.Hm().format(timeFrom).toString(),
       endTime: DateFormat.Hm().format(timeTo).toString(),
-      room: json["rooms"]["name"] ?? "No room",
-      building: json["rooms"]["building"]["name"] ?? "No building",
+      room: location,
+      building: building,
       group: json["group"] as String,
       professor: professors,
+      date: DateTime(timeFrom.year, timeFrom.month, timeFrom.day),
     );
   }
 

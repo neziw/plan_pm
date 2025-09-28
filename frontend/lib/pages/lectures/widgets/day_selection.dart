@@ -7,15 +7,25 @@ List<String> daysShort = ["Pon", "Wt", "Śr", "Czw", "Pt"];
 List<String> days = ["poniedziałek", "wtorek", "środa", "czwartek", "piątek"];
 
 class DaySelection extends StatefulWidget {
-  const DaySelection({super.key});
+  const DaySelection({
+    super.key,
+    required this.currentDate,
+    required this.onChange,
+    required this.defaultSelected,
+  });
+
+  final Function(int selectedDay, DateTime selectedDate) onChange;
+  final int defaultSelected;
+  final DateTime currentDate;
 
   @override
   State<DaySelection> createState() => _DaySelectionState();
 }
 
 class _DaySelectionState extends State<DaySelection> {
-  DateTime currentDate = DateTime.now();
-  late int selectedDay = currentDate.weekday - 1;
+  late DateTime currentDate = widget.currentDate;
+
+  late int selectedDay = widget.defaultSelected;
 
   DateTime getDateFromIndex(DateTime date, int index) {
     final weekStart = date.subtract(Duration(days: date.weekday - 1));
@@ -40,6 +50,7 @@ class _DaySelectionState extends State<DaySelection> {
                       currentDate = currentDate.subtract(Duration(days: 1));
                     }
                     selectedDay = currentDate.weekday - 1;
+                    widget.onChange(selectedDay, currentDate);
                   });
                 },
                 icon: Icon(
@@ -61,6 +72,7 @@ class _DaySelectionState extends State<DaySelection> {
                     }
 
                     selectedDay = currentDate.weekday - 1;
+                    widget.onChange(selectedDay, currentDate);
                   });
                 },
                 icon: Icon(
@@ -97,15 +109,7 @@ class _DaySelectionState extends State<DaySelection> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            onPressed: () {
-                              setState(() {
-                                selectedDay = index;
-                                currentDate = getDateFromIndex(
-                                  currentDate,
-                                  index,
-                                );
-                              });
-                            },
+                            onPressed: null,
                             child: Text(
                               daysShort[index],
                               textAlign: TextAlign.center,
@@ -126,6 +130,7 @@ class _DaySelectionState extends State<DaySelection> {
                                   currentDate,
                                   index,
                                 );
+                                widget.onChange(selectedDay, currentDate);
                               });
                             },
                             child: Text(
