@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plan_pm/global/student.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -11,7 +12,7 @@ class HomePage extends StatelessWidget {
         spacing: 20,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text('Dane studenta to: '),
+          Text(AppLocalizations.of(context)!.homePageLabel),
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Row(
@@ -23,20 +24,20 @@ class HomePage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Wydział",
+                      AppLocalizations.of(context)!.facultyText,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      "Kierunek",
+                      AppLocalizations.of(context)!.fieldText,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      "Specjalizacja",
+                      AppLocalizations.of(context)!.specialisationText,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    Text("Rok", style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(AppLocalizations.of(context)!.yearText, style: TextStyle(fontWeight: FontWeight.bold)),
                     Text(
-                      "Tryb studiów",
+                      AppLocalizations.of(context)!.typeText,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -47,22 +48,22 @@ class HomePage extends StatelessWidget {
                   children: [
                     SizedBox(
                       width: 250,
-                      child: Text(Student.faculty ?? "Brak danych"),
+                      child: Text(Student.faculty ?? AppLocalizations.of(context)!.dataNaN),
                     ),
                     SizedBox(
                       width: 250,
-                      child: Text(Student.degreeCourse ?? "Brak danych"),
+                      child: Text(Student.degreeCourse ?? AppLocalizations.of(context)!.dataNaN),
                     ),
                     SizedBox(
                       width: 250,
-                      child: Text(Student.specialisation ?? "Brak danych"),
+                      child: Text(Student.specialisation ?? AppLocalizations.of(context)!.dataNaN),
                     ),
                     Text(
                       Student.year != 0
                           ? Student.year.toString()
-                          : "Brak danych",
+                          : AppLocalizations.of(context)!.dataNaN,
                     ),
-                    Text(Student.term ?? "Brak danych"),
+                    Text(Student.term ?? AppLocalizations.of(context)!.dataNaN),
                   ],
                 ),
               ],

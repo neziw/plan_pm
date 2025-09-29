@@ -5,6 +5,8 @@ import 'package:plan_pm/pages/home/home_page.dart';
 import 'package:plan_pm/pages/lectures/lectures_page.dart';
 import 'package:plan_pm/pages/menu/menu_page.dart';
 import 'package:plan_pm/pages/welcome/welcome_page.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 
 void main() {
   runApp(const App());
@@ -22,6 +24,16 @@ class App extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale('en'), // English
+        Locale('pl'), // Polish
+      ],
       home: const WelcomePage(),
     );
   }

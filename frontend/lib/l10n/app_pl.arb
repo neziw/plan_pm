@@ -1,0 +1,46 @@
+{
+  "stage1Title": " ",
+  "stage1Button": "Witaj w Plan PM",
+
+  "stage2Title": "Zobacz wszystkie zajęcia w przejrzystym planie tygodniowym.",
+  "stage2Button": "Dalej",
+
+  "stage3Title": "Znajdź swoje sale łatwo dzięki szczegółowym informacjom o lokalizacji.",
+  "stage3Button": "Dalej",
+
+  "stage4Title": "Otrzymuj przypomnienia przed kadymi zajęciami, zeby nigdy ich nie przegapić.",
+  "stage4Button": "Rozpocznij",
+
+
+  "welcomePageSelectionText": "Powrót do WelcomeScreen",
+  "inputPageSelectionText": "Powrót do InputPage",
+
+
+  "inputPageLabel": "Twoje Dane Akademickie",
+  
+  "facultyLabel": "Wydział",
+  "facultyHintText": "Wybierz wydział",
+
+  "fieldLabel": "Kierunek studiów",
+  "fieldHintText": "Wybierz kierunek studiów",
+
+  "yearLabel": "Aktualny Rok",
+
+  "specialisationLabel" : "Specjalizacja",
+  "specialisationHintText": "Wybierz specjalizacje",
+
+  "typeLabel": "Tryb studiów",
+  "campusButton": "Stacjonarne",
+  "extramuralButton": "Zaoczne",
+
+  "continueButton": "Kontynuuj",
+
+
+  "homePageLabel": "Dane studenta to: ",
+  "facultyText": "Wydział",
+  "fieldText": "Kierunek",
+  "specialisationText": "Specjalizacja",
+  "yearText": "Rok",
+  "typeText": "Tryb studiów",
+  "dataNaN": "Brak danych"
+}

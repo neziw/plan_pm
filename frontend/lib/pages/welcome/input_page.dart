@@ -4,6 +4,7 @@ import 'package:plan_pm/global/student.dart';
 import 'package:plan_pm/main.dart';
 import 'package:plan_pm/pages/welcome/widgets/button_switch.dart';
 import 'package:plan_pm/pages/welcome/widgets/dropdown_menu.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 
 class InputPage extends StatefulWidget {
   const InputPage({super.key});
@@ -160,16 +161,16 @@ class _InputPageState extends State<InputPage> {
                     child: Icon(LucideIcons.graduationCap, size: 32),
                   ),
                   Text(
-                    "Twoje Dane Akademickie",
+                    AppLocalizations.of(context)!.inputPageLabel,
                     style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
                   ),
                   SizedBox(height: 30),
                   FacultyDropDownMenu(
                     controller: facultyController,
-                    label: "Wydział",
+                    label: AppLocalizations.of(context)!.facultyLabel,
                     icon: LucideIcons.school,
                     color: Colors.blue,
-                    hint: "Wybierz wydział",
+                    hint: AppLocalizations.of(context)!.facultyHintText,
                     itemList: faculties,
                     onChanged: (value) {
                       setState(() {
@@ -188,10 +189,10 @@ class _InputPageState extends State<InputPage> {
                   FacultyDropDownMenu(
                     controller: degreeCourseController,
                     enabled: selectedFaculty == "" ? false : true,
-                    label: "Kierunek studiów",
+                    label: AppLocalizations.of(context)!.fieldLabel,
                     icon: LucideIcons.bookOpen,
                     color: Colors.green,
-                    hint: "Wybierz kierunek studiów",
+                    hint: AppLocalizations.of(context)!.fieldHintText,
                     itemList: selectedFaculty != ""
                         ? degreeCourse[selectedFaculty]!
                         : [""],
@@ -218,7 +219,7 @@ class _InputPageState extends State<InputPage> {
                     buttonAmount: 4,
                     icon: LucideIcons.graduationCap,
                     color: Colors.purple,
-                    label: "Aktualny Rok",
+                    label: AppLocalizations.of(context)!.yearLabel,
                   ),
                   SizedBox(height: 10),
                   selectedYear > 2
@@ -229,10 +230,10 @@ class _InputPageState extends State<InputPage> {
                                   selectedDegreeCourse == ""
                               ? false
                               : true,
-                          label: "Specjalizacja",
+                          label: AppLocalizations.of(context)!.specialisationLabel,
                           icon: LucideIcons.glasses,
                           color: Colors.orange,
-                          hint: "Wybierz specjalizacje",
+                          hint: AppLocalizations.of(context)!.specialisationHintText,
                           itemList:
                               selectedFaculty != "" &&
                                   selectedDegreeCourse != ""
@@ -255,11 +256,11 @@ class _InputPageState extends State<InputPage> {
                         selectedTerm = term + 1;
                       });
                     },
-                    buttonLabels: ["Stacjonarne", "Zaoczne"],
+                    buttonLabels: [AppLocalizations.of(context)!.campusButton, AppLocalizations.of(context)!.extramuralButton],
                     buttonAmount: 2,
                     icon: LucideIcons.graduationCap,
                     color: Colors.red,
-                    label: "Tryb studiów",
+                    label: AppLocalizations.of(context)!.typeLabel,
                   ),
 
                   SizedBox(height: 20),
@@ -291,8 +292,8 @@ class _InputPageState extends State<InputPage> {
                                   ? selectedSpecialisation
                                   : null;
                               Student.term = selectedTerm == 1
-                                  ? "Stacjonarne"
-                                  : "Niestacjonarne";
+                                  ? AppLocalizations.of(context)!.campusButton
+                                  : AppLocalizations.of(context)!.extramuralButton;
                               Student.year = selectedYear;
 
                               Navigator.pushReplacement(
@@ -304,7 +305,7 @@ class _InputPageState extends State<InputPage> {
                               );
                             }
                           : null,
-                      child: Text("Kontynuuj"),
+                      child: Text(AppLocalizations.of(context)!.continueButton),
                     ),
                   ),
                 ],

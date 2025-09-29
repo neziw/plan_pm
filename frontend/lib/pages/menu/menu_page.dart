@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plan_pm/pages/welcome/input_page.dart';
 import 'package:plan_pm/pages/welcome/welcome_page.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 
 class MenuPage extends StatelessWidget {
   const MenuPage({super.key});
@@ -25,7 +26,7 @@ class MenuPage extends StatelessWidget {
                     ),
                   );
                 },
-                child: Text("Powrót do WelcomeScreen"),
+                child: Text(AppLocalizations.of(context)!.welcomePageSelectionText),
               ),
             ),
             SizedBox(
@@ -37,7 +38,7 @@ class MenuPage extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => const InputPage()),
                   );
                 },
-                child: Text("Powrót do InputPage"),
+                child: Text(AppLocalizations.of(context)!.inputPageSelectionText),
               ),
             ),
           ],
