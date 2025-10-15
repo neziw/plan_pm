@@ -11,20 +11,22 @@ import logging
 
 class Mapper:
     def __init__(self):
+        self.logger = logging.getLogger(__name__)
+        self.logger.setLevel(logging.INFO)
+
+        if not self.logger.handlers:
+            handler = logging.FileHandler("./logs/mapper.log", mode="w")
+            formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
+            handler.setFormatter(formatter)
+            self.logger.addHandler(handler)
+            
         self.stats = {
             "success": 0,
             "interaction_fail": 0,
             "total": 0
         }
         self.valid_records = {}
-
-        logging.basicConfig(
-            filename="./logs/mapper.log",
-            filemode="w",
-            level=logging.INFO,
-            format="%(asctime)s [%(levelname)s] %(message)s"
-        )
-
+         
     def check_page(self, flow_id):
         url = f"https://plany.am.szczecin.pl/Plany/PlanyTokow/{flow_id}"
         self.stats["total"] += 1
@@ -38,13 +40,14 @@ class Mapper:
                     strong_tag = parent.find_next("strong")
                     if strong_tag:
                         name = strong_tag.text.strip()
-                        logging.info(f"{flow_id}: ✅ Nazwa toku: {name}")
+                        self.logger.info(f"{flow_id}: ✅ Nazwa toku: {name}")
                         self.stats["success"] += 1
+                        
                         return flow_id, name
         except requests.RequestException as e:
-            logging.error(f"{flow_id}: ❌ Błąd połączenia: {e}")
+            self.logger.error(f"{flow_id}: ❌ Błąd połączenia: {e}")
 
-        logging.warning(f"{flow_id}: ❌ Nie znaleziono lub brak planu.")
+        self.logger.warning(f"{flow_id}: ❌ Nie znaleziono lub brak planu.")
         self.stats["interaction_fail"] += 1
         return flow_id, None
 
@@ -77,7 +80,7 @@ class Mapper:
         print(f" - Brak lub błąd:       {self.stats['interaction_fail']}")
         print(f" - Czas wykonania:      {total_time:.2f} s")
 
-        logging.info("\n==== ZAKOŃCZONO MAPOWANIE ====")
+        self.logger.info("\n==== ZAKOŃCZONO MAPOWANIE ====")
         for k, v in self.stats.items():
-            logging.info(f"  {k}: {v}")
-        logging.info(f"  Czas wykonania: {total_time:.2f} s")
+            self.logger.info(f"  {k}: {v}")
+        self.logger.info(f"  Czas wykonania: {total_time:.2f} s")

@@ -29,7 +29,7 @@ class ScheduleData:
 
 DEBUG = False
 
-input = "plany.json"
+input = "./output/plany.json"
 output = "./output"
 
 if(len(sys.argv) > 1):
