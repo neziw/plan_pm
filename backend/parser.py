@@ -27,6 +27,14 @@ class ScheduleData:
     _subjects_set: set = field(default_factory=set, init=False, repr=False)
     _rooms_set: set = field(default_factory=set, init=False, repr=False)
 
+def progressBar(progress, max, bar=40):
+    if(progress>=max-1):
+        print(f"\r✅ [{bar*'█'}] {max}/{max} 100%              \n")
+        return
+    diff = int((max-progress)/max*bar)
+    print(f"\r❌ [{(bar-diff)*'█'}{diff*'░'}] {progress}/{max} {progress/max*100:.1f}%              ", end='')
+    return False
+
 class Parser:
     def __init__(self, debug=False, input = "plany.json", output = "./output", outputFile="parser.json"):
         self.DEBUG = debug
@@ -34,7 +42,7 @@ class Parser:
         self.output = output
         self.outputFile = output+'/'+outputFile
         
-        print(f'Zaczynam parsowanie danych w pliku {path.abspath(self.output+'/'+self.input)}')
+        print(f'\n\nZaczynam parsowanie danych w pliku {path.abspath(self.output+'/'+self.input)}\n')
         self.sched = ScheduleData([], [], [], [], [], [])
         self.tok = self.readJson()
 
@@ -45,15 +53,23 @@ class Parser:
 
 
     def getTokAndPlan(self):
-        for i in self.tok:
+        print("Loading the JSON")
+        length = len(self.tok)
+        for tmp, i in enumerate(self.tok):
+            progressBar(tmp, length)
             self.breakDownTok(i)
+
+        print("Cleaning up tok strings")
+        length = len(self.sched.programs)
+        self.sched.programs = [self.tokStringToDic(tok) for i, tok in enumerate(self.sched.programs) if not progressBar(i, length)]
     
-        self.sched.programs = [self.tokStringToDic(tok) for tok in self.sched.programs]
-    
+        print("Normalizing classes")
         self.sched.classes = self.normalizeClasses(self.sched.classes, self.sched.teachers, self.sched.rooms)
     
+        print("Normalizing teachers")
         self.sched.teachers = self.breakDownTeachers(self.sched.teachers)
     
+        print("Normalizing buildings and rooms")
         self.sched.rooms, self.sched.buildings = self.breakDownBuildings(self.sched.rooms)
     
     @staticmethod
@@ -178,18 +194,22 @@ class Parser:
         teacher_to_idx = {teacher: i for i, teacher in enumerate(teachers)}
         room_to_idx = {room: i for i, room in enumerate(rooms)}
         
-        return [{k: v for k, v in c.items() if k not in {"Liczba godzin", "Forma zajęć", "Forma zaliczenia"}} | {"Prowadzący": [teacher_to_idx[x] for x in self.parseTeachers(c["Prowadzący"])], "Sala": (room_to_idx[c["Sala"]] if c["Sala"] in rooms else None)} for c in classes]
+        length = len(classes)
+        return [{k: v for k, v in c.items() if k not in {"Liczba godzin", "Forma zajęć", "Forma zaliczenia"}} | {"Prowadzący": [teacher_to_idx[x] for x in self.parseTeachers(c["Prowadzący"])], "Sala": (room_to_idx[c["Sala"]] if c["Sala"] in rooms else None)} for num, c in enumerate(classes) if not progressBar(num, length) ]
     
 
     @staticmethod
     def breakDownTeachers(teachers):
+        length=len(teachers)
         for i, t in enumerate(teachers):
             t = t.split(" ")
             teachers[i] = {"title": " ".join(t[:-2]), "fullName": " ".join(t[-2:])}
+            progressBar(i, length)
         return teachers
     
     def breakDownBuildings(self, rooms):
         buildings = []
+        length=len(rooms)
         for i, room in enumerate(rooms):
             r, b = self.breakDownRoom(room)
             t = {"building" : b, "room" : r}
@@ -200,6 +220,7 @@ class Parser:
                 buildings.append(b)
             t["building"] = buildings.index(b)
             rooms[i] = t
+            progressBar(i, length)
         return rooms, buildings
     
     @staticmethod
@@ -235,6 +256,7 @@ class Parser:
             print(self.sched.classes[535])
             print(self.sched.teachers[0])
 
+        print(f'Zapisuję dane do {path.abspath(self.outputFile)}')
         with open (self.outputFile, "w", encoding="utf-8") as file:
             file.write(dumpJSON({
                 "programs": self.sched.programs,
@@ -245,4 +267,4 @@ class Parser:
                 "rooms": self.sched.rooms,
                 "building": self.sched.buildings
             }, indent=4, ensure_ascii=False).replace("    ", "\t"))
-            print(f'Zapisano dane do {path.abspath(self.outputFile)}')
+            print(f'Dane zostały zapisane pomyślnie do {path.abspath(self.outputFile)}')
