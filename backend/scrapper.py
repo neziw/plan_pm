@@ -147,7 +147,7 @@ class Scrapper:
         print(f"✅ Gotowe ({time.time() - start_time:.2f} s)")
 
     def run(self, max_workers=5):
-        with open("./output/flows.json", "r") as f:
+        with open("./output/flows.json", "r", encoding="utf8") as f:
             data = json.load(f)
 
         with ThreadPoolExecutor(max_workers=max_workers) as executor:

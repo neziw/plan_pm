@@ -242,5 +242,3 @@ class Parser:
                 "rooms": self.sched.rooms,
                 "building": self.sched.buildings
             }, indent=4, ensure_ascii=False).replace("    ", "\t"))
-
-Parser().run()
