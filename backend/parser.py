@@ -1,4 +1,5 @@
 from datetime import datetime
+from os import path
 from json import loads as loadJSON, dumps as dumpJSON
 from dataclasses import dataclass, field
 
@@ -27,11 +28,13 @@ class ScheduleData:
     _rooms_set: set = field(default_factory=set, init=False, repr=False)
 
 class Parser:
-    def __init__(self, debug=False, input = "plany.json", output = "./output"):
+    def __init__(self, debug=False, input = "plany.json", output = "./output", outputFile="parser.json"):
         self.DEBUG = debug
         self.input = input
         self.output = output
+        self.outputFile = output+'/'+outputFile
         
+        print(f'Zaczynam parsowanie danych w pliku {path.abspath(self.output+'/'+self.input)}')
         self.sched = ScheduleData([], [], [], [], [], [])
         self.tok = self.readJson()
 
@@ -232,7 +235,7 @@ class Parser:
             print(self.sched.classes[535])
             print(self.sched.teachers[0])
 
-        with open (self.output + "/programs.json", "w", encoding="utf-8") as file:
+        with open (self.outputFile, "w", encoding="utf-8") as file:
             file.write(dumpJSON({
                 "programs": self.sched.programs,
                 "classes": self.sched.classes,
@@ -242,3 +245,4 @@ class Parser:
                 "rooms": self.sched.rooms,
                 "building": self.sched.buildings
             }, indent=4, ensure_ascii=False).replace("    ", "\t"))
+            print(f'Zapisano dane do {path.abspath(self.outputFile)}')
