@@ -29,7 +29,14 @@ class Mapper:
             "total": 0
         }
         self.valid_records = {}
-         
+
+        logging.basicConfig(
+            filename="./logs/mapper.log",
+            filemode="w+",
+            level=logging.INFO,
+            format="%(asctime)s [%(levelname)s] %(message)s"
+        )
+
     def check_page(self, flow_id):
         url = f"https://plany.am.szczecin.pl/Plany/PlanyTokow/{flow_id}"
         self.stats["total"] += 1
