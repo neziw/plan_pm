@@ -1,30 +1,38 @@
 import time
 import json
-import shutil
 import threading
-from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from selenium import webdriver 
-from selenium.webdriver.chrome.service import Service
+from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.options import Options
-import icalendar
 import logging
+import os
+from rich.progress import Progress
 
 class Scrapper:
-    def __init__(self, debug = False):
+    def __init__(self, debug = False, output = "./output/scrapper.json", input = "./output/mapper.json"):
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(logging.INFO)
         self.debug = debug
+        self.output = output
+        self.input = input
+        print("Running scrapper")
+        
+        output_dir = os.path.dirname(self.output)
+        if output_dir:
+            os.makedirs(output_dir, exist_ok=True)
+        
+        if os.path.exists(self.output):
+            print("Znaleziono poprzedni plik scrappera. Usuwam.")
+            os.remove(self.output)
         
         if not self.logger.handlers:
-            handler = logging.FileHandler("./logs/scrapper.log", mode="w")
-            
+            os.makedirs("./logs", exist_ok=True)
+            handler = logging.FileHandler("./logs/scrapper.log", mode="w+")
             formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
             handler.setFormatter(formatter)
-            
             self.logger.addHandler(handler)
 
         self.output_lock = threading.Lock()
@@ -39,25 +47,28 @@ class Scrapper:
         }
         self.failed_flows = []
 
-    def scrapper(self, flow_id):
+    def scrapper(self, flow_id, progress=None):
         self.stats["total"] += 1
         url = f'https://plany.am.szczecin.pl/Plany/PlanyTokow/{flow_id}'
 
         options = Options()
-        if (self.debug == False):
+        if not self.debug:
             options.add_argument("--headless=new")  
 
         start_time = time.time()
-        print(f"📥 Scraping plan {flow_id}... ", end="")
+        
+        log_print = progress.console.print if progress else print
+        log_print(f"📥 Scraping plan {flow_id}... ")
+
         self.logger.info(f"[{flow_id}] Scraping plan")
 
         driver = webdriver.Chrome(options=options)
         driver.get(url)
 
         try:
-      
+            wait = WebDriverWait(driver, 60)
             self.logger.info(f"[{flow_id}] Czekam na cc_essential")
-            WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.ID, "cc_essential")))
+            wait.until(EC.presence_of_element_located((By.ID, "cc_essential")))
 
             self.logger.info(f"[{flow_id}] Odrzucam cookies")
             driver.find_elements(By.CSS_SELECTOR, "button.btn.my-2")[1].click()
@@ -74,16 +85,14 @@ class Scrapper:
             self.logger.info(f"[{flow_id}] Ściągam nazwe toku")
             tok = driver.find_element(By.TAG_NAME, "strong").text.strip()
             
-            # Tutaj jest taki czad, ze czekasz az tabelka się zmieni i dopiero wtedy wznawiasz scrapowanie
             old_table = driver.find_element(By.ID, "gridViewPlanyTokow_DXMainTable")
             
             self.logger.info(f"[{flow_id}] Filtruje dane")
-            WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.ID, "SzukajLogout"))).click()
+            wait.until(EC.element_to_be_clickable((By.ID, "SzukajLogout"))).click()
             
             self.logger.info(f"[{flow_id}] Czekam na odswiezenie tabeli")
-            WebDriverWait(driver, 60).until(EC.staleness_of(old_table))
+            wait.until(EC.staleness_of(old_table))
             
-            # Pobierz wszystkie wiersze tabeli z planami (pomijając pierwszy i ostatni)
             schedule_data = []
             current_date = ""
         
@@ -118,21 +127,20 @@ class Scrapper:
                         schedule_data.append(entry)
             
         except Exception as e:
-            print(f"❌ {flow_id}: Błąd interakcji.")
+            log_print(f"❌ {flow_id}: Błąd interakcji.")
             self.logger.error(f"{flow_id}: Interakcja ze stroną nie powiodła się: {e}")
             self.failed_flows.append(flow_id)
             self.stats["interaction_fail"] += 1
             driver.quit()
             return
 
-       
         driver.quit()
 
         try:
             lectures = schedule_data
-            if (self.debug):
+            if self.debug:
                 print(schedule_data)
-            # Dodajemy grupy do każdego wykładu
+            
             for lecture in lectures:
                 lecture["flow_id"] = flow_id
             with self.output_lock:
@@ -141,37 +149,33 @@ class Scrapper:
             self.logger.info(f"{flow_id}: Pobrano i sparsowano poprawnie.")
             self.logger.info(f"[{flow_id}] Lectures: {str(lectures)[:300]}...")
         except Exception as e:
-            print(f"❌ {flow_id}: Błąd parsowania.")
+            log_print(f"❌ {flow_id}: Błąd parsowania.")
             self.logger.error(f"{flow_id}: Błąd parsowania pliku: {e}")
             self.failed_flows.append(flow_id)
             self.stats["parse_fail"] += 1
 
-
-        print(f"✅ Gotowe ({time.time() - start_time:.2f} s)")
+        log_print(f"✅ Gotowe ({time.time() - start_time:.2f} s)")
 
     def run(self, max_workers=5, flow_id = -1):
-        if (flow_id == -1):
+        if flow_id == -1:
             print("Debug mode off, running with full threads.")
-            with open("./output/flows.json", "r") as f:
+            with open(self.input, "r") as f:
                 data = json.load(f)
-                
-            with ThreadPoolExecutor(max_workers=max_workers) as executor:
-                futures = [executor.submit(self.scrapper, flow_id) for flow_id in sorted(data.keys())]
-                for future in as_completed(futures):
-                    pass
+            with Progress() as p:
+                total = len(data.keys())
+                task = p.add_task("Scraping...", total=total)
+                with ThreadPoolExecutor(max_workers=max_workers) as executor:
+                    futures = [executor.submit(self.scrapper, flow_id, p) for flow_id in sorted(data.keys())]
+                    for future in as_completed(futures):
+
+                        future.result() 
+                        p.update(task, advance=1, description=f"Scraping... {self.stats['success']} done")
         else:
             self.scrapper(flow_id)
             
-
-        
-
         # Zapis wyników do pliku
-        with open("./output/plany.json", "w", encoding="utf-8") as f:
+        with open(self.output, "w+", encoding="utf-8") as f:
             json.dump(self.results, f, ensure_ascii=False, indent=2)
-
-        # Zapis nieudanych do osobnego pliku
-        with open("./output/failed.json", "w", encoding="utf-8") as f:
-            json.dump(self.failed_flows, f, indent=2)
 
         # Statystyki
         total = self.stats["total"]
@@ -181,8 +185,9 @@ class Scrapper:
         print(f" - Błędy interakcji:   {self.stats['interaction_fail']}")
         print(f" - Nie pobrano pliku:  {self.stats['download_fail']}")
         print(f" - Błędy parsowania:   {self.stats['parse_fail']}")
-        print(f" - Niepowodzenia:      {len(self.failed_flows)} zapisane w failed.json")
+        print(f" - Niepowodzenia:      {len(self.failed_flows)}")
 
         self.logger.info("Zakończono. Statystyki:")
         for k, v in self.stats.items():
             self.logger.info(f"  {k}: {v}")
+

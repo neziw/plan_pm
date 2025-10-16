@@ -20,9 +20,9 @@ class json2db:
     db = ""
     data = ""
     
-    def __init__(self, json_file):
+    def __init__(self, input):
         print("Json2DB loaded.")
-        with open(json_file, encoding="utf8") as file:
+        with open(input, encoding="utf8") as file:
             self.data = json.loads(file.read())
         
         
@@ -134,7 +134,8 @@ class json2db:
                 "program": program_id,
                 "subject": subject_name,
                 "group": sclass["group"],
-                "room": room_id
+                "room": room_id,
+                "notes": sclass["notes"]
             })
         result = self.db.table("classes").insert(query).execute()
         print("Done")
@@ -158,7 +159,7 @@ class json2db:
         print("Done")
             
     def run(self):
-        print("Executing json2db.py.")
+        print("Executing json2db.py")
         start_time = time.time()
         self.load_env()
         self.clear_db()
@@ -175,6 +176,6 @@ class json2db:
 
 
 if __name__ == "__main__":
-    App = json2db(json_file="./output/programs.json")
+    App = json2db(input="./output/parser.json")
     App.run()
     
