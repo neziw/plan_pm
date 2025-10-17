@@ -7,7 +7,7 @@ import time
 start_time = time.time()
 print("Starting PlanPM worker")
 
-Mapper(output="./output/mapper.json").run(minID=300, maxID=400)
+Mapper(output="./output/mapper.json").run(minID=0, maxID=600)
 
 Scrapper(input="./output/mapper.json", output="./output/scrapper.json").run(max_workers=5)
 

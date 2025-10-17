@@ -54,7 +54,7 @@ class json2db:
                 "title": teacher["title"]
             })
         
-        result = self.db.table("teachers").insert(query).execute()
+        _ = self.db.table("teachers").insert(query).execute()
         print("Done.")
     
     def load_buildings(self):
@@ -65,18 +65,20 @@ class json2db:
                 "name": building
             })
 
-        result = self.db.table("building").insert(query).execute()
+        _ = self.db.table("building").insert(query).execute()
         print("Done")
     
     def load_rooms(self):
         print("Loading rooms")
         
-        buildings = self.db.table("building").select("id").execute()
+        response = self.db.table("building").select("id, name").execute()
+        buildings = {v['name']: v['id'] for v in response.data}
+        
         query = []
         for room in self.data["rooms"]:
-            # Get the UUID of the building
             if room["building"] != None:
-                id = buildings.data[room["building"]]["id"]
+                building_name = self.data["building"][room["building"]]
+                id = buildings.get(building_name)
                 
                 query.append({
                     "name": room["room"],
@@ -88,40 +90,81 @@ class json2db:
                     "building": None
                     })
                 
-        result = self.db.table("rooms").insert(query).execute()
+        _ = self.db.table("rooms").insert(query).execute()
                 
         print("Done")
     
     def load_programs(self):
         print("Loading programs")
-        query = []
+        
+        current_year: int = datetime.datetime.now().year
+        current_month: int = datetime.datetime.now().month
+        
+        is_winter_semester: bool = True if current_month >= 10 else False
+         
+        query: list = []
         for program in self.data["programs"]:
+            # Calculate shitty academic year to current year
+            programs_year: int = int(program["academic_year"].split(" ")[0].split("/")[0])
+            
+            programs_year = programs_year
+            current_academic_start_year = current_year if is_winter_semester else current_year - 1
+            
+            if programs_year > current_academic_start_year:
+                final_year = 0
+
+            else:
+                final_year = current_academic_start_year - programs_year + 1
+            
             query.append({
                 "name": program["name"],
                 "programType": program["program_type"],
                 "degreeLevel": program["degree_level"],
                 "language": program["language"],
                 "academicYear": program["academic_year"],
-                "courseLength": float(program["course_length"])
+                "courseLength": float(program["course_length"]),
+                "year": final_year
             })
-        result = self.db.table("programs").insert(query).execute()
+        _ = self.db.table("programs").insert(query).execute()
         print("Done")
+        
     
     def load_classes(self):
         print("Loading classes")
         
         query = []
-        programs = self.db.table("programs").select("id").execute()
-        rooms = self.db.table("rooms").select("id").execute()
+        programs = self.db.table("programs").select("id, name, academicYear, language, programType, courseLength, degreeLevel").execute()
+        programs_map = {v["id"] : [v["name"], v["academicYear"], v["language"], v["programType"], v["courseLength"], v["degreeLevel"]] for v in programs.data}
+        
+        rooms = self.db.table("rooms").select("id, name").execute()
+        room_map = {v["name"]: v["id"] for v in rooms.data}
         for sclass in self.data["classes"]:
+            found_program = self.data["programs"][sclass["program"]]
+            program_name = found_program["name"]
+            program_type = found_program["program_type"]
+            degree_level = found_program["degree_level"]
+            academic_year = found_program["academic_year"]
+            course_length = float(found_program["course_length"])
+            language = found_program["language"]
             # Get the id of the program
-            program_id = programs.data[sclass["program"]]["id"]
+            
+            found_program_id = None
+            program = [program_name, academic_year, language, program_type, course_length, degree_level]
+            for program_id, program_value in programs_map.items():
+                if (program_value == program):
+                    found_program_id = program_id
+                   
+            if (found_program_id == None):
+                print("Nie znaleziono ID dla programu - niedobrze")
+                continue
+            
 
             # Get the id of the room
             room = sclass["room"]
             room_id = None
             if (room != None):
-                room_id = rooms.data[sclass["room"]]["id"]
+                room_name = self.data["rooms"][sclass["room"]]["room"]
+                room_id = room_map.get(room_name)
             
             # Get the subject
             subject = sclass["subject"]
@@ -131,31 +174,62 @@ class json2db:
             query.append({
                 "startTime": datetime.datetime.fromtimestamp(int(sclass["startTime"])).strftime("%Y-%m-%d %H:%M:%S"),
                 "endTime": datetime.datetime.fromtimestamp(int(sclass["endTime"])).strftime("%Y-%m-%d %H:%M:%S"),
-                "program": program_id,
+                "program": found_program_id,
                 "subject": subject_name,
                 "group": sclass["group"],
                 "room": room_id,
                 "notes": sclass["notes"]
             })
-        result = self.db.table("classes").insert(query).execute()
+
+        _ = self.db.table("classes").insert(query).execute()
         print("Done")
     
     def load_teachers_classes(self):
         print("Loading teachers/classes")
-        classes = self.db.table("classes").select("id").execute()
-        teachers = self.db.table("teachers").select("id").execute()
+        classes = self.db.table("classes").select("id, subject, group, program(name), room(name), startTime, endTime, notes").execute()
+        classes_map = {v["id"]: [v["subject"], v["group"], v["program"]["name"] if v["program"] else None, v["room"]["name"] if v["room"] else None, v["startTime"], v["endTime"], v["notes"]] for v in classes.data}
+        
+        teachers = self.db.table("teachers").select("id, fullName").execute()
+        teachers_map = {v["fullName"]: v["id"] for v in teachers.data}
+        # print(teachers_map)
         query = []
         for tc in self.data["teachersclasses"]:
-            class_id = classes.data[tc["class"]]["id"]
+            found_class = self.data["classes"][tc["class"]]
+            start_time = datetime.datetime.fromtimestamp(int(found_class["startTime"])).strftime("%Y-%m-%d %H:%M:%S").replace(" ", "T")
+            end_time = datetime.datetime.fromtimestamp(int(found_class["endTime"])).strftime("%Y-%m-%d %H:%M:%S").replace(" ", "T")
+            subject = self.data["subjects"][found_class["subject"]]
+            program_name = self.data["programs"][found_class["program"]]["name"]
+            notes = found_class["notes"]
+            group = found_class["group"]
+            room_name = None
+            if (found_class["room"] != None):
+                room_name = self.data["rooms"][found_class["room"]]["room"]
+            
+            sclass = [
+                subject, group, program_name, room_name, start_time, end_time, notes
+            ]
+            
+            found_class_id = None
+            
+            for class_id, class_value in classes_map.items():
+                if (class_value == sclass):
+                    found_class_id = class_id
+                    
+            
+            if (found_class_id == None):
+                print(f"Nie znaleziono ID dla klasy - niedobrze.")
+                continue
             
             for teacher in tc["teachers"]:
-                teacher_id = teachers.data[teacher]["id"]
+                teacher_fullname = self.data["teachers"][teacher]["fullName"]
+                teacher_id = teachers_map.get(teacher_fullname)
+                
                 query.append({
                     "teachers": teacher_id,
-                    "classes": class_id
+                    "classes": found_class_id
                 })
             
-        result = self.db.table("teachersclasses").insert(query).execute()
+        _ = self.db.table("teachersclasses").insert(query).execute()
         print("Done")
             
     def run(self):
@@ -178,4 +252,5 @@ class json2db:
 if __name__ == "__main__":
     App = json2db(input="./output/parser.json")
     App.run()
+    
     
