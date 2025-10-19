@@ -12,10 +12,12 @@ class LectureModel {
   final String group;
   final String duration;
   final DateTime date;
+  final String? notes;
 
   LectureModel(
     this.location,
-    this.duration, {
+    this.duration,
+    this.notes, {
     required this.id,
     required this.name,
     required this.startTime,
@@ -49,6 +51,7 @@ class LectureModel {
     int duration = timeTo.difference(timeFrom).inMinutes;
     String location;
     String building;
+    String? notes = json["notes"];
     if (json["rooms"] == null) {
       location = "Brak sali";
       building = "Brak budynku";
@@ -71,6 +74,7 @@ class LectureModel {
     return LectureModel(
       location,
       "$duration min",
+      notes,
       id: json["id"] as String,
       name: json["subject"] as String,
       startTime: DateFormat.Hm().format(timeFrom).toString(),

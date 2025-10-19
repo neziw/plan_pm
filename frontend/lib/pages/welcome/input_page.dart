@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/student.dart';
 import 'package:plan_pm/main.dart';
+import 'package:plan_pm/pages/welcome/group_selection_page.dart';
 import 'package:plan_pm/pages/welcome/widgets/button_switch.dart';
 import 'package:plan_pm/pages/welcome/widgets/dropdown_menu.dart';
 
@@ -159,9 +160,10 @@ class _InputPageState extends State<InputPage> {
                     radius: 32,
                     child: Icon(LucideIcons.graduationCap, size: 32),
                   ),
+                  SizedBox(height: 10),
                   Text(
                     "Twoje Dane Akademickie",
-                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                   ),
                   SizedBox(height: 30),
                   FacultyDropDownMenu(
@@ -295,6 +297,48 @@ class _InputPageState extends State<InputPage> {
                                   : "Niestacjonarne";
                               Student.year = selectedYear;
 
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => GroupSelectionPage(),
+                                ),
+                              );
+                            }
+                          : null,
+                      child: Text("Wybór grupy"),
+                    ),
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: TextButton(
+                      onPressed:
+                          (selectedYear <= 2
+                              ? selectedFaculty != "" &&
+                                    selectedDegreeCourse != "" &&
+                                    selectedYear != 0 &&
+                                    selectedTerm != null
+                              : selectedFaculty != "" &&
+                                    selectedDegreeCourse != "" &&
+                                    selectedYear >= 2 &&
+                                    selectedSpecialisation != "" &&
+                                    selectedTerm != null)
+                          ? () {
+                              Student.degreeCourse = selectedDegreeCourse != ""
+                                  ? selectedDegreeCourse
+                                  : null;
+                              Student.faculty = selectedFaculty != ""
+                                  ? selectedFaculty
+                                  : null;
+                              Student.specialisation =
+                                  selectedSpecialisation != ""
+                                  ? selectedSpecialisation
+                                  : null;
+                              Student.term = selectedTerm == 1
+                                  ? "Stacjonarne"
+                                  : "Niestacjonarne";
+                              Student.year = selectedYear;
+
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
@@ -304,7 +348,7 @@ class _InputPageState extends State<InputPage> {
                               );
                             }
                           : null,
-                      child: Text("Kontynuuj"),
+                      child: Text("Pomiń"),
                     ),
                   ),
                 ],

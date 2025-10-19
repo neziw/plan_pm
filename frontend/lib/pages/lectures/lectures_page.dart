@@ -13,7 +13,7 @@ class LecturesPage extends StatefulWidget {
 }
 
 class _LecturesPageState extends State<LecturesPage> {
-  DateTime currentDate = DateTime(2025, 6, 16);
+  DateTime currentDate = DateTime.now();
   late int selectedDay = currentDate.weekday - 1;
 
   @override
@@ -41,9 +41,10 @@ class _LecturesPageState extends State<LecturesPage> {
                 );
               }
               if (snapshot.data == null) {
-                return Center(child: Text("No data"));
+                return Center(child: Text("Null data"));
               }
               final unfilteredLectures = snapshot.data ?? [];
+              // print(snapshot.data);
               if (unfilteredLectures.isEmpty) {
                 return Center(child: Text("No data"));
               }
@@ -55,7 +56,7 @@ class _LecturesPageState extends State<LecturesPage> {
                     lectureDate.day == currentDate.day;
               }).toList();
               if (lectures.isEmpty) {
-                return Center(child: Text("No data"));
+                return Center(child: Text("No data for today"));
               }
 
               return Padding(

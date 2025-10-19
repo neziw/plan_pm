@@ -45,6 +45,17 @@ List<LinearGradient> softHorizontalGradients = [
   ),
 ];
 
+String longToShort(String long) {
+  final pieces = long
+      .split(",")
+      .map((piece) => piece.split("/")[0])
+      .toString()
+      .replaceAll("(", "")
+      .replaceAll(")", "");
+
+  return pieces;
+}
+
 class Lecture extends StatefulWidget {
   const Lecture({
     super.key,
@@ -56,6 +67,7 @@ class Lecture extends StatefulWidget {
     required this.professor,
     required this.group,
     required this.duration,
+    this.notes,
   });
 
   final int idx;
@@ -66,6 +78,7 @@ class Lecture extends StatefulWidget {
   final String professor;
   final String group;
   final String duration;
+  final String? notes;
 
   @override
   State<Lecture> createState() => _LectureState();
@@ -195,13 +208,19 @@ class _LectureState extends State<Lecture> {
                           icon: LucideIcons.bookLock,
                           color: Colors.green,
                           name: "Grupa",
-                          content: widget.group,
+                          content: longToShort(widget.group),
                         ),
                         DescriptionItem(
                           icon: LucideIcons.clock,
                           color: Colors.purple,
                           name: "Czas trwania",
                           content: widget.duration,
+                        ),
+                        DescriptionItem(
+                          icon: LucideIcons.stickyNote,
+                          color: Colors.yellow,
+                          name: "Notes",
+                          content: widget.notes ?? "Empty",
                         ),
                       ],
                     ),

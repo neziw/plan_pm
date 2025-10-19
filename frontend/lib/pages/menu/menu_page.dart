@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plan_pm/pages/welcome/group_selection_page.dart';
 import 'package:plan_pm/pages/welcome/input_page.dart';
 import 'package:plan_pm/pages/welcome/welcome_page.dart';
 
@@ -38,6 +39,20 @@ class MenuPage extends StatelessWidget {
                   );
                 },
                 child: Text("Powrót do InputPage"),
+              ),
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const GroupSelectionPage(),
+                    ),
+                  );
+                },
+                child: Text("Powrót do GroupSelection"),
               ),
             ),
           ],

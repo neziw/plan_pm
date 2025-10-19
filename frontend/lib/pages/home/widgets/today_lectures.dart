@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/api/models/lecture_model.dart';
 import 'package:plan_pm/pages/lectures/widgets/lecture.dart';
 import 'package:plan_pm/service/backend_service.dart';
@@ -62,12 +63,9 @@ class _TodayLecturesState extends State<TodayLectures> {
       spacing: 10,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Text(
-            "Najblizsze zajęcia",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-          ),
+        Text(
+          "Najblizsze zajęcia",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
         ),
         FutureBuilder<List<LectureModel>>(
           future: _backendService.fetchLectures(),
@@ -77,12 +75,9 @@ class _TodayLecturesState extends State<TodayLectures> {
                 child: Text('Błąd w FutureBuilder ${snapshot.error}'),
               );
             }
-            if (snapshot.data == null) {
-              return Center(child: Text("Brak zajęć na dziś"));
-            }
             final unfilteredLectures = snapshot.data ?? [];
             if (unfilteredLectures.isEmpty) {
-              return Center(child: Text("No data"));
+              return NoUpcomingClasses();
             }
 
             final lectures = getClosestLectures(
@@ -96,7 +91,7 @@ class _TodayLecturesState extends State<TodayLectures> {
             );
 
             if (lectures.isEmpty) {
-              return Center(child: Text("No data"));
+              return Center(child: NoUpcomingClasses());
             }
 
             return Padding(
@@ -133,6 +128,54 @@ class _TodayLecturesState extends State<TodayLectures> {
           },
         ),
       ],
+    );
+  }
+}
+
+class NoUpcomingClasses extends StatelessWidget {
+  const NoUpcomingClasses({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.blueAccent.withAlpha(25),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.blueAccent.withAlpha(100)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          spacing: 5,
+          children: [
+            CircleAvatar(
+              radius: 32,
+              child: Icon(
+                LucideIcons.calendarX,
+                size: 32,
+                color: Colors.blueAccent,
+              ),
+            ),
+            Text(
+              "Brak zajęć na dziś",
+              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Text(
+                "Jesteś na bieżąco! Skorzystaj z wolnego czasu lub przejrzyj swój harmonogram.",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.black.withAlpha(200),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

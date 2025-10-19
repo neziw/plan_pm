@@ -43,6 +43,7 @@ class App extends StatelessWidget {
           title: 'Plan PM',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
+            fontFamily: "Inter",
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
           ),
           home: snapshot.data == true ? const InputPage() : const WelcomePage(),
