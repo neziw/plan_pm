@@ -10,7 +10,7 @@ ACADEMIC_YEAR = ["zima", "lato"]
 
 BUILDINGS = ["WChrobrego", "HPobożnego", "Willowa", "Szczerbcow", "Żołnierska"]
 
-MAP = {"Plan dla toku" : "program", "Przedmiot" : "subject", "Grupy" : "group", "Sala" : "room", "Prowadzący" : "teacher", "Uwagi" : "notes"}
+MAP = {"Plan dla toku" : "program", "Przedmiot" : "subject", "Grupy" : "group", "Sala" : "room", "Prowadzący" : "teacher", "Uwagi" : "notes", "Nr uruch." : ""}
 
 
 @dataclass
@@ -36,19 +36,20 @@ def progressBar(progress, max, bar=40):
     return False
 
 class Parser:
-    def __init__(self, debug=False, input = "plany.json", output = "./output", outputFile="parser.json"):
+    def __init__(self, debug=False, input = "scrapper.json", output = "./output", outputFile="parser.json"):
         self.DEBUG = debug
         self.input = input
         self.output = output
+        self.inputFile = output+'/'+input
         self.outputFile = output+'/'+outputFile
         
-        print(f'\n\nZaczynam parsowanie danych w pliku {path.abspath(self.output+'/'+self.input)}\n')
+        print(f'\n\nZaczynam parsowanie danych w pliku {path.abspath(self.inputFile)}\n')
         self.sched = ScheduleData([], [], [], [], [], [])
         self.tok = self.readJson()
 
 
     def readJson(self):
-        with open(self.input, "r", encoding="utf-8") as file:
+        with open(self.inputFile, "r", encoding="utf-8") as file:
             return loadJSON(file.read())
 
 
@@ -132,12 +133,19 @@ class Parser:
         if tok["Przedmiot"] not in self.sched._subjects_set:
             self.sched.subjects.append(tok["Przedmiot"])
             self.sched._subjects_set.add(tok["Przedmiot"])
-        
+            
         tok["Plan dla toku"] = self.sched.programs.index(tok["Plan dla toku"])
         tok["Przedmiot"] = self.sched.subjects.index(tok["Przedmiot"])
         tok["startTime"], tok["endTime"] = self.convertDateToTimestamp(tok.pop("Data zajęć"), tok.pop("Czas od"), tok.pop("Czas do"))
 
-        self.sched.classes.append(tok)
+        if "," in tok["Grupy"]:
+            groups = tok["Grupy"].split(",")
+            for i in groups:
+                tok["Grupy"] = i.strip()
+
+            self.sched.classes.append(tok)
+        else:
+            self.sched.classes.append(tok)
 
 
     def parseTeachers(self, teacher):
@@ -243,7 +251,10 @@ class Parser:
         self.getTokAndPlan()
         for i, cl in enumerate(self.sched.classes):
             for old in MAP:
-                self.sched.classes[i][MAP[old]] = self.sched.classes[i].pop(old)
+                if MAP[old]:
+                    self.sched.classes[i][MAP[old]] = self.sched.classes[i].pop(old)
+                else:
+                    self.sched.classes[i].pop(old)
 
         teachersclasses = []
 
