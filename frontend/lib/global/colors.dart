@@ -10,4 +10,5 @@ class _AppColorLight {
 
   Color backgroundPrimary = Color(0xFFFFFFFF);
   Color backgroundSecondary = Color.fromARGB(255, 241, 241, 241);
+  Color primary = Color(0xFF0884ff);
 }

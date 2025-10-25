@@ -26,8 +26,8 @@ class BackendService {
     if (Student.specialisation == null) {
       print("Specjalizacja studenta nie została ustawiona");
     }
-    print(Student.year);
-    final response = await Supabase.instance.client
+    final List<String> selectedGroups = Student.selectedGroups ?? [];
+    var query = Supabase.instance.client
         .from("classes")
         .select('''
         id,
@@ -48,6 +48,12 @@ class BackendService {
           Student.specialisation ?? Student.degreeCourse ?? "",
         )
         .eq("programs.year", Student.year ?? 0);
+
+    if (selectedGroups.isNotEmpty) {
+      query = query.inFilter("group", selectedGroups);
+    }
+
+    final response = await query;
 
     final data = response;
 

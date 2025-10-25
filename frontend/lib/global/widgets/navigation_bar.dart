@@ -23,23 +23,28 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
     return ValueListenableBuilder(
       valueListenable: Notifiers.selectedTab,
       builder: (BuildContext context, selectedTabNotifier, Widget? child) {
-        return BottomNavigationBar(
-          currentIndex: selectedTabNotifier,
-          onTap: setSelectedTab,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(LucideIcons.home),
-              label: "Home",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(LucideIcons.calendar),
-              label: "Lectures",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(LucideIcons.menuSquare),
-              label: "Menu",
-            ),
-          ],
+        return Container(
+          decoration: BoxDecoration(
+            border: Border(top: BorderSide(color: Colors.black.withAlpha(20))),
+          ),
+          child: BottomNavigationBar(
+            currentIndex: selectedTabNotifier,
+            onTap: setSelectedTab,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(LucideIcons.home),
+                label: "Home",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(LucideIcons.calendar),
+                label: "Lectures",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(LucideIcons.menuSquare),
+                label: "Menu",
+              ),
+            ],
+          ),
         );
       },
     );

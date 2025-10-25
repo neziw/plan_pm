@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:plan_pm/pages/welcome/group_selection_page.dart';
-import 'package:plan_pm/pages/welcome/input_page.dart';
+import 'package:plan_pm/pages/home/widgets/group_info.dart';
+import 'package:plan_pm/pages/home/widgets/student_info.dart';
 import 'package:plan_pm/pages/welcome/welcome_page.dart';
 
 class MenuPage extends StatelessWidget {
@@ -9,12 +9,15 @@ class MenuPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(12.0),
       child: SizedBox(
         width: double.infinity,
         child: Column(
+          spacing: 10,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            StudentInfo(),
+            GroupInfo(),
             SizedBox(
               width: double.infinity,
               child: FilledButton(
@@ -27,32 +30,6 @@ class MenuPage extends StatelessWidget {
                   );
                 },
                 child: Text("Powrót do WelcomeScreen"),
-              ),
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const InputPage()),
-                  );
-                },
-                child: Text("Powrót do InputPage"),
-              ),
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const GroupSelectionPage(),
-                    ),
-                  );
-                },
-                child: Text("Powrót do GroupSelection"),
               ),
             ),
           ],
