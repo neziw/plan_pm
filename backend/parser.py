@@ -11,10 +11,7 @@ ACADEMIC_YEAR = ["zima", "lato"]
 
 BUILDINGS = ["WChrobrego", "HPobożnego", "Willowa", "Szczerbcow", "Żołnierska"]
 
-MAP = {"Plan dla toku" : "program", "Przedmiot" : "subject", "Grupy" : "group", "Sala" : "room", "Prowadzący" : "teacher", "Uwagi" : "notes", "Nr uruch." : ""}
-
-MAP = {"Plan dla toku" : "program", "Przedmiot" : "subject", "Grupy" : "group", "Sala" : "room", "Prowadzący" : "teacher", "Uwagi" : "notes", "Nr uruch." : ""}
-
+MAP = {"Plan dla toku" : "program", "Przedmiot" : "subject", "Grupy" : "group", "Sala" : "room", "Prowadzący" : "teacher", "Uwagi" : "notes"}
 
 @dataclass
 class ScheduleData:
@@ -233,8 +230,7 @@ class Parser:
             groups = tok["Grupy"].split(",")
             for i in groups:
                 tok["Grupy"] = i.strip()
-
-            self.sched.classes.append(tok)
+                self.sched.classes.append(tok)
         else:
             self.sched.classes.append(tok)
 
@@ -435,32 +431,13 @@ class Parser:
 
         for i, cl in enumerate(self.sched.classes):
             teachersclasses.append({"class": i, "teachers": self.sched.classes[i].pop("teacher")})
-        for i, cl in enumerate(self.sched.classes):
-            teachersclasses.append({"class": i, "teachers": self.sched.classes[i].pop("teacher")})
 
         if self.DEBUG:
             print()
             print(self.sched.programs[0])
             print(self.sched.classes[535])
             print(self.sched.teachers[0])
-        if self.DEBUG:
-            print()
-            print(self.sched.programs[0])
-            print(self.sched.classes[535])
-            print(self.sched.teachers[0])
 
-        print(f'Zapisuję dane do {path.abspath(self.outputFile)}')
-        with open (self.outputFile, "w", encoding="utf-8") as file:
-            file.write(dumpJSON({
-                "programs": self.sched.programs,
-                "classes": self.sched.classes,
-                "teachers": self.sched.teachers,
-                "teachersclasses": teachersclasses,
-                "subjects": self.sched.subjects,
-                "rooms": self.sched.rooms,
-                "building": self.sched.buildings
-            }, indent=4, ensure_ascii=False).replace("    ", "\t"))
-            print(f'Dane zostały zapisane pomyślnie do {path.abspath(self.outputFile)}')
         print(f'Zapisuję dane do {path.abspath(self.outputFile)}')
         with open (self.outputFile, "w", encoding="utf-8") as file:
             file.write(dumpJSON({
