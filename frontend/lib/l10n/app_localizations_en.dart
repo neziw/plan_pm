@@ -12,89 +12,88 @@ class AppLocalizationsEn extends AppLocalizations {
   String get stage1Title => ' ';
 
   @override
-  String get stage1Button => 'Witaj w Plan PM';
+  String get stage1Button => 'Welcome to Plan PM';
 
   @override
-  String get stage2Title =>
-      'Zobacz wszystkie zajęcia w przejrzystym planie tygodniowym.';
+  String get stage2Title => 'View all your classes in a clear weekly schedule.';
 
   @override
-  String get stage2Button => 'Dalej';
+  String get stage2Button => 'Next';
 
   @override
   String get stage3Title =>
-      'Znajdź swoje sale łatwo dzięki szczegółowym informacjom o lokalizacji.';
+      'Find your destination easily with detailed location information.';
 
   @override
-  String get stage3Button => 'Dalej';
+  String get stage3Button => 'Next';
 
   @override
   String get stage4Title =>
-      'Otrzymuj przypomnienia przed kadymi zajęciami, zeby nigdy ich nie przegapić.';
+      'Get reminders before each class so you never miss them.';
 
   @override
-  String get stage4Button => 'Rozpocznij';
+  String get stage4Button => 'Get Started';
 
   @override
-  String get welcomePageSelectionText => 'Powrót do WelcomeScreen';
+  String get welcomePageSelectionText => 'Back to WelcomeScreen';
 
   @override
-  String get inputPageSelectionText => 'Powrót do InputPage';
+  String get inputPageSelectionText => 'Back to InputPage';
 
   @override
-  String get inputPageLabel => 'Twoje Dane Akademickie';
+  String get inputPageLabel => 'Your Academic Data';
 
   @override
-  String get facultyLabel => 'Wydział';
+  String get facultyLabel => 'Faculty';
 
   @override
-  String get facultyHintText => 'Wybierz wydział';
+  String get facultyHintText => 'Select faculty';
 
   @override
-  String get fieldLabel => 'Kierunek studiów';
+  String get fieldLabel => 'Field of Study';
 
   @override
-  String get fieldHintText => 'Wybierz kierunek studiów';
+  String get fieldHintText => 'Select field of study';
 
   @override
-  String get yearLabel => 'Aktualny Rok';
+  String get yearLabel => 'Current Year';
 
   @override
-  String get specialisationLabel => 'Specjalizacja';
+  String get specialisationLabel => 'Specialization';
 
   @override
-  String get specialisationHintText => 'Wybierz specjalizacje';
+  String get specialisationHintText => 'Select specialization';
 
   @override
-  String get typeLabel => 'Tryb studiów';
+  String get typeLabel => 'Mode of Study';
 
   @override
-  String get campusButton => 'Stacjonarne';
+  String get campusButton => 'Full-time';
 
   @override
-  String get extramuralButton => 'Zaoczne';
+  String get extramuralButton => 'Part-time';
 
   @override
-  String get continueButton => 'Kontynuuj';
+  String get continueButton => 'Continue';
 
   @override
-  String get homePageLabel => 'Dane studenta to: ';
+  String get homePageLabel => 'Student data is: ';
 
   @override
-  String get facultyText => 'Wydział';
+  String get facultyText => 'Faculty';
 
   @override
-  String get fieldText => 'Kierunek';
+  String get fieldText => 'Field';
 
   @override
-  String get specialisationText => 'Specjalizacja';
+  String get specialisationText => 'Specialization';
 
   @override
-  String get yearText => 'Rok';
+  String get yearText => 'Year';
 
   @override
-  String get typeText => 'Tryb studiów';
+  String get typeText => 'Mode of Study';
 
   @override
-  String get dataNaN => 'Brak danych';
+  String get dataNaN => 'No data';
 }

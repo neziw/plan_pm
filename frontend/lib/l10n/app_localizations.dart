@@ -7,6 +7,7 @@ import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
 import 'app_localizations_pl.dart';
+import 'app_localizations_uk.dart';
 
 // ignore_for_file: type=lint
 
@@ -96,6 +97,7 @@ abstract class AppLocalizations {
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
     Locale('pl'),
+    Locale('uk'),
   ];
 
   /// No description provided for @stage1Title.
@@ -137,7 +139,7 @@ abstract class AppLocalizations {
   /// No description provided for @stage4Title.
   ///
   /// In pl, this message translates to:
-  /// **'Otrzymuj przypomnienia przed kadymi zajęciami, zeby nigdy ich nie przegapić.'**
+  /// **'Otrzymuj przypomnienia przed kadymi zajęciami, żeby nigdy ich nie przegapić.'**
   String get stage4Title;
 
   /// No description provided for @stage4Button.
@@ -284,7 +286,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'pl'].contains(locale.languageCode);
+      <String>['en', 'pl', 'uk'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -297,6 +299,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsEn();
     case 'pl':
       return AppLocalizationsPl();
+    case 'uk':
+      return AppLocalizationsUk();
   }
 
   throw FlutterError(

@@ -33,6 +33,7 @@ class App extends StatelessWidget {
       supportedLocales: [
         Locale('en'), // English
         Locale('pl'), // Polish
+        Locale('uk'), // Ukrainian
       ],
       home: const WelcomePage(),
     );

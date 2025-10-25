@@ -30,7 +30,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get stage4Title =>
-      'Otrzymuj przypomnienia przed kadymi zajęciami, zeby nigdy ich nie przegapić.';
+      'Otrzymuj przypomnienia przed kadymi zajęciami, żeby nigdy ich nie przegapić.';
 
   @override
   String get stage4Button => 'Rozpocznij';
