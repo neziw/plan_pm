@@ -30,7 +30,7 @@ class Scrapper:
         
         if not self.logger.handlers:
             os.makedirs("./logs", exist_ok=True)
-            handler = logging.FileHandler("./logs/scrapper.log", mode="w+")
+            handler = logging.FileHandler("./logs/scrapper.log", mode="w+", encoding="utf-8")
             formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
             handler.setFormatter(formatter)
             self.logger.addHandler(handler)
@@ -156,7 +156,7 @@ class Scrapper:
     def run(self, max_workers=5, flow_id = -1):
         if flow_id == -1:
             print("Debug mode off, running with full threads.")
-            with open(self.input, "r") as f:
+            with open(self.input, "r", encoding="utf-8") as f:
                 data = json.load(f)
             with Progress() as p:
                 total = len(data.keys())

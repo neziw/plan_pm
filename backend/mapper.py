@@ -18,7 +18,7 @@ class Mapper:
         self.output = output
 
         if not self.logger.handlers:
-            handler = logging.FileHandler("./logs/mapper.log", mode="w+")
+            handler = logging.FileHandler("./logs/mapper.log", mode="w+", encoding="utf-8")
             formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
             handler.setFormatter(formatter)
             self.logger.addHandler(handler)
@@ -29,7 +29,15 @@ class Mapper:
             "total": 0
         }
         self.valid_records = {}
-         
+
+        logging.basicConfig(
+            filename="./logs/mapper.log",
+            filemode="w+",
+            encoding="utf-8",
+            level=logging.INFO,
+            format="%(asctime)s [%(levelname)s] %(message)s"
+        )
+
     def check_page(self, flow_id):
         url = f"https://plany.am.szczecin.pl/Plany/PlanyTokow/{flow_id}"
         self.stats["total"] += 1
