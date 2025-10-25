@@ -57,7 +57,7 @@ class Parser:
         print("Loading the JSON")
         length = len(self.tok)
         for tmp, i in enumerate(self.tok):
-            # progressBar(tmp, length)
+            progressBar(tmp, length)
             self.breakDownTok(i)
 
         print("Cleaning up tok strings")
@@ -140,12 +140,10 @@ class Parser:
 
         if "," in tok["Grupy"]:
             groups = tok["Grupy"].split(",")
-            print(groups)
             for i in groups:
                 t = tok.copy()
                 t["Grupy"] = i.strip()
                 self.sched.classes.append(t)
-            print(self.sched.classes[-len(groups):])
         else:
             self.sched.classes.append(tok)
 
