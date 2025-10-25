@@ -1,5 +1,7 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/api/models/lecture_model.dart';
 import 'package:plan_pm/pages/lectures/widgets/lecture.dart';
@@ -54,7 +56,24 @@ class TodayLectures extends StatefulWidget {
 }
 
 class _TodayLecturesState extends State<TodayLectures> {
-  final DateTime currentDate = DateTime(2025, 6, 16, 9, 45);
+  int currentWeekDay = DateTime.now().weekday - 1;
+
+  DateTime now = DateTime.now();
+  late DateTime currentDate;
+
+  @override
+  void initState() {
+    super.initState();
+    if (now.weekday == DateTime.saturday) {
+      // Saturday -> next Monday
+      currentDate = now.add(Duration(days: 2));
+    } else if (now.weekday == DateTime.sunday) {
+      // Sunday -> next Monday
+      currentDate = now.add(Duration(days: 1));
+    } else {
+      currentDate = now;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +83,8 @@ class _TodayLecturesState extends State<TodayLectures> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Najblizsze zajęcia",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+          "Twoje najblizsze zajęcia",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
         FutureBuilder<List<LectureModel>>(
           future: _backendService.fetchLectures(),
@@ -73,6 +92,34 @@ class _TodayLecturesState extends State<TodayLectures> {
             if (snapshot.hasError) {
               return Center(
                 child: Text('Błąd w FutureBuilder ${snapshot.error}'),
+              );
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Container(
+                color: Colors.white,
+                child: DottedBorder(
+                  options: RoundedRectDottedBorderOptions(
+                    radius: Radius.circular(12),
+                    dashPattern: [10, 5],
+                    color: Colors.black.withAlpha(100),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Row(
+                      spacing: 5,
+                      children: [
+                        LoadingAnimationWidget.progressiveDots(
+                          color: Colors.black.withAlpha(75),
+                          size: 48,
+                        ),
+                        Text(
+                          "Ładowanie planu",
+                          style: TextStyle(color: Colors.black.withAlpha(100)),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               );
             }
             final unfilteredLectures = snapshot.data ?? [];
@@ -91,39 +138,35 @@ class _TodayLecturesState extends State<TodayLectures> {
             );
 
             if (lectures.isEmpty) {
-              return Center(child: NoUpcomingClasses());
+              return NoUpcomingClasses();
             }
 
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                spacing: 10,
-                children: [
-                  Skeletonizer(
-                    effect: const ShimmerEffect(baseColor: Color(0x4FFFFFFF)),
-                    enabled:
-                        snapshot.connectionState == ConnectionState.waiting,
-                    child: ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: lectures.length,
-                      itemBuilder: (context, index) {
-                        final lecture = lectures[index];
-                        return Lecture(
-                          idx: index,
-                          name: lecture.name,
-                          timeFrom: lecture.startTime,
-                          timeTo: lecture.endTime,
-                          location: lecture.location,
-                          professor: lecture.professor,
-                          group: lecture.group,
-                          duration: lecture.duration,
-                        );
-                      },
-                    ),
+            return Column(
+              spacing: 10,
+              children: [
+                Skeletonizer(
+                  effect: const ShimmerEffect(baseColor: Color(0x4FFFFFFF)),
+                  enabled: snapshot.connectionState == ConnectionState.waiting,
+                  child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: lectures.length,
+                    itemBuilder: (context, index) {
+                      final lecture = lectures[index];
+                      return Lecture(
+                        idx: index,
+                        name: lecture.name,
+                        timeFrom: lecture.startTime,
+                        timeTo: lecture.endTime,
+                        location: lecture.location,
+                        professor: lecture.professor,
+                        group: lecture.group,
+                        duration: lecture.duration,
+                      );
+                    },
                   ),
-                ],
-              ),
+                ),
+              ],
             );
           },
         ),
@@ -137,43 +180,51 @@ class NoUpcomingClasses extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.blueAccent.withAlpha(25),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.blueAccent.withAlpha(100)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          spacing: 5,
-          children: [
-            CircleAvatar(
-              radius: 32,
-              child: Icon(
-                LucideIcons.calendarX,
-                size: 32,
-                color: Colors.blueAccent,
-              ),
-            ),
-            Text(
-              "Brak zajęć na dziś",
-              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Text(
-                "Jesteś na bieżąco! Skorzystaj z wolnego czasu lub przejrzyj swój harmonogram.",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.black.withAlpha(200),
+    return Material(
+      elevation: 1,
+      borderRadius: BorderRadius.circular(12),
+      child: DottedBorder(
+        options: RoundedRectDottedBorderOptions(
+          dashPattern: [10, 5],
+          radius: Radius.circular(12),
+          color: Colors.black.withAlpha(50),
+        ),
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+          ),
+
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              spacing: 5,
+              children: [
+                Icon(
+                  LucideIcons.calendarX,
+                  size: 32,
+                  color: Colors.black.withAlpha(120),
                 ),
-              ),
+                Text(
+                  "Brak zajęć na dziś",
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Text(
+                    "Jesteś na bieżąco! Skorzystaj z wolnego czasu lub przejrzyj swój harmonogram.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.black.withAlpha(120),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

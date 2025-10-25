@@ -13,23 +13,45 @@ class LecturesPage extends StatefulWidget {
 }
 
 class _LecturesPageState extends State<LecturesPage> {
-  DateTime currentDate = DateTime.now();
+  int currentWeekDay = DateTime.now().weekday - 1;
+
+  DateTime now = DateTime.now();
+  late DateTime currentDate;
+
+  @override
+  void initState() {
+    super.initState();
+    if (now.weekday == DateTime.saturday) {
+      // Saturday -> next Monday
+      currentDate = now.add(Duration(days: 2));
+    } else if (now.weekday == DateTime.sunday) {
+      // Sunday -> next Monday
+      currentDate = now.add(Duration(days: 1));
+    } else {
+      currentDate = now;
+    }
+  }
+
   late int selectedDay = currentDate.weekday - 1;
 
   @override
   Widget build(BuildContext context) {
     final _backendService = BackendService();
+
     return Column(
       children: [
-        DaySelection(
-          currentDate: currentDate,
-          defaultSelected: selectedDay,
-          onChange: (selectedDay, selectedDate) {
-            setState(() {
-              selectedDay = selectedDay;
-              currentDate = selectedDate;
-            });
-          },
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: DaySelection(
+            currentDate: currentDate,
+            defaultSelected: selectedDay,
+            onChange: (selectedDay, selectedDate) {
+              setState(() {
+                selectedDay = selectedDay;
+                currentDate = selectedDate;
+              });
+            },
+          ),
         ),
         Expanded(
           child: FutureBuilder<List<LectureModel>>(
@@ -40,12 +62,10 @@ class _LecturesPageState extends State<LecturesPage> {
                   child: Text('Błąd w FutureBuilder ${snapshot.error}'),
                 );
               }
-              if (snapshot.data == null) {
-                return Center(child: Text("Null data"));
-              }
               final unfilteredLectures = snapshot.data ?? [];
               // print(snapshot.data);
-              if (unfilteredLectures.isEmpty) {
+              if (unfilteredLectures.isEmpty &&
+                  snapshot.connectionState == ConnectionState.done) {
                 return Center(child: Text("No data"));
               }
 
@@ -66,7 +86,12 @@ class _LecturesPageState extends State<LecturesPage> {
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Text("${lectures.length} zajęcia")],
+                      children: [
+                        Text(
+                          "${lectures.length} zajęcia",
+                          style: TextStyle(color: Colors.black.withAlpha(100)),
+                        ),
+                      ],
                     ),
                     Expanded(
                       child: Skeletonizer(
@@ -75,8 +100,11 @@ class _LecturesPageState extends State<LecturesPage> {
                         ),
                         enabled:
                             snapshot.connectionState == ConnectionState.waiting,
-                        child: ListView.builder(
+                        child: ListView.separated(
                           itemCount: lectures.length,
+                          separatorBuilder: (context, index) {
+                            return SizedBox(height: 5);
+                          },
                           itemBuilder: (context, index) {
                             final lecture = lectures[index];
                             return Lecture(

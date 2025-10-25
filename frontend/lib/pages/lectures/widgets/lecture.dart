@@ -112,9 +112,8 @@ class _LectureState extends State<Lecture> {
                 borderRadius: BorderRadius.circular(12),
                 onTap: switchExpanded,
                 child: Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Column(
-                    spacing: 10,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -156,10 +155,7 @@ class _LectureState extends State<Lecture> {
                           ),
                           Text(
                             "${widget.timeFrom} - ${widget.timeTo}",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                            ),
+                            style: TextStyle(color: Colors.white),
                           ),
                           SizedBox(width: 5),
                           Icon(
@@ -175,10 +171,7 @@ class _LectureState extends State<Lecture> {
                               widget.location.split(" , ").length == 1
                                   ? widget.location
                                   : widget.location.split(" , ").join(", "),
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                              ),
+                              style: TextStyle(color: Colors.white),
                             ),
                           ),
                         ],
@@ -190,39 +183,48 @@ class _LectureState extends State<Lecture> {
             ),
           ),
           expanded
-              ? InkWell(
-                  borderRadius: BorderRadius.circular(12),
-                  onTap: switchExpanded,
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      spacing: 20,
-                      children: [
-                        DescriptionItem(
-                          icon: LucideIcons.user,
-                          color: Colors.blue,
-                          name: "Professor",
-                          content: widget.professor,
-                        ),
-                        DescriptionItem(
-                          icon: LucideIcons.bookLock,
-                          color: Colors.green,
-                          name: "Grupa",
-                          content: longToShort(widget.group),
-                        ),
-                        DescriptionItem(
-                          icon: LucideIcons.clock,
-                          color: Colors.purple,
-                          name: "Czas trwania",
-                          content: widget.duration,
-                        ),
-                        DescriptionItem(
-                          icon: LucideIcons.stickyNote,
-                          color: Colors.yellow,
-                          name: "Notes",
-                          content: widget.notes ?? "Empty",
-                        ),
-                      ],
+              ? Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [BoxShadow()],
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(12),
+                      bottomRight: Radius.circular(12),
+                    ),
+                  ),
+                  child: GestureDetector(
+                    onTap: switchExpanded,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        spacing: 10,
+                        children: [
+                          DescriptionItem(
+                            icon: LucideIcons.user,
+                            color: Colors.blue,
+                            name: "Professor",
+                            content: widget.professor,
+                          ),
+                          DescriptionItem(
+                            icon: LucideIcons.bookLock,
+                            color: Colors.green,
+                            name: "Grupa",
+                            content: longToShort(widget.group),
+                          ),
+                          DescriptionItem(
+                            icon: LucideIcons.clock,
+                            color: Colors.purple,
+                            name: "Czas trwania",
+                            content: widget.duration,
+                          ),
+                          DescriptionItem(
+                            icon: LucideIcons.stickyNote,
+                            color: Colors.yellow,
+                            name: "Notes",
+                            content: widget.notes ?? "Empty",
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 )

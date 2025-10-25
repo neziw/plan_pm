@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/global/student.dart';
 
 class GroupBuilder extends StatefulWidget {
@@ -10,91 +11,101 @@ class GroupBuilder extends StatefulWidget {
   State<GroupBuilder> createState() => _GroupBuilderState();
 }
 
+String convertLetterToGroup(String letter) {
+  switch (letter.toLowerCase()) {
+    case "a":
+      return "Audytorium";
+
+    case "c":
+      return "Ćwiczenia";
+
+    case "l":
+      return "Laboratoria";
+
+    default:
+      return "Inne";
+  }
+}
+
 class _GroupBuilderState extends State<GroupBuilder> {
   final List<String> selectedGroups = [];
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.black.withAlpha(75)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ...widget.groups.entries.map(
-              (letter) => Column(
-                spacing: 5,
-                crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ...widget.groups.entries.map(
+          (letter) => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                spacing: 10,
                 children: [
-                  Row(
-                    spacing: 10,
-                    children: [
-                      CircleAvatar(
-                        radius: 16,
-                        child: Text(
-                          letter.key[0],
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Text(
-                        "Grupa ${letter.key}",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ],
+                  Text(
+                    convertLetterToGroup(letter.key),
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.black.withAlpha(150),
+                    ),
                   ),
-                  Wrap(
-                    spacing: 5,
-                    children: [
-                      ...letter.value.map((g) {
-                        bool isSelected;
-                        if (selectedGroups.contains(g["long"])) {
-                          isSelected = true;
-                        } else {
-                          isSelected = false;
-                        }
-                        return OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            backgroundColor: isSelected
-                                ? Colors.blue
-                                : Colors.transparent,
-                            foregroundColor: isSelected
-                                ? Colors.white
-                                : Colors.black,
-                            side: BorderSide(
-                              color: isSelected
-                                  ? Colors.blue
-                                  : Colors.black.withAlpha(75),
-                            ),
-                          ),
-
-                          onPressed: () {
-                            if (isSelected == true) {
-                              setState(() {
-                                selectedGroups.remove(g["long"]);
-                              });
-                            } else {
-                              setState(() {
-                                selectedGroups.add(g["long"]);
-                              });
-                            }
-                            Student.selectedGroups = selectedGroups;
-                          },
-                          child: Text(g['short'] ?? g['long'] ?? ''),
-                        );
-                      }),
-                    ],
-                  ),
-                  SizedBox(height: 8),
                 ],
               ),
-            ),
-          ],
+              Row(
+                spacing: 5,
+                children: [
+                  ...letter.value.map((g) {
+                    int groupLength = letter.value.length;
+                    bool isSelected = selectedGroups.contains(g["long"]);
+
+                    final Widget button = OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        backgroundColor: isSelected
+                            ? AppColor.light.primary
+                            : Colors.white,
+                        foregroundColor: isSelected
+                            ? Colors.white
+                            : Colors.black,
+                        side: BorderSide(
+                          color: isSelected
+                              ? Colors.blue
+                              : Colors.black.withAlpha(50),
+                        ),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          if (isSelected) {
+                            selectedGroups.remove(g["long"]);
+                          } else {
+                            // Deselect other groups in the same letter group
+                            for (var other in letter.value) {
+                              selectedGroups.remove(other["long"]);
+                            }
+                            selectedGroups.add(g["long"]);
+                          }
+                          Student.selectedGroups = selectedGroups;
+                        });
+                      },
+                      child: Text(
+                        g['short'] ?? g['long'] ?? '',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    );
+                    if (groupLength > 1) {
+                      return Expanded(child: button);
+                    }
+                    return button;
+                  }).toList(),
+                ],
+              ),
+              SizedBox(height: 8),
+            ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }
