@@ -1,102 +1,131 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
-import 'package:plan_pm/global/dummy.dart';
-import 'package:plan_pm/global/extensions.dart';
-import 'package:plan_pm/global/notifiers.dart';
+import 'package:plan_pm/api/models/lecture_model.dart';
+import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/pages/lectures/widgets/day_selection.dart';
 import 'package:plan_pm/pages/lectures/widgets/lecture.dart';
+import 'package:plan_pm/service/backend_service.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
-class LecturesPage extends StatelessWidget {
+class LecturesPage extends StatefulWidget {
   const LecturesPage({super.key});
 
   @override
+  State<LecturesPage> createState() => _LecturesPageState();
+}
+
+class _LecturesPageState extends State<LecturesPage> {
+  int currentWeekDay = DateTime.now().weekday - 1;
+
+  DateTime now = DateTime.now();
+  late DateTime currentDate;
+
+  @override
+  void initState() {
+    super.initState();
+    if (now.weekday == DateTime.saturday) {
+      // Saturday -> next Monday
+      currentDate = now.add(Duration(days: 2));
+    } else if (now.weekday == DateTime.sunday) {
+      // Sunday -> next Monday
+      currentDate = now.add(Duration(days: 1));
+    } else {
+      currentDate = now;
+    }
+  }
+
+  late int selectedDay = currentDate.weekday - 1;
+
+  @override
   Widget build(BuildContext context) {
+    final _backendService = BackendService();
+
     return Column(
       children: [
-        Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  LucideIcons.chevronLeft,
-                  color: Colors.blueGrey[400],
-                ),
-              ),
-              Text(
-                "Jun 14 - 18, 2025",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  LucideIcons.chevronRight,
-                  color: Colors.blueGrey[400],
-                ),
-              ),
-            ],
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: DaySelection(
+            currentDate: currentDate,
+            defaultSelected: selectedDay,
+            onChange: (selectedDay, selectedDate) {
+              setState(() {
+                selectedDay = selectedDay;
+                currentDate = selectedDate;
+              });
+            },
           ),
         ),
-        DaySelection(),
-        Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: ValueListenableBuilder(
-            valueListenable: Notifiers.selectedDay,
-            builder: (BuildContext context, value, Widget? child) {
-              return Container(
-                color: Colors.transparent,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Expanded(
+          child: FutureBuilder<List<LectureModel>>(
+            future: _backendService.fetchLectures(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text('Błąd w FutureBuilder ${snapshot.error}'),
+                );
+              }
+              final unfilteredLectures = snapshot.data ?? [];
+              // print(snapshot.data);
+              if (unfilteredLectures.isEmpty &&
+                  snapshot.connectionState == ConnectionState.done) {
+                return Center(child: Text("No data"));
+              }
+
+              final lectures = unfilteredLectures.where((lecture) {
+                final lectureDate = lecture.date;
+                return lectureDate.year == currentDate.year &&
+                    lectureDate.month == currentDate.month &&
+                    lectureDate.day == currentDate.day;
+              }).toList();
+              if (lectures.isEmpty) {
+                return Center(child: Text("No data for today"));
+              }
+
+              return Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  spacing: 10,
                   children: [
-                    Text(
-                      value.toCapitalized,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "${lectures.length} zajęcia",
+                          style: TextStyle(color: AppColor.onBackgroundVariant),
+                        ),
+                      ],
                     ),
-                    Text(
-                      "${dummySchedule.where((lecture) => lecture["Data zajęć"]!.split(" ")[1] == Notifiers.selectedDay.value).length} zajęcia",
+                    Expanded(
+                      child: Skeletonizer(
+                        effect: const ShimmerEffect(
+                          baseColor: Color(0x4FFFFFFF),
+                        ),
+                        enabled:
+                            snapshot.connectionState == ConnectionState.waiting,
+                        child: ListView.separated(
+                          itemCount: lectures.length,
+                          separatorBuilder: (context, index) {
+                            return SizedBox(height: 5);
+                          },
+                          itemBuilder: (context, index) {
+                            final lecture = lectures[index];
+                            return Lecture(
+                              idx: index,
+                              name: lecture.name,
+                              timeFrom: lecture.startTime,
+                              timeTo: lecture.endTime,
+                              location: lecture.location,
+                              professor: lecture.professor,
+                              group: lecture.group,
+                              duration: lecture.duration,
+                            );
+                          },
+                        ),
+                      ),
                     ),
                   ],
                 ),
               );
             },
-          ),
-        ),
-        Expanded(
-          child: SingleChildScrollView(
-            child: ValueListenableBuilder<String>(
-              valueListenable: Notifiers.selectedDay,
-              builder:
-                  (BuildContext context, String currentDay, Widget? child) {
-                    return Column(
-                      children: dummySchedule
-                          .where(
-                            (lecture) =>
-                                lecture["Data zajęć"]!.split(" ")[1] ==
-                                Notifiers.selectedDay.value,
-                          )
-                          .toList()
-                          .asMap()
-                          .entries
-                          .map(
-                            (lecture) => Lecture(
-                              idx: lecture.key,
-                              name: lecture.value["Przedmiot"]!,
-                              timeFrom: lecture.value["Czas od"]!,
-                              timeTo: lecture.value["Czas do"]!,
-                              location: lecture.value["Sala"]!,
-                              professor: lecture.value["Prowadzący"]!,
-                              group: lecture.value["Grupy"]!,
-                              duration: lecture.value["Liczba godzin"]!,
-                            ),
-                          )
-                          .toList(),
-                    );
-                  },
-            ),
           ),
         ),
       ],

@@ -1,7 +1,18 @@
 from mapper import Mapper
 from scrapper import Scrapper
+from parser import Parser
+from json2db import json2db
+import time
 
-mapper = Mapper()
-mapper.run(minID=300, maxID=400, output="./output/flows.json")
+start_time = time.time()
+print("Starting PlanPM worker")
 
-Scrapper().run(max_workers=5)
+Mapper(output="./output/mapper.json").run(minID=0, maxID=600)
+
+Scrapper(input="./output/mapper.json", output="./output/scrapper.json").run(max_workers=5)
+
+Parser(input="scrapper.json").run()
+
+json2db(input="./output/parser.json").run()
+
+print(f"✅ PlanPM gotowy ({time.time() - start_time:.2f} s)")

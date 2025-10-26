@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/global/notifiers.dart';
 
 class CustomNavigationBar extends StatefulWidget {
@@ -23,23 +24,29 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
     return ValueListenableBuilder(
       valueListenable: Notifiers.selectedTab,
       builder: (BuildContext context, selectedTabNotifier, Widget? child) {
-        return BottomNavigationBar(
-          currentIndex: selectedTabNotifier,
-          onTap: setSelectedTab,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(LucideIcons.home),
-              label: "Home",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(LucideIcons.calendar),
-              label: "Lectures",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(LucideIcons.menuSquare),
-              label: "Menu",
-            ),
-          ],
+        return Container(
+          decoration: BoxDecoration(
+            border: Border(top: BorderSide(color: AppColor.outline)),
+          ),
+          child: BottomNavigationBar(
+            selectedItemColor: AppColor.primary,
+            currentIndex: selectedTabNotifier,
+            onTap: setSelectedTab,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(LucideIcons.home),
+                label: "Home",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(LucideIcons.calendar),
+                label: "Lectures",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(LucideIcons.menuSquare),
+                label: "Menu",
+              ),
+            ],
+          ),
         );
       },
     );
