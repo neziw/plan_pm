@@ -1,0 +1,46 @@
+{
+  "stage1Title": " ",
+  "stage1Button": "Ласкаво просимо до Plan PM",
+
+  "stage2Title": "Переглядайте всі свої заняття у чіткому тижневому розкладі.",
+  "stage2Button": "Далі",
+
+  "stage3Title": "Легко знаходьте аудиторії завдяки детальній інформації про місцезнаходження.",
+  "stage3Button": "Далі",
+
+  "stage4Title": "Отримуйте нагадування перед кожним заняттям, щоб ніколи не пропустити.",
+  "stage4Button": "Почати",
+
+
+  "welcomePageSelectionText": "Повернутися до WelcomeScreen",
+  "inputPageSelectionText": "Повернутися до InputPage",
+
+
+  "inputPageLabel": "Ваші академічні дані",
+  
+  "facultyLabel": "Факультет",
+  "facultyHintText": "Оберіть факультет",
+
+  "fieldLabel": "Напрям навчання",
+  "fieldHintText": "Оберіть напрям навчання",
+
+  "yearLabel": "Курс",
+
+  "specialisationLabel" : "Спеціалізація",
+  "specialisationHintText": "Оберіть спеціалізацію",
+
+  "typeLabel": "Форма навчання",
+  "campusButton": "Денна",
+  "extramuralButton": "Заочна",
+
+  "continueButton": "Продовжити",
+
+
+  "homePageLabel": "Дані студента: ",
+  "facultyText": "Факультет",
+  "fieldText": "Напрям",
+  "specialisationText": "Спеціалізація",
+  "yearText": "Курс",
+  "typeText": "Форма навчання",
+  "dataNaN": "Немає даних"
+}

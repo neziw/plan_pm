@@ -3,6 +3,7 @@ import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/pages/menu/widgets/group_info.dart';
 import 'package:plan_pm/pages/menu/widgets/student_info.dart';
 import 'package:plan_pm/pages/welcome/welcome_page.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 
 class MenuPage extends StatelessWidget {
   const MenuPage({super.key});
@@ -72,6 +73,22 @@ class MenuPage extends StatelessWidget {
                         ),
                       ],
                     ),
+                  );
+                },
+                child: Text(AppLocalizations.of(context)!.welcomePageSelectionText),
+              ),
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const InputPage()),
+                  );
+                },
+                child: Text(AppLocalizations.of(context)!.inputPageSelectionText),
+              ),
                   ),
                 ),
               ],

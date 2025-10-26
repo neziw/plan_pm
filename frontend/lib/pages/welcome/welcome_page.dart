@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/pages/welcome/input_page.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomePage extends StatelessWidget {
@@ -11,29 +12,27 @@ class WelcomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> stages = [
       {
-        "title": " ",
+        "title": AppLocalizations.of(context)!.stage1Title,
         "lottie": "assets/lotties/calendar.json",
-        "buttonLabel": "Witaj w Plan PM",
+        "buttonLabel": AppLocalizations.of(context)!.stage1Button,
         "color": Colors.blueAccent,
       },
       {
-        "title": "Zobacz wszystkie zajęcia w przejrzystym planie tygodniowym.",
+        "title": AppLocalizations.of(context)!.stage2Title,
         "lottie": "assets/lotties/womanschedule.json",
-        "buttonLabel": "Dalej",
+        "buttonLabel": AppLocalizations.of(context)!.stage2Button,
         "color": Colors.redAccent,
       },
       {
-        "title":
-            "Znajdź swoje sale łatwo dzięki szczegółowym informacjom o lokalizacji.",
+        "title": AppLocalizations.of(context)!.stage3Title,
         "lottie": "assets/lotties/search.json",
-        "buttonLabel": "Dalej",
+        "buttonLabel": AppLocalizations.of(context)!.stage3Button,
         "color": Colors.amberAccent,
       },
       {
-        "title":
-            "Otrzymuj przypomnienia przed kadymi zajęciami, zeby nigdy ich nie przegapić.",
+        "title": AppLocalizations.of(context)!.stage4Title,
         "lottie": "assets/lotties/bell.json",
-        "buttonLabel": "Rozpocznij",
+        "buttonLabel": AppLocalizations.of(context)!.stage4Button,
         "color": Colors.green,
       },
     ];
