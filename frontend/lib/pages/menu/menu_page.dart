@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:plan_pm/pages/welcome/input_page.dart';
+import 'package:plan_pm/global/colors.dart';
+import 'package:plan_pm/pages/menu/widgets/group_info.dart';
+import 'package:plan_pm/pages/menu/widgets/student_info.dart';
 import 'package:plan_pm/pages/welcome/welcome_page.dart';
 
 class MenuPage extends StatelessWidget {
@@ -8,37 +10,71 @@ class MenuPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(12.0),
       child: SizedBox(
         width: double.infinity,
         child: Column(
+          spacing: 10,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const WelcomePage(),
+            StudentInfo(),
+            GroupInfo(),
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Debug",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: AppColor.onBackground,
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: AppColor.surface,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: AppColor.outline),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Powrót do",
+                              style: TextStyle(color: AppColor.onSurface),
+                            ),
+                            SizedBox(
+                              child: FilledButton(
+                                style: FilledButton.styleFrom(
+                                  backgroundColor: AppColor.primary,
+                                ),
+                                onPressed: () {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const WelcomePage(),
+                                    ),
+                                  );
+                                },
+                                child: Text(
+                                  "Welcome screen",
+                                  style: TextStyle(color: AppColor.onPrimary),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  );
-                },
-                child: Text("Powrót do WelcomeScreen"),
-              ),
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const InputPage()),
-                  );
-                },
-                child: Text("Powrót do InputPage"),
-              ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

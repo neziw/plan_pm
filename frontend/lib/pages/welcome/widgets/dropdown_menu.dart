@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
+import 'package:plan_pm/global/colors.dart';
 
 class FacultyDropDownMenu extends StatefulWidget {
   const FacultyDropDownMenu({
     super.key,
     required this.label,
     required this.icon,
-    required this.color,
     required this.hint,
     required this.itemList,
     this.enabled = true,
@@ -16,7 +17,6 @@ class FacultyDropDownMenu extends StatefulWidget {
 
   final String label;
   final IconData icon;
-  final Color color;
   final String hint;
   final List<String> itemList;
   final bool? enabled;
@@ -38,40 +38,54 @@ class _FacultyDropDownMenuState extends State<FacultyDropDownMenu> {
           spacing: 5,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Icon(widget.icon, color: widget.color, size: 16),
             Text(
               widget.label,
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+              style: TextStyle(
+                fontSize: 14,
+                color: AppColor.onBackgroundVariant,
+              ),
             ),
           ],
         ),
-        DropdownMenu(
-          enabled: widget.enabled!,
-          controller: widget.controller,
-          initialSelection: widget.selectedValue,
-          hintText: widget.hint,
-          onSelected: widget.onChanged,
-          menuStyle: MenuStyle(),
-          width: double.infinity,
-          inputDecorationTheme: InputDecorationTheme(
-            hintStyle: TextStyle(fontWeight: FontWeight.w500),
-            border: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white70),
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ),
+        Container(
+          decoration: BoxDecoration(
+            color: AppColor.surface,
+            borderRadius: BorderRadius.circular(12),
           ),
+          child: DropdownMenu(
+            trailingIcon: Icon(LucideIcons.chevronDown),
+            enabled: widget.enabled!,
+            controller: widget.controller,
+            initialSelection: widget.selectedValue,
+            hintText: widget.hint,
+            onSelected: widget.onChanged,
+            menuStyle: MenuStyle(
+              backgroundColor: WidgetStatePropertyAll(AppColor.surface),
+            ),
+            width: double.infinity,
+            inputDecorationTheme: InputDecorationTheme(
+              fillColor: AppColor.surface,
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: AppColor.outline),
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+              ),
+            ),
 
-          dropdownMenuEntries: widget.itemList
-              .map(
-                (faculty) => DropdownMenuEntry(
-                  value: faculty,
-                  label: faculty,
-                  leadingIcon: faculty == widget.selectedValue
-                      ? Icon(Icons.check)
-                      : null,
-                ),
-              )
-              .toList(),
+            dropdownMenuEntries: widget.itemList
+                .map(
+                  (faculty) => DropdownMenuEntry(
+                    value: faculty,
+                    label: faculty,
+                    leadingIcon: faculty == widget.selectedValue
+                        ? Icon(Icons.check)
+                        : null,
+                  ),
+                )
+                .toList(),
+          ),
         ),
       ],
     );
