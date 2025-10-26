@@ -5,14 +5,12 @@ class ButtonSwitch extends StatefulWidget {
   const ButtonSwitch({
     super.key,
     required this.icon,
-    required this.color,
     required this.label,
     required this.buttonAmount,
     required this.buttonLabels,
     required this.onValueChanged,
   });
   final IconData icon;
-  final Color color;
   final String label;
   final int buttonAmount;
   final List<String> buttonLabels;
@@ -26,14 +24,14 @@ class _ButtonSwitchState extends State<ButtonSwitch> {
   @override
   Widget build(BuildContext context) {
     final ButtonStyle unselectedStyle = OutlinedButton.styleFrom(
-      backgroundColor: Colors.white,
-      side: BorderSide(color: Colors.black.withAlpha(50)), // outline color
+      backgroundColor: AppColor.surface,
+      side: BorderSide(color: AppColor.outline), // outline color
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     );
 
     final ButtonStyle selectedStyle = FilledButton.styleFrom(
-      backgroundColor: AppColor.light.primary,
-      foregroundColor: Colors.white,
+      backgroundColor: AppColor.primary,
+      foregroundColor: AppColor.onPrimary,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     );
 
@@ -42,7 +40,7 @@ class _ButtonSwitchState extends State<ButtonSwitch> {
       children: [
         Text(
           widget.label,
-          style: TextStyle(color: Colors.black.withAlpha(150), fontSize: 14),
+          style: TextStyle(color: AppColor.onBackgroundVariant, fontSize: 14),
         ),
         const SizedBox(height: 5),
         Row(
@@ -64,7 +62,7 @@ class _ButtonSwitchState extends State<ButtonSwitch> {
                           },
                           child: Text(
                             widget.buttonLabels[i],
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: AppColor.onPrimary),
                           ),
                         )
                       : OutlinedButton(
@@ -77,7 +75,7 @@ class _ButtonSwitchState extends State<ButtonSwitch> {
                           },
                           child: Text(
                             widget.buttonLabels[i],
-                            style: TextStyle(color: Colors.black),
+                            style: TextStyle(color: AppColor.onSurface),
                           ),
                         ),
                 ),

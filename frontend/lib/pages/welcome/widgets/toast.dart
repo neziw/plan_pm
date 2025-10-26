@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:plan_pm/global/colors.dart';
+
+// ########################################
+// DEPRECATED - COULD BE USED IN THE FUTURE
+// ########################################
 
 class Toast extends StatelessWidget {
   const Toast({super.key});
@@ -36,7 +41,7 @@ class Toast extends StatelessWidget {
                     "Znalezliśmy twój plan. Teraz wybierz po jedną grupę z kazdej kategorii.",
                     style: TextStyle(
                       fontSize: 14,
-                      color: Colors.black.withAlpha(170),
+                      color: AppColor.onPrimaryVariant,
                     ),
                   ),
                 ],

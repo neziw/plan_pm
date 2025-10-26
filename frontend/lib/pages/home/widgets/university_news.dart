@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plan_pm/global/colors.dart';
 
 class UniversityNews extends StatelessWidget {
   const UniversityNews({super.key});
@@ -24,11 +25,11 @@ class NewsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.white,
+      color: AppColor.surface,
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: Colors.black.withAlpha(50), width: 1),
+        side: BorderSide(color: AppColor.outline, width: 1),
       ),
       elevation: 1,
       child: Column(
@@ -51,27 +52,31 @@ class NewsCard extends StatelessWidget {
                   children: [
                     Text(
                       "Komunikat",
-                      style: TextStyle(color: Colors.black.withAlpha(150)),
+                      style: TextStyle(color: AppColor.onSurfaceVariant),
                     ),
                     Text(
                       "•",
-                      style: TextStyle(color: Colors.black.withAlpha(150)),
+                      style: TextStyle(color: AppColor.onSurfaceVariant),
                     ),
                     Text(
                       "2h temu",
-                      style: TextStyle(color: Colors.black.withAlpha(150)),
+                      style: TextStyle(color: AppColor.onSurfaceVariant),
                     ),
                   ],
                 ),
                 Text(
                   "Pierwsze beta testy aplikacji PM-APP ruszyły!",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: AppColor.onSurface,
+                  ),
                 ),
                 Text(
                   "Testuj aplikacje i bądź na bieząco z najnowszy...",
                   style: TextStyle(
                     fontSize: 14,
-                    color: Colors.black.withAlpha(150),
+                    color: AppColor.onSurfaceVariant,
                   ),
                 ),
               ],

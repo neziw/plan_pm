@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:plan_pm/global/colors.dart';
 
 class FacultyDropDownMenu extends StatefulWidget {
   const FacultyDropDownMenu({
     super.key,
     required this.label,
     required this.icon,
-    required this.color,
     required this.hint,
     required this.itemList,
     this.enabled = true,
@@ -17,7 +17,6 @@ class FacultyDropDownMenu extends StatefulWidget {
 
   final String label;
   final IconData icon;
-  final Color color;
   final String hint;
   final List<String> itemList;
   final bool? enabled;
@@ -43,14 +42,14 @@ class _FacultyDropDownMenuState extends State<FacultyDropDownMenu> {
               widget.label,
               style: TextStyle(
                 fontSize: 14,
-                color: Colors.black.withAlpha(150),
+                color: AppColor.onBackgroundVariant,
               ),
             ),
           ],
         ),
         Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColor.surface,
             borderRadius: BorderRadius.circular(12),
           ),
           child: DropdownMenu(
@@ -61,17 +60,16 @@ class _FacultyDropDownMenuState extends State<FacultyDropDownMenu> {
             hintText: widget.hint,
             onSelected: widget.onChanged,
             menuStyle: MenuStyle(
-              backgroundColor: WidgetStatePropertyAll(Colors.white),
+              backgroundColor: WidgetStatePropertyAll(AppColor.surface),
             ),
             width: double.infinity,
             inputDecorationTheme: InputDecorationTheme(
-              fillColor: Colors.white,
+              fillColor: AppColor.surface,
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.black.withAlpha(50)),
+                borderSide: BorderSide(color: AppColor.outline),
                 borderRadius: BorderRadius.all(Radius.circular(12)),
               ),
               border: OutlineInputBorder(
-                // borderSide: BorderSide(color: Colors.red),
                 borderRadius: BorderRadius.all(Radius.circular(12)),
               ),
             ),

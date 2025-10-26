@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/global/student.dart';
+import 'package:plan_pm/global/widgets/themed_outline_button.dart';
 import 'package:plan_pm/pages/welcome/group_selection_page.dart';
 
 class GroupInfo extends StatelessWidget {
@@ -17,11 +19,15 @@ class GroupInfo extends StatelessWidget {
           children: [
             Text(
               "Wybrane grupy",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: AppColor.onBackground,
+              ),
             ),
             SizedBox(
               height: 35,
-              child: OutlinedButton.icon(
+              child: ThemedOutlineButton(
                 onPressed: () {
                   Navigator.pushReplacement(
                     context,
@@ -30,18 +36,8 @@ class GroupInfo extends StatelessWidget {
                     ),
                   );
                 },
-                label: Text("Zmień grupy"),
-                icon: Icon(LucideIcons.edit3),
-                style: OutlinedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.black,
-                  side: BorderSide(
-                    color: Colors.black.withAlpha(50),
-                  ), // outline color
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
+                label: "Zmień grupy",
+                icon: LucideIcons.edit3,
               ),
             ),
           ],
@@ -49,9 +45,9 @@ class GroupInfo extends StatelessWidget {
         Container(
           width: double.infinity,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColor.surface,
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: Colors.black.withAlpha(50)),
+            border: Border.all(color: AppColor.outline),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,7 +65,7 @@ class GroupInfo extends StatelessWidget {
                       "Wybrane grupy",
                       style: TextStyle(
                         fontSize: 14,
-                        color: Colors.black.withAlpha(150),
+                        color: AppColor.onSurfaceVariant,
                       ),
                     ),
                     Wrap(
@@ -83,10 +79,10 @@ class GroupInfo extends StatelessWidget {
                                 .map(
                                   (g) => Container(
                                     decoration: BoxDecoration(
-                                      color: Colors.white,
+                                      color: AppColor.surface,
                                       borderRadius: BorderRadius.circular(12),
                                       border: Border.all(
-                                        color: Colors.black.withAlpha(50),
+                                        color: AppColor.outline,
                                       ),
                                     ),
                                     child: Padding(

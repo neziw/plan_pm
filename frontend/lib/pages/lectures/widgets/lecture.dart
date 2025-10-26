@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/pages/lectures/widgets/description_item.dart';
 
 List<LinearGradient> softHorizontalGradients = [
@@ -124,7 +125,7 @@ class _LectureState extends State<Lecture> {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
-                                color: Colors.white,
+                                color: AppColor.onPrimary,
                               ),
                             ),
                           ),
@@ -133,14 +134,14 @@ class _LectureState extends State<Lecture> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Icon(
                                     LucideIcons.chevronDown,
-                                    color: Colors.white,
+                                    color: AppColor.onPrimary,
                                   ),
                                 )
                               : Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Icon(
                                     LucideIcons.chevronUp,
-                                    color: Colors.white,
+                                    color: AppColor.onPrimary,
                                   ),
                                 ),
                         ],
@@ -151,17 +152,17 @@ class _LectureState extends State<Lecture> {
                           Icon(
                             LucideIcons.clock,
                             size: 16,
-                            color: Colors.white,
+                            color: AppColor.onPrimary,
                           ),
                           Text(
                             "${widget.timeFrom} - ${widget.timeTo}",
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: AppColor.onPrimary),
                           ),
                           SizedBox(width: 5),
                           Icon(
                             LucideIcons.mapPin,
                             size: 16,
-                            color: Colors.white,
+                            color: AppColor.onPrimary,
                           ),
                           Expanded(
                             child: Text(
@@ -171,7 +172,7 @@ class _LectureState extends State<Lecture> {
                               widget.location.split(" , ").length == 1
                                   ? widget.location
                                   : widget.location.split(" , ").join(", "),
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(color: AppColor.onPrimary),
                             ),
                           ),
                         ],
@@ -185,7 +186,7 @@ class _LectureState extends State<Lecture> {
           expanded
               ? Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColor.surface,
                     boxShadow: [BoxShadow()],
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(12),

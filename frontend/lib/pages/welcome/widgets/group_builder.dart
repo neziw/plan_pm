@@ -46,7 +46,7 @@ class _GroupBuilderState extends State<GroupBuilder> {
                     convertLetterToGroup(letter.key),
                     style: TextStyle(
                       fontSize: 14,
-                      color: Colors.black.withAlpha(150),
+                      color: AppColor.onBackgroundVariant,
                     ),
                   ),
                 ],
@@ -64,15 +64,15 @@ class _GroupBuilderState extends State<GroupBuilder> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         backgroundColor: isSelected
-                            ? AppColor.light.primary
-                            : Colors.white,
+                            ? AppColor.primary
+                            : AppColor.surface,
                         foregroundColor: isSelected
-                            ? Colors.white
-                            : Colors.black,
+                            ? AppColor.onPrimary
+                            : AppColor.onSurface,
                         side: BorderSide(
                           color: isSelected
-                              ? Colors.blue
-                              : Colors.black.withAlpha(50),
+                              ? AppColor.primary
+                              : AppColor.outline,
                         ),
                       ),
                       onPressed: () {

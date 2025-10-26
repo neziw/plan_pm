@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/global/notifiers.dart';
 import 'package:plan_pm/global/student.dart';
 import 'package:plan_pm/global/widgets/navigation_bar.dart';
@@ -74,7 +75,7 @@ class App extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               theme: ThemeData(
                 fontFamily: "Inter",
-                colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+                colorScheme: ColorScheme.fromSeed(seedColor: AppColor.primary),
               ),
               home: skipWelcome.data == true
                   ? skipStudent.data == true
@@ -113,16 +114,17 @@ class _MyHomePageState extends State<MyHomePage> {
     return ValueListenableBuilder(
       builder: (context, selectedTab, child) {
         return Scaffold(
-          backgroundColor: Color(0xf7f8faFF),
+          backgroundColor: AppColor.background,
           appBar: AppBar(
             forceMaterialTransparency: true,
-            shape: Border(
-              bottom: BorderSide(color: Colors.black.withAlpha(20)),
-            ),
+            shape: Border(bottom: BorderSide(color: AppColor.outline)),
             // Tytul jest brany dynamicznie z listy pages.
             title: Text(
               pages[selectedTab]['title'],
-              style: TextStyle(fontWeight: FontWeight.w600),
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: AppColor.onBackground,
+              ),
             ),
           ),
           bottomNavigationBar: CustomNavigationBar(),

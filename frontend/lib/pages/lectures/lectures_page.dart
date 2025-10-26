@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plan_pm/api/models/lecture_model.dart';
+import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/pages/lectures/widgets/day_selection.dart';
 import 'package:plan_pm/pages/lectures/widgets/lecture.dart';
 import 'package:plan_pm/service/backend_service.dart';
@@ -89,7 +90,7 @@ class _LecturesPageState extends State<LecturesPage> {
                       children: [
                         Text(
                           "${lectures.length} zajęcia",
-                          style: TextStyle(color: Colors.black.withAlpha(100)),
+                          style: TextStyle(color: AppColor.onBackgroundVariant),
                         ),
                       ],
                     ),

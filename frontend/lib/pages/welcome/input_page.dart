@@ -122,34 +122,15 @@ class _InputPageState extends State<InputPage> {
       "Żegluga Śródlądowa": ["Brak specjalizacji"],
     };
 
-    // final Map<String, List<int?>> specialisationLength = {
-    //   "Programowanie": [1, 1],
-    //   "Programowanie systemów informatycznych": [1, null],
-    //   "Programowanie systemów multimedialnych": [3, 3],
-    //   "Sztuczna Inteligencja": [1, 1],
-    //   "Logistyka i Zarządzanie w Europejskim Systemie Transportowym": [3, 4],
-    //   "Eksploatacja systemów łączności": [3, null],
-    //   "Logistyka Łańcuchów Dostaw": [null, 1],
-    //   "Logistyka Offshore": [1, 1],
-    //   "Logistyka Przedsiębiorstw": [3, 4],
-    //   "Eksploatacja Portów i Floty Morskiej": [3, 4],
-    //   "Logistyka Transportu Zintegrowanego": [3, null],
-    //   "Zarządzanie Zasobami Ludzkimi": [null, null, 3],
-    //   "Organizacja i Zarządzanie w Gospodarce Morskiej":[null, null, 0],
-    //   "Zarządzanie Zautomatyzowanymi Systemami Produkcyjnymi": [null, 1],
-    //   "Zarządzanie Jakością Produkcji i Usług": [3, 4],
-    //   "Zarządzanie Innowacjami w Produkcji i Usługach": [3, 4],
-    //   "Utrzymanie Ruchu w Przemyśle 4.0": [4, null]
-    //   "Ekspolatacja siłowni wiatrowych": []
-
-    // };
-
     return Scaffold(
       appBar: AppBar(
-        shape: Border(bottom: BorderSide(color: Colors.black.withAlpha(20))),
+        shape: Border(bottom: BorderSide(color: AppColor.outline)),
         title: Text(
           "Ustawienia studiów",
-          style: TextStyle(fontWeight: FontWeight.w600),
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            color: AppColor.onBackground,
+          ),
         ),
       ),
       floatingActionButtonLocation:
@@ -162,23 +143,29 @@ class _InputPageState extends State<InputPage> {
             Expanded(
               child: SizedBox(
                 height: 50,
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(color: Colors.black.withAlpha(50)),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadiusGeometry.circular(16),
+                child: Container(
+                  color: AppColor.surface,
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      side: BorderSide(color: AppColor.outline),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadiusGeometry.circular(16),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              const MyHomePage(title: "Plan PM"),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      "Pomiń",
+                      style: TextStyle(color: AppColor.onSurface),
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const MyHomePage(title: "Plan PM"),
-                      ),
-                    );
-                  },
-                  child: Text("Pomiń", style: TextStyle(color: Colors.black)),
                 ),
               ),
             ),
@@ -187,7 +174,7 @@ class _InputPageState extends State<InputPage> {
                 height: 50,
                 child: FilledButton(
                   style: FilledButton.styleFrom(
-                    backgroundColor: AppColor.light.primary,
+                    backgroundColor: AppColor.primary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadiusGeometry.circular(16),
                     ),
@@ -267,7 +254,7 @@ class _InputPageState extends State<InputPage> {
                   "Wybierz swój wydział, kierunek i tryb, aby spersonalizować plan zajęć",
                   style: TextStyle(
                     fontSize: 14,
-                    color: Colors.black.withAlpha(150),
+                    color: AppColor.onBackgroundVariant,
                   ),
                 ),
                 SizedBox(height: 10),
@@ -275,7 +262,6 @@ class _InputPageState extends State<InputPage> {
                   controller: facultyController,
                   label: "Wydział",
                   icon: LucideIcons.school,
-                  color: Colors.blue,
                   hint: "Wybierz wydział",
                   itemList: faculties,
                   onChanged: (value) {
@@ -297,7 +283,6 @@ class _InputPageState extends State<InputPage> {
                   enabled: selectedFaculty == "" ? false : true,
                   label: "Kierunek studiów",
                   icon: LucideIcons.bookOpen,
-                  color: Colors.green,
                   hint: "Wybierz kierunek studiów",
                   itemList: selectedFaculty != ""
                       ? degreeCourse[selectedFaculty]!
@@ -324,7 +309,6 @@ class _InputPageState extends State<InputPage> {
                   buttonLabels: ["I", "II", "III", "IV"],
                   buttonAmount: 4,
                   icon: LucideIcons.graduationCap,
-                  color: Colors.purple,
                   label: "Aktualny Rok",
                 ),
                 SizedBox(height: 10),
@@ -337,7 +321,6 @@ class _InputPageState extends State<InputPage> {
                             : true,
                         label: "Specjalizacja",
                         icon: LucideIcons.glasses,
-                        color: Colors.orange,
                         hint: "Wybierz specjalizacje",
                         itemList:
                             selectedFaculty != "" && selectedDegreeCourse != ""
@@ -363,7 +346,6 @@ class _InputPageState extends State<InputPage> {
                   buttonLabels: ["Stacjonarne", "Zaoczne"],
                   buttonAmount: 2,
                   icon: LucideIcons.graduationCap,
-                  color: Colors.red,
                   label: "Tryb studiów",
                 ),
 

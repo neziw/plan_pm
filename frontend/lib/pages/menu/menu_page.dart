@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:plan_pm/pages/home/widgets/group_info.dart';
-import 'package:plan_pm/pages/home/widgets/student_info.dart';
+import 'package:plan_pm/global/colors.dart';
+import 'package:plan_pm/pages/menu/widgets/group_info.dart';
+import 'package:plan_pm/pages/menu/widgets/student_info.dart';
 import 'package:plan_pm/pages/welcome/welcome_page.dart';
 
 class MenuPage extends StatelessWidget {
@@ -18,19 +19,62 @@ class MenuPage extends StatelessWidget {
           children: [
             StudentInfo(),
             GroupInfo(),
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const WelcomePage(),
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Debug",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: AppColor.onBackground,
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: AppColor.surface,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: AppColor.outline),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Powrót do",
+                              style: TextStyle(color: AppColor.onSurface),
+                            ),
+                            SizedBox(
+                              child: FilledButton(
+                                style: FilledButton.styleFrom(
+                                  backgroundColor: AppColor.primary,
+                                ),
+                                onPressed: () {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const WelcomePage(),
+                                    ),
+                                  );
+                                },
+                                child: Text(
+                                  "Welcome screen",
+                                  style: TextStyle(color: AppColor.onPrimary),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  );
-                },
-                child: Text("Powrót do WelcomeScreen"),
-              ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

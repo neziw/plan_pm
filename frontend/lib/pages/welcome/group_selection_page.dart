@@ -43,24 +43,30 @@ class GroupSelectionPage extends StatelessWidget {
             Expanded(
               child: SizedBox(
                 height: 50,
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(color: Colors.black.withAlpha(50)),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadiusGeometry.circular(16),
+                child: Container(
+                  color: AppColor.surface,
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      side: BorderSide(color: AppColor.outline),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadiusGeometry.circular(16),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              const MyHomePage(title: "Plan PM"),
+                        ),
+                        (r) => false,
+                      );
+                    },
+                    child: Text(
+                      "Pomiń",
+                      style: TextStyle(color: AppColor.onSurface),
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const MyHomePage(title: "Plan PM"),
-                      ),
-                      (r) => false,
-                    );
-                  },
-                  child: Text("Pomiń", style: TextStyle(color: Colors.black)),
                 ),
               ),
             ),
@@ -69,7 +75,7 @@ class GroupSelectionPage extends StatelessWidget {
                 height: 50,
                 child: FilledButton(
                   style: FilledButton.styleFrom(
-                    backgroundColor: AppColor.light.primary,
+                    backgroundColor: AppColor.primary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadiusGeometry.circular(16),
                     ),
@@ -99,10 +105,13 @@ class GroupSelectionPage extends StatelessWidget {
         ),
       ),
       appBar: AppBar(
-        shape: Border(bottom: BorderSide(color: Colors.black.withAlpha(20))),
+        shape: Border(bottom: BorderSide(color: AppColor.outline)),
         title: Text(
           "Ustawienia studiów",
-          style: TextStyle(fontWeight: FontWeight.w600),
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            color: AppColor.onBackground,
+          ),
         ),
       ),
       body: Padding(
@@ -115,7 +124,7 @@ class GroupSelectionPage extends StatelessWidget {
                 "Na podstawie Twoich ustawień studiów pobraliśmy dostępne grupy. Wybierz jedną lub wiele, aby śledzić kilka planów.",
                 style: TextStyle(
                   fontSize: 14,
-                  color: Colors.black.withAlpha(150),
+                  color: AppColor.onBackgroundVariant,
                 ),
               ),
               FutureBuilder(
@@ -123,12 +132,12 @@ class GroupSelectionPage extends StatelessWidget {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Container(
-                      color: Colors.white,
+                      color: AppColor.surface,
                       child: DottedBorder(
                         options: RoundedRectDottedBorderOptions(
                           radius: Radius.circular(12),
                           dashPattern: [10, 5],
-                          color: Colors.black.withAlpha(100),
+                          color: AppColor.outline,
                         ),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -136,13 +145,13 @@ class GroupSelectionPage extends StatelessWidget {
                             spacing: 5,
                             children: [
                               LoadingAnimationWidget.progressiveDots(
-                                color: Colors.black.withAlpha(75),
+                                color: AppColor.onSurfaceVariant,
                                 size: 48,
                               ),
                               Text(
                                 "Ładowanie grup...",
                                 style: TextStyle(
-                                  color: Colors.black.withAlpha(100),
+                                  color: AppColor.onSurfaceVariant,
                                 ),
                               ),
                             ],

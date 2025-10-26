@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:plan_pm/global/colors.dart';
 
 List<String> daysShort = ["Pon", "Wt", "Śr", "Czw", "Pt"];
 List<String> days = ["poniedziałek", "wtorek", "środa", "czwartek", "piątek"];
@@ -54,7 +55,7 @@ class _DaySelectionState extends State<DaySelection> {
                 },
                 icon: Icon(
                   LucideIcons.chevronLeft,
-                  color: Colors.blueGrey[400],
+                  color: AppColor.onBackgroundVariant,
                 ),
               ),
               Text(
@@ -76,7 +77,7 @@ class _DaySelectionState extends State<DaySelection> {
                 },
                 icon: Icon(
                   LucideIcons.chevronRight,
-                  color: Colors.blueGrey[400],
+                  color: AppColor.onBackgroundVariant,
                 ),
               ),
             ],
@@ -84,9 +85,9 @@ class _DaySelectionState extends State<DaySelection> {
         ),
         Container(
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.black.withAlpha(50)),
+            border: Border.all(color: AppColor.outline),
             borderRadius: BorderRadius.all(Radius.circular(10)),
-            color: Colors.white,
+            color: AppColor.surface,
           ),
 
           child: Row(
@@ -100,7 +101,7 @@ class _DaySelectionState extends State<DaySelection> {
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             padding: EdgeInsets.zero,
-                            backgroundColor: Colors.blue,
+                            backgroundColor: AppColor.primary,
                             side: BorderSide.none,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(6),
@@ -112,7 +113,7 @@ class _DaySelectionState extends State<DaySelection> {
                             textAlign: TextAlign.center,
                             softWrap: false,
                             style: TextStyle(
-                              color: Colors.white,
+                              color: AppColor.surface,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -134,7 +135,7 @@ class _DaySelectionState extends State<DaySelection> {
                         child: Text(
                           daysShort[index],
                           textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.grey[700]),
+                          style: TextStyle(color: AppColor.onSurfaceVariant),
                         ),
                       ),
                     ),

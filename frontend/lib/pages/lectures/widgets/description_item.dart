@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plan_pm/global/colors.dart';
 
 class DescriptionItem extends StatelessWidget {
   const DescriptionItem({
@@ -17,8 +18,9 @@ class DescriptionItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Color(0xf4f5f8FF),
+        color: AppColor.background,
         borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColor.outline),
       ),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -35,9 +37,15 @@ class DescriptionItem extends StatelessWidget {
                 children: [
                   Text(
                     name,
-                    style: TextStyle(color: Colors.black.withAlpha(180)),
+                    style: TextStyle(color: AppColor.onBackgroundVariant),
                   ),
-                  Text(content, style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text(
+                    content,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: AppColor.onBackground,
+                    ),
+                  ),
                 ],
               ),
             ),

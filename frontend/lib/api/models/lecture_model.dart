@@ -83,7 +83,13 @@ class LectureModel {
       building: building,
       group: json["group"] as String,
       professor: professors,
-      date: DateTime(timeFrom.year, timeFrom.month, timeFrom.day),
+      date: DateTime(
+        timeFrom.year,
+        timeFrom.month,
+        timeFrom.day,
+        timeFrom.hour,
+        timeFrom.minute,
+      ),
     );
   }
 
