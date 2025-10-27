@@ -60,7 +60,11 @@ class _DaySelectionState extends State<DaySelection> {
               ),
               Text(
                 DateFormat("d MMMM").format(currentDate),
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: AppColor.onPrimary,
+                ),
               ),
               IconButton(
                 onPressed: () {
@@ -113,7 +117,7 @@ class _DaySelectionState extends State<DaySelection> {
                             textAlign: TextAlign.center,
                             softWrap: false,
                             style: TextStyle(
-                              color: AppColor.surface,
+                              color: AppColor.onPrimary,
                               fontWeight: FontWeight.bold,
                             ),
                           ),

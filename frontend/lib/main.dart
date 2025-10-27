@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/global/notifiers.dart';
@@ -73,6 +74,7 @@ class App extends StatelessWidget {
           future: skipStudentInfo(),
           builder: (context, skipStudent) {
             return MaterialApp(
+              themeMode: ThemeMode.system,
               title: 'Plan PM',
               debugShowCheckedModeBanner: false,
               theme: ThemeData(
@@ -118,6 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
         return Scaffold(
           backgroundColor: AppColor.background,
           appBar: AppBar(
+            backgroundColor: AppColor.background,
             actions: <Widget>[
               IconButton(
                 onPressed: () {
@@ -126,7 +129,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     MaterialPageRoute(builder: (context) => MenuPage()),
                   );
                 },
-                icon: Icon(LucideIcons.settings),
+                icon: Icon(
+                  LucideIcons.settings,
+                  color: AppColor.onBackgroundVariant,
+                ),
               ),
             ],
             forceMaterialTransparency: true,

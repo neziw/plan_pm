@@ -70,7 +70,10 @@ class WelcomePage extends StatelessWidget {
                       Text(
                         stages[index]["title"]!,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: AppColor.onBackground,
+                        ),
                       ),
                     ],
                   ),
@@ -78,7 +81,7 @@ class WelcomePage extends StatelessWidget {
                   FilledButton(
                     style: FilledButton.styleFrom(
                       minimumSize: Size(double.infinity, 50.0),
-                      backgroundColor: stages[index]["color"],
+                      backgroundColor: stages[index]["color"].withAlpha(100),
                     ),
                     onPressed: () async {
                       if (index == stages.length - 1) {

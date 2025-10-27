@@ -29,7 +29,9 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
             border: Border(top: BorderSide(color: AppColor.outline)),
           ),
           child: BottomNavigationBar(
+            backgroundColor: AppColor.background,
             selectedItemColor: AppColor.primary,
+            unselectedItemColor: AppColor.onBackgroundVariant,
             currentIndex: selectedTabNotifier,
             onTap: setSelectedTab,
             items: [

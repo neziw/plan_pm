@@ -28,8 +28,8 @@ class DescriptionItem extends StatelessWidget {
           spacing: 10,
           children: [
             CircleAvatar(
-              backgroundColor: color.withAlpha(40),
-              child: Icon(icon),
+              backgroundColor: color.withAlpha(AppColor.colorfulAlphaValue),
+              child: Icon(icon, color: AppColor.onPrimaryVariant),
             ),
             Expanded(
               child: Column(

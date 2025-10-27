@@ -49,7 +49,11 @@ class _TodayLecturesState extends State<TodayLectures> {
       children: [
         Text(
           "Twoje najblizsze zajęcia",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            color: AppColor.onBackground,
+          ),
         ),
         FutureBuilder<List<LectureModel>>(
           future: _backendService.fetchLectures(),
@@ -61,7 +65,11 @@ class _TodayLecturesState extends State<TodayLectures> {
             }
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Container(
-                color: AppColor.surface,
+                decoration: BoxDecoration(
+                  color: AppColor.surface,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+
                 child: DottedBorder(
                   options: RoundedRectDottedBorderOptions(
                     radius: Radius.circular(12),
@@ -170,9 +178,8 @@ class NoUpcomingClasses extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 1,
-      borderRadius: BorderRadius.circular(12),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
       child: DottedBorder(
         options: RoundedRectDottedBorderOptions(
           dashPattern: [10, 5],
@@ -180,7 +187,6 @@ class NoUpcomingClasses extends StatelessWidget {
           color: AppColor.outline,
         ),
         child: Container(
-          width: double.infinity,
           decoration: BoxDecoration(
             color: AppColor.surface,
             borderRadius: BorderRadius.circular(12),
@@ -199,7 +205,11 @@ class NoUpcomingClasses extends StatelessWidget {
                 ),
                 Text(
                   "Brak zajęć na dziś",
-                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18,
+                    color: AppColor.onSurface,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),

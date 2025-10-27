@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/pages/menu/widgets/group_info.dart';
 import 'package:plan_pm/pages/menu/widgets/student_info.dart';
@@ -12,6 +13,17 @@ class MenuPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColor.background,
       appBar: AppBar(
+        backgroundColor: AppColor.background,
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            LucideIcons.chevronLeft,
+            color: AppColor.onBackgroundVariant,
+          ),
+        ),
         title: Text(
           "Ustawienia",
           style: TextStyle(

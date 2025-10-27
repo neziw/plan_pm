@@ -29,7 +29,7 @@ class StudentInfo extends StatelessWidget {
               height: 35,
               child: ThemedOutlineButton(
                 onPressed: () {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const InputPage()),
                   );

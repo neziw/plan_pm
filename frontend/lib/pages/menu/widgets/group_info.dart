@@ -29,7 +29,7 @@ class GroupInfo extends StatelessWidget {
               height: 35,
               child: ThemedOutlineButton(
                 onPressed: () {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const GroupSelectionPage(),
@@ -79,7 +79,7 @@ class GroupInfo extends StatelessWidget {
                                 .map(
                                   (g) => Container(
                                     decoration: BoxDecoration(
-                                      color: AppColor.surface,
+                                      color: AppColor.background,
                                       borderRadius: BorderRadius.circular(12),
                                       border: Border.all(
                                         color: AppColor.outline,
@@ -96,12 +96,20 @@ class GroupInfo extends StatelessWidget {
                                             .trim()
                                             .replaceAll("(", "")
                                             .replaceAll(")", ""),
+                                        style: TextStyle(
+                                          color: AppColor.onSurface,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 )
                                 .toList()
-                          : [Text("Brak danych")],
+                          : [
+                              Text(
+                                "Brak danych",
+                                style: TextStyle(color: AppColor.onSurface),
+                              ),
+                            ],
                     ),
                     SizedBox(height: 5),
                   ],

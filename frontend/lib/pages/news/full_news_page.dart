@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
 
 class FullNewsPage extends StatelessWidget {
@@ -20,7 +21,28 @@ class FullNewsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Szczegóły")),
+      backgroundColor: AppColor.background,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            LucideIcons.chevronLeft,
+            color: AppColor.onBackgroundVariant,
+          ),
+        ),
+        backgroundColor: AppColor.background,
+        shape: Border(bottom: BorderSide(color: AppColor.outline)),
+        title: Text(
+          "Szczegóły",
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            color: AppColor.onBackground,
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(10.0),

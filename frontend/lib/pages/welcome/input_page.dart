@@ -123,7 +123,19 @@ class _InputPageState extends State<InputPage> {
     };
 
     return Scaffold(
+      backgroundColor: AppColor.background,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            LucideIcons.chevronLeft,
+            color: AppColor.onBackgroundVariant,
+          ),
+        ),
+        backgroundColor: AppColor.background,
         shape: Border(bottom: BorderSide(color: AppColor.outline)),
         title: Text(
           "Ustawienia studiów",
@@ -144,12 +156,16 @@ class _InputPageState extends State<InputPage> {
               child: SizedBox(
                 height: 50,
                 child: Container(
-                  color: AppColor.surface,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: AppColor.surface,
+                  ),
+
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
                       side: BorderSide(color: AppColor.outline),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadiusGeometry.circular(16),
+                        borderRadius: BorderRadius.circular(16),
                       ),
                     ),
                     onPressed: () {
@@ -175,6 +191,9 @@ class _InputPageState extends State<InputPage> {
                 child: FilledButton(
                   style: FilledButton.styleFrom(
                     backgroundColor: AppColor.primary,
+                    disabledBackgroundColor: AppColor.surface,
+                    foregroundColor: AppColor.onPrimary,
+                    disabledForegroundColor: AppColor.onSurface,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadiusGeometry.circular(16),
                     ),

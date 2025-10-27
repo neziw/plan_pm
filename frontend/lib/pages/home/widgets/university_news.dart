@@ -12,7 +12,11 @@ class UniversityNews extends StatelessWidget {
       children: [
         Text(
           "Nowości z uczelni",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            color: AppColor.onBackground,
+          ),
         ),
         NewsCard(
           title: "Pierwsze beta testy aplikacji PM-APP ruszyły!",

@@ -97,6 +97,7 @@ class _LectureState extends State<Lecture> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: AppColor.surface,
       child: Column(
         children: [
           Material(

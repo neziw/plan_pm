@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plan_pm/api/models/lecture_model.dart';
 import 'package:plan_pm/global/colors.dart';
+import 'package:plan_pm/pages/home/widgets/today_lectures.dart';
 import 'package:plan_pm/pages/lectures/widgets/day_selection.dart';
 import 'package:plan_pm/pages/lectures/widgets/lecture.dart';
 import 'package:plan_pm/service/backend_service.dart';
@@ -54,33 +55,33 @@ class _LecturesPageState extends State<LecturesPage> {
             },
           ),
         ),
-        Expanded(
-          child: FutureBuilder<List<LectureModel>>(
-            future: _backendService.fetchLectures(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Center(
-                  child: Text('Błąd w FutureBuilder ${snapshot.error}'),
-                );
-              }
-              final unfilteredLectures = snapshot.data ?? [];
-              // print(snapshot.data);
-              if (unfilteredLectures.isEmpty &&
-                  snapshot.connectionState == ConnectionState.done) {
-                return Center(child: Text("No data"));
-              }
+        FutureBuilder<List<LectureModel>>(
+          future: _backendService.fetchLectures(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Center(
+                child: Text('Błąd w FutureBuilder ${snapshot.error}'),
+              );
+            }
+            final unfilteredLectures = snapshot.data ?? [];
+            // print(snapshot.data);
+            if (unfilteredLectures.isEmpty &&
+                snapshot.connectionState == ConnectionState.done) {
+              return NoUpcomingClasses();
+            }
 
-              final lectures = unfilteredLectures.where((lecture) {
-                final lectureDate = lecture.date;
-                return lectureDate.year == currentDate.year &&
-                    lectureDate.month == currentDate.month &&
-                    lectureDate.day == currentDate.day;
-              }).toList();
-              if (lectures.isEmpty) {
-                return Center(child: Text("No data for today"));
-              }
+            final lectures = unfilteredLectures.where((lecture) {
+              final lectureDate = lecture.date;
+              return lectureDate.year == currentDate.year &&
+                  lectureDate.month == currentDate.month &&
+                  lectureDate.day == currentDate.day;
+            }).toList();
+            if (lectures.isEmpty) {
+              return NoUpcomingClasses();
+            }
 
-              return Padding(
+            return Expanded(
+              child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
                   spacing: 10,
@@ -124,9 +125,9 @@ class _LecturesPageState extends State<LecturesPage> {
                     ),
                   ],
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ],
     );
