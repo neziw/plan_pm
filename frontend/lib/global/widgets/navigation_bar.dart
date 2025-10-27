@@ -35,15 +35,15 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
             items: [
               BottomNavigationBarItem(
                 icon: Icon(LucideIcons.home),
-                label: "Home",
+                label: "Strona główna",
               ),
               BottomNavigationBarItem(
                 icon: Icon(LucideIcons.calendar),
-                label: "Lectures",
+                label: "Zajęcia",
               ),
               BottomNavigationBarItem(
-                icon: Icon(LucideIcons.menuSquare),
-                label: "Menu",
+                icon: Icon(LucideIcons.newspaper),
+                label: "Nowości",
               ),
             ],
           ),

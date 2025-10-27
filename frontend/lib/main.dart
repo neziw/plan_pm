@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/global/notifiers.dart';
 import 'package:plan_pm/global/student.dart';
@@ -6,6 +7,7 @@ import 'package:plan_pm/global/widgets/navigation_bar.dart';
 import 'package:plan_pm/pages/home/home_page.dart';
 import 'package:plan_pm/pages/lectures/lectures_page.dart';
 import 'package:plan_pm/pages/menu/menu_page.dart';
+import 'package:plan_pm/pages/news/news_page.dart';
 import 'package:plan_pm/pages/welcome/input_page.dart';
 import 'package:plan_pm/pages/welcome/welcome_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -104,7 +106,7 @@ class MyHomePage extends StatefulWidget {
 List<Map<String, dynamic>> pages = [
   {"widget": const HomePage(), "title": "Strona główna"},
   {"widget": const LecturesPage(), "title": "Zajęcia"},
-  {"widget": const MenuPage(), "title": "Menu"},
+  {"widget": const NewsPage(), "title": "Nowości"},
 ];
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -116,6 +118,17 @@ class _MyHomePageState extends State<MyHomePage> {
         return Scaffold(
           backgroundColor: AppColor.background,
           appBar: AppBar(
+            actions: <Widget>[
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MenuPage()),
+                  );
+                },
+                icon: Icon(LucideIcons.settings),
+              ),
+            ],
             forceMaterialTransparency: true,
             shape: Border(bottom: BorderSide(color: AppColor.outline)),
             // Tytul jest brany dynamicznie z listy pages.
