@@ -47,7 +47,6 @@ dependencies:
   # Provides localizations and translations for Flutter's built-in widgets.
   flutter_localizations:
     sdk: flutter
-  intl: any
 
 dev_dependencies:
   flutter_launcher_icons: ^0.14.4
