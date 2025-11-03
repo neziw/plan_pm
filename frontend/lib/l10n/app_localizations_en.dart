@@ -98,43 +98,43 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dataNaN => 'No data';
 
   @override
-  String get studySettings => 'Ustawienia studiów';
+  String get studySettings => 'Study settings';
 
   @override
-  String get skipButton => 'Pomiń';
+  String get skipButton => 'Skip';
 
   @override
-  String get fullTimeStudy => 'Stacjonarne';
+  String get fullTimeStudy => 'Full-time study';
 
   @override
-  String get partTimeStudy => 'Niestacjonarne';
+  String get partTimeStudy => 'Part-time study';
 
   @override
-  String get groupSelection => 'Wybór grupy';
+  String get groupSelection => 'Group selection';
 
   @override
   String get groupSelectionHint =>
-      'Na podstawie Twoich ustawień studiów pobraliśmy dostępne grupy. Wybierz jedną lub wiele, aby śledzić kilka planów.';
+      'Based on your study settings, we have downloaded the available groups. Select one or more to follow multiple schedules.';
 
   @override
-  String get groupLoading => 'Ładowanie grup...';
+  String get groupLoading => 'Loading groups...';
 
   @override
-  String get groupSettings => 'Ustawienia studiów';
+  String get groupSettings => 'Study settings';
 
   @override
-  String get save => 'Zapisz';
+  String get save => 'Save';
 
   @override
   String get todayDataNaN => 'No data for today';
 
   @override
   String lecturesPageErrorMess(Object snapshotError) {
-    return 'Błąd w FutureBuilder $snapshotError';
+    return 'Error in FutureBuilder $snapshotError';
   }
 
   @override
   String lectureLength(Object lecturesLength) {
-    return '$lecturesLength zajęcia';
+    return '$lecturesLength classes';
   }
 }

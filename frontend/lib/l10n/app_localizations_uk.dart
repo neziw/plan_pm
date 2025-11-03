@@ -99,43 +99,43 @@ class AppLocalizationsUk extends AppLocalizations {
   String get dataNaN => 'Немає даних';
 
   @override
-  String get studySettings => 'Ustawienia studiów';
+  String get studySettings => 'Налаштування навчання';
 
   @override
-  String get skipButton => 'Pomiń';
+  String get skipButton => 'Пропустити';
 
   @override
-  String get fullTimeStudy => 'Stacjonarne';
+  String get fullTimeStudy => 'Денна форма';
 
   @override
-  String get partTimeStudy => 'Niestacjonarne';
+  String get partTimeStudy => 'Заочна форма';
 
   @override
-  String get groupSelection => 'Wybór grupy';
+  String get groupSelection => 'Вибір групи';
 
   @override
   String get groupSelectionHint =>
-      'Na podstawie Twoich ustawień studiów pobraliśmy dostępne grupy. Wybierz jedną lub wiele, aby śledzić kilka planów.';
+      'На основі ваших налаштувань навчання ми завантажили доступні групи. Оберіть одну або декілька, щоб відстежувати кілька розкладів.';
 
   @override
-  String get groupLoading => 'Ładowanie grup...';
+  String get groupLoading => 'Завантаження груп...';
 
   @override
-  String get groupSettings => 'Ustawienia studiów';
+  String get groupSettings => 'Налаштування навчання';
 
   @override
-  String get save => 'Zapisz';
+  String get save => 'Зберегти';
 
   @override
-  String get todayDataNaN => 'No data for today';
+  String get todayDataNaN => 'Немає даних на сьогодні';
 
   @override
   String lecturesPageErrorMess(Object snapshotError) {
-    return 'Błąd w FutureBuilder $snapshotError';
+    return 'Помилка у FutureBuilder $snapshotError';
   }
 
   @override
   String lectureLength(Object lecturesLength) {
-    return '$lecturesLength zajęcia';
+    return '$lecturesLength заняття';
   }
 }

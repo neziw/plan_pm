@@ -42,7 +42,7 @@
   "specialisationText": "Спеціалізація",
   "yearText": "Курс",
   "typeText": "Форма навчання",
-  "dataNaN": "Немає даних"
+  "dataNaN": "Немає даних",
 
   "studySettings": "Налаштування навчання",
   "skipButton": "Пропустити",
