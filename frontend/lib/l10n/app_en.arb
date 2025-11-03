@@ -43,4 +43,22 @@
   "yearText": "Year",
   "typeText": "Mode of Study",
   "dataNaN": "No data"
+
+  "dataNaN": "No data",
+
+  "studySettings": "Study settings",
+  "skipButton": "Skip",
+  "fullTimeStudy": "Full-time study",
+  "partTimeStudy": "Part-time study",
+  "groupSelection": "Group selection",
+  "groupSelectionHint": "Select your faculty, field of study, and mode to personalize your schedule",
+  
+  "groupLoading": "Loading groups...",
+  "groupSettings": "Study settings",
+  "groupSelectionHint": "Based on your study settings, we have downloaded the available groups. Select one or more to follow multiple schedules.",
+  "save": "Save",
+  
+  "todayDataNaN": "No data for today",
+  "lecturesPageErrorMess": "Error in FutureBuilder {snapshotError}",
+  "lectureLength": "{lecturesLength} classes"
 }

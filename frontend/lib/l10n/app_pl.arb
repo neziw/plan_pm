@@ -42,5 +42,35 @@
   "specialisationText": "Specjalizacja",
   "yearText": "Rok",
   "typeText": "Tryb studiów",
-  "dataNaN": "Brak danych"
+  "dataNaN": "Brak danych",
+
+  "studySettings": "Ustawienia studiów",
+
+  "skipButton": "Pomiń",
+  "fullTimeStudy": "Stacjonarne",
+  "partTimeStudy": "Niestacjonarne",
+  "groupSelection": "Wybór grupy",
+  "groupSelectionHint": "Wybierz swój wydział, kierunek i tryb, aby spersonalizować plan zajęć",
+
+  "groupLoading": "Ładowanie grup...",
+  "groupSettings": "Ustawienia studiów",
+  "groupSelectionHint": "Na podstawie Twoich ustawień studiów pobraliśmy dostępne grupy. Wybierz jedną lub wiele, aby śledzić kilka planów.",
+  "save": "Zapisz",
+
+
+  "todayDataNaN": "No data for today",
+  "lecturesPageErrorMess" : "Błąd w FutureBuilder {snapshotError}",
+  "@lecturesPageErrorMess" : {
+    "type": "text",
+    "placeholders": {
+      "snapshotError": {}
+    }
+  },
+  "lectureLength":"{lecturesLength} zajęcia",
+  "@lectureLength" : {
+    "tpye": "text",
+    "placeholders": {
+      "lecturesLength" : {}
+    }
+  }
 }

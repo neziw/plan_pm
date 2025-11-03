@@ -273,6 +273,78 @@ abstract class AppLocalizations {
   /// In pl, this message translates to:
   /// **'Brak danych'**
   String get dataNaN;
+
+  /// No description provided for @studySettings.
+  ///
+  /// In pl, this message translates to:
+  /// **'Ustawienia studiów'**
+  String get studySettings;
+
+  /// No description provided for @skipButton.
+  ///
+  /// In pl, this message translates to:
+  /// **'Pomiń'**
+  String get skipButton;
+
+  /// No description provided for @fullTimeStudy.
+  ///
+  /// In pl, this message translates to:
+  /// **'Stacjonarne'**
+  String get fullTimeStudy;
+
+  /// No description provided for @partTimeStudy.
+  ///
+  /// In pl, this message translates to:
+  /// **'Niestacjonarne'**
+  String get partTimeStudy;
+
+  /// No description provided for @groupSelection.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wybór grupy'**
+  String get groupSelection;
+
+  /// No description provided for @groupSelectionHint.
+  ///
+  /// In pl, this message translates to:
+  /// **'Na podstawie Twoich ustawień studiów pobraliśmy dostępne grupy. Wybierz jedną lub wiele, aby śledzić kilka planów.'**
+  String get groupSelectionHint;
+
+  /// No description provided for @groupLoading.
+  ///
+  /// In pl, this message translates to:
+  /// **'Ładowanie grup...'**
+  String get groupLoading;
+
+  /// No description provided for @groupSettings.
+  ///
+  /// In pl, this message translates to:
+  /// **'Ustawienia studiów'**
+  String get groupSettings;
+
+  /// No description provided for @save.
+  ///
+  /// In pl, this message translates to:
+  /// **'Zapisz'**
+  String get save;
+
+  /// No description provided for @todayDataNaN.
+  ///
+  /// In pl, this message translates to:
+  /// **'No data for today'**
+  String get todayDataNaN;
+
+  /// No description provided for @lecturesPageErrorMess.
+  ///
+  /// In pl, this message translates to:
+  /// **'Błąd w FutureBuilder {snapshotError}'**
+  String lecturesPageErrorMess(Object snapshotError);
+
+  /// No description provided for @lectureLength.
+  ///
+  /// In pl, this message translates to:
+  /// **'{lecturesLength} zajęcia'**
+  String lectureLength(Object lecturesLength);
 }
 
 class _AppLocalizationsDelegate

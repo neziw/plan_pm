@@ -127,7 +127,7 @@ class _InputPageState extends State<InputPage> {
       appBar: AppBar(
         shape: Border(bottom: BorderSide(color: AppColor.outline)),
         title: Text(
-          "Ustawienia studiów",
+          AppLocalizations.of(context)!.studySettings,
           style: TextStyle(
             fontWeight: FontWeight.w600,
             color: AppColor.onBackground,
@@ -163,7 +163,7 @@ class _InputPageState extends State<InputPage> {
                       );
                     },
                     child: Text(
-                      "Pomiń",
+                      AppLocalizations.of(context)!.skipButton,
                       style: TextStyle(color: AppColor.onSurface),
                     ),
                   ),
@@ -202,8 +202,8 @@ class _InputPageState extends State<InputPage> {
                               ? selectedSpecialisation
                               : null;
                           Student.term = selectedTerm == 1
-                              ? "Stacjonarne"
-                              : "Niestacjonarne";
+                              ? AppLocalizations.of(context)!.fullTimeStudy
+                              : AppLocalizations.of(context)!.partTimeStudy;
                           Student.year = selectedYear;
 
                           final SharedPreferences prefs =
@@ -226,8 +226,8 @@ class _InputPageState extends State<InputPage> {
                           await prefs.setString(
                             "term",
                             selectedTerm == 1
-                                ? "Stacjonarne"
-                                : "Niestacjonarne",
+                                ? AppLocalizations.of(context)!.fullTimeStudy
+                                : AppLocalizations.of(context)!.partTimeStudy,
                           );
 
                           Navigator.push(
@@ -238,7 +238,7 @@ class _InputPageState extends State<InputPage> {
                           );
                         }
                       : null,
-                  child: Text("Wybór grupy"),
+                  child: Text(AppLocalizations.of(context)!.groupSelection),
                 ),
               ),
             ),
@@ -252,7 +252,7 @@ class _InputPageState extends State<InputPage> {
             child: Column(
               children: [
                 Text(
-                  "Wybierz swój wydział, kierunek i tryb, aby spersonalizować plan zajęć",
+                  AppLocalizations.of(context)!.groupSelectionHint,
                   style: TextStyle(
                     fontSize: 14,
                     color: AppColor.onBackgroundVariant,
@@ -261,9 +261,9 @@ class _InputPageState extends State<InputPage> {
                 SizedBox(height: 10),
                 FacultyDropDownMenu(
                   controller: facultyController,
-                  label: "Wydział",
+                  label: AppLocalizations.of(context)!.facultyLabel,
                   icon: LucideIcons.school,
-                  hint: "Wybierz wydział",
+                  hint: AppLocalizations.of(context)!.facultyHintText,
                   itemList: faculties,
                   onChanged: (value) {
                     setState(() {
@@ -282,9 +282,9 @@ class _InputPageState extends State<InputPage> {
                 FacultyDropDownMenu(
                   controller: degreeCourseController,
                   enabled: selectedFaculty == "" ? false : true,
-                  label: "Kierunek studiów",
+                  label: AppLocalizations.of(context)!.fieldLabel,
                   icon: LucideIcons.bookOpen,
-                  hint: "Wybierz kierunek studiów",
+                  hint: AppLocalizations.of(context)!.fieldHintText,
                   itemList: selectedFaculty != ""
                       ? degreeCourse[selectedFaculty]!
                       : [""],
@@ -310,7 +310,7 @@ class _InputPageState extends State<InputPage> {
                   buttonLabels: ["I", "II", "III", "IV"],
                   buttonAmount: 4,
                   icon: LucideIcons.graduationCap,
-                  label: "Aktualny Rok",
+                  label: AppLocalizations.of(context)!.yearLabel,
                 ),
                 SizedBox(height: 10),
                 selectedYear > 2
@@ -320,9 +320,9 @@ class _InputPageState extends State<InputPage> {
                             selectedFaculty == "" || selectedDegreeCourse == ""
                             ? false
                             : true,
-                        label: "Specjalizacja",
+                        label: AppLocalizations.of(context)!.specialisationLabel,
                         icon: LucideIcons.glasses,
-                        hint: "Wybierz specjalizacje",
+                        hint: AppLocalizations.of(context)!.specialisationHintText,
                         itemList:
                             selectedFaculty != "" && selectedDegreeCourse != ""
                             ? specialisations[selectedDegreeCourse] ?? [""]
@@ -344,10 +344,10 @@ class _InputPageState extends State<InputPage> {
                       selectedTerm = term + 1;
                     });
                   },
-                  buttonLabels: ["Stacjonarne", "Zaoczne"],
+                  buttonLabels: [AppLocalizations.of(context)!.campusButton, AppLocalizations.of(context)!.extramuralButton],
                   buttonAmount: 2,
                   icon: LucideIcons.graduationCap,
-                  label: "Tryb studiów",
+                  label: AppLocalizations.of(context)!.typeLabel,
                 ),
 
                 SizedBox(height: 20),

@@ -7,6 +7,7 @@ import 'package:plan_pm/pages/welcome/widgets/group_builder.dart';
 import 'package:plan_pm/service/backend_service.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 
 ButtonStyle buttonStyle = ButtonStyle(
   shape: WidgetStatePropertyAll(
@@ -63,7 +64,7 @@ class GroupSelectionPage extends StatelessWidget {
                       );
                     },
                     child: Text(
-                      "Pomiń",
+                      AppLocalizations.of(context)!.skipButton,
                       style: TextStyle(color: AppColor.onSurface),
                     ),
                   ),
@@ -97,7 +98,7 @@ class GroupSelectionPage extends StatelessWidget {
                       (r) => false,
                     );
                   },
-                  child: Text("Zapisz"),
+                  child: Text(AppLocalizations.of(context)!.save),
                 ),
               ),
             ),
@@ -107,7 +108,7 @@ class GroupSelectionPage extends StatelessWidget {
       appBar: AppBar(
         shape: Border(bottom: BorderSide(color: AppColor.outline)),
         title: Text(
-          "Ustawienia studiów",
+          AppLocalizations.of(context)!.groupSettings,
           style: TextStyle(
             fontWeight: FontWeight.w600,
             color: AppColor.onBackground,
@@ -121,7 +122,7 @@ class GroupSelectionPage extends StatelessWidget {
             spacing: 10,
             children: [
               Text(
-                "Na podstawie Twoich ustawień studiów pobraliśmy dostępne grupy. Wybierz jedną lub wiele, aby śledzić kilka planów.",
+                AppLocalizations.of(context)!.groupSelectionHint,
                 style: TextStyle(
                   fontSize: 14,
                   color: AppColor.onBackgroundVariant,
@@ -149,7 +150,7 @@ class GroupSelectionPage extends StatelessWidget {
                                 size: 48,
                               ),
                               Text(
-                                "Ładowanie grup...",
+                                AppLocalizations.of(context)!.groupLoading,
                                 style: TextStyle(
                                   color: AppColor.onSurfaceVariant,
                                 ),

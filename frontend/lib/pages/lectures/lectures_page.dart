@@ -5,6 +5,7 @@ import 'package:plan_pm/pages/lectures/widgets/day_selection.dart';
 import 'package:plan_pm/pages/lectures/widgets/lecture.dart';
 import 'package:plan_pm/service/backend_service.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 
 class LecturesPage extends StatefulWidget {
   const LecturesPage({super.key});
@@ -60,14 +61,16 @@ class _LecturesPageState extends State<LecturesPage> {
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return Center(
-                  child: Text('Błąd w FutureBuilder ${snapshot.error}'),
+                  // child: Text('Błąd w FutureBuilder ${snapshot.error}'),
+                  child: Text(AppLocalizations.of(context)!.lecturesPageErrorMess(snapshot.error.toString())),
                 );
               }
               final unfilteredLectures = snapshot.data ?? [];
               // print(snapshot.data);
               if (unfilteredLectures.isEmpty &&
                   snapshot.connectionState == ConnectionState.done) {
-                return Center(child: Text("No data"));
+                // return Center(child: Text("No data"));
+                return Center(child: Text(AppLocalizations.of(context)!.dataNaN));
               }
 
               final lectures = unfilteredLectures.where((lecture) {
@@ -77,7 +80,7 @@ class _LecturesPageState extends State<LecturesPage> {
                     lectureDate.day == currentDate.day;
               }).toList();
               if (lectures.isEmpty) {
-                return Center(child: Text("No data for today"));
+                return Center(child: Text(AppLocalizations.of(context)!.todayDataNaN));
               }
 
               return Padding(
@@ -89,7 +92,8 @@ class _LecturesPageState extends State<LecturesPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "${lectures.length} zajęcia",
+                          // "${lectures.length} zajęcia",
+                          AppLocalizations.of(context)!.lectureLength(lectures.length.toString()),
                           style: TextStyle(color: AppColor.onBackgroundVariant),
                         ),
                       ],

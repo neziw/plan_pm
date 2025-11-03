@@ -97,4 +97,45 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get dataNaN => 'Немає даних';
+
+  @override
+  String get studySettings => 'Ustawienia studiów';
+
+  @override
+  String get skipButton => 'Pomiń';
+
+  @override
+  String get fullTimeStudy => 'Stacjonarne';
+
+  @override
+  String get partTimeStudy => 'Niestacjonarne';
+
+  @override
+  String get groupSelection => 'Wybór grupy';
+
+  @override
+  String get groupSelectionHint =>
+      'Na podstawie Twoich ustawień studiów pobraliśmy dostępne grupy. Wybierz jedną lub wiele, aby śledzić kilka planów.';
+
+  @override
+  String get groupLoading => 'Ładowanie grup...';
+
+  @override
+  String get groupSettings => 'Ustawienia studiów';
+
+  @override
+  String get save => 'Zapisz';
+
+  @override
+  String get todayDataNaN => 'No data for today';
+
+  @override
+  String lecturesPageErrorMess(Object snapshotError) {
+    return 'Błąd w FutureBuilder $snapshotError';
+  }
+
+  @override
+  String lectureLength(Object lecturesLength) {
+    return '$lecturesLength zajęcia';
+  }
 }

@@ -43,4 +43,20 @@
   "yearText": "Курс",
   "typeText": "Форма навчання",
   "dataNaN": "Немає даних"
+
+  "studySettings": "Налаштування навчання",
+  "skipButton": "Пропустити",
+  "fullTimeStudy": "Денна форма",
+  "partTimeStudy": "Заочна форма",
+  "groupSelection": "Вибір групи",
+  "groupSelectionHint": "Оберіть свій факультет, напрямок і форму навчання, щоб персоналізувати свій розклад",
+  
+  "groupLoading": "Завантаження груп...",
+  "groupSettings": "Налаштування навчання",
+  "groupSelectionHint": "На основі ваших налаштувань навчання ми завантажили доступні групи. Оберіть одну або декілька, щоб відстежувати кілька розкладів.",
+  "save": "Зберегти",
+  
+  "todayDataNaN": "Немає даних на сьогодні",
+  "lecturesPageErrorMess": "Помилка у FutureBuilder {snapshotError}",
+  "lectureLength": "{lecturesLength} заняття"
 }
