@@ -56,7 +56,7 @@ class _TodayLecturesState extends State<TodayLectures> {
           ),
         ),
         FutureBuilder<List<LectureModel>>(
-          future: _backendService.fetchLectures(),
+          future: _backendService.fetchLectures(DateTime.now()),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(

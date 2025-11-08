@@ -56,7 +56,7 @@ class _LecturesPageState extends State<LecturesPage> {
           ),
         ),
         FutureBuilder<List<LectureModel>>(
-          future: _backendService.fetchLectures(),
+          future: _backendService.fetchLectures(currentDate),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(
@@ -69,6 +69,8 @@ class _LecturesPageState extends State<LecturesPage> {
                 snapshot.connectionState == ConnectionState.done) {
               return NoUpcomingClasses();
             }
+
+            print(unfilteredLectures);
 
             final lectures = unfilteredLectures.where((lecture) {
               final lectureDate = lecture.date;

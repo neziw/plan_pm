@@ -16,17 +16,27 @@ class BackendService {
     });
   }
 
+  String DateTimeToSupabase(DateTime datetime) {
+    return DateFormat(
+      "yyyy-MM-dd",
+    ).format(DateTime(datetime.year, datetime.month, datetime.day));
+  }
+
   factory BackendService() {
     return _backendService;
   }
 
   BackendService._internal();
 
-  Future<List<LectureModel>> fetchLectures() async {
+  Future<List<LectureModel>> fetchLectures(DateTime filterDate) async {
     if (Student.specialisation == null) {
       print("Specjalizacja studenta nie została ustawiona");
     }
     final List<String> selectedGroups = Student.selectedGroups ?? [];
+
+    final today = filterDate;
+    final tomorrow = filterDate.add(Duration(days: 1));
+
     var query = Supabase.instance.client
         .from("classes")
         .select('''
@@ -42,6 +52,8 @@ class BackendService {
           building:building(name)
         )
       ''')
+        .gte('startTime', DateTimeToSupabase(today))
+        .lt('startTime', DateTimeToSupabase(tomorrow))
         .eq("programs.programType", Student.term?[0] ?? "S")
         .eq(
           "programs.name",
@@ -61,7 +73,9 @@ class BackendService {
     // developer.log(data.toString());
 
     // print(data);
-    return data.map((json) => LectureModel.fromJson(json)).toList();
+    final lectures = data.map((json) => LectureModel.fromJson(json)).toList();
+    lectures.sort((a, b) => a.date.compareTo(b.date));
+    return lectures;
   }
 
   Future<List<String>> fetchGroups() async {
