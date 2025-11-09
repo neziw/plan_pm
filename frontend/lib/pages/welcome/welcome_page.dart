@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/pages/welcome/input_page.dart';
@@ -70,10 +71,7 @@ class WelcomePage extends StatelessWidget {
                       Text(
                         stages[index]["title"]!,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          color: AppColor.onBackground,
-                        ),
+                        style: TextStyle(color: AppColor.onSurface),
                       ),
                     ],
                   ),
@@ -84,6 +82,7 @@ class WelcomePage extends StatelessWidget {
                       backgroundColor: stages[index]["color"].withAlpha(100),
                     ),
                     onPressed: () async {
+                      HapticFeedback.lightImpact();
                       if (index == stages.length - 1) {
                         final SharedPreferences prefs =
                             await SharedPreferences.getInstance();
@@ -100,7 +99,10 @@ class WelcomePage extends StatelessWidget {
                         curve: Curves.easeIn,
                       );
                     },
-                    child: Text(stages[index]["buttonLabel"]!),
+                    child: Text(
+                      stages[index]["buttonLabel"]!,
+                      style: TextStyle(color: AppColor.onPrimary),
+                    ),
                   ),
                 ],
               );

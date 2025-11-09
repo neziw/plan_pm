@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
@@ -43,6 +44,7 @@ class _DaySelectionState extends State<DaySelection> {
             children: [
               IconButton(
                 onPressed: () {
+                  HapticFeedback.selectionClick();
                   setState(() {
                     if (currentDate.weekday == 1) {
                       currentDate = currentDate.subtract(Duration(days: 3));
@@ -68,6 +70,7 @@ class _DaySelectionState extends State<DaySelection> {
               ),
               IconButton(
                 onPressed: () {
+                  HapticFeedback.selectionClick();
                   setState(() {
                     if (currentDate.weekday == 5) {
                       currentDate = currentDate.add(Duration(days: 3));
@@ -127,6 +130,7 @@ class _DaySelectionState extends State<DaySelection> {
                   : Expanded(
                       child: TextButton(
                         onPressed: () {
+                          HapticFeedback.selectionClick();
                           setState(() {
                             selectedDay = index;
                             currentDate = currentDate = getDateFromIndex(

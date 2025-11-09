@@ -81,7 +81,7 @@ class App extends StatelessWidget {
                 fontFamily: "Inter",
                 brightness: Brightness.light,
                 colorScheme: ColorScheme.fromSeed(
-                  seedColor: ColorThemes.lightPrimary, // Użyj jasnego primary
+                  seedColor: ColorThemes.lightPrimary,
                   brightness: Brightness.light,
                 ),
               ),
@@ -89,26 +89,17 @@ class App extends StatelessWidget {
                 fontFamily: "Inter",
                 brightness: Brightness.dark,
                 colorScheme: ColorScheme.fromSeed(
-                  seedColor: ColorThemes.darkPrimary, // Użyj ciemnego primary
+                  seedColor: ColorThemes.darkPrimary,
                   brightness: Brightness.dark,
                 ),
               ),
 
-              // --- POPRAWKA 2: DODAJ 'BUILDER' ---
-              // To jest magia. Ten kod uruchomi się, gdy MaterialApp
-              // zdecyduje, którego motywu (jasnego/ciemnego) użyć.
               builder: (context, child) {
-                // Używamy Buildera, aby uzyskać 'innerContext',
-                // który jest *wewnątrz* motywu
                 return Builder(
                   builder: (BuildContext innerContext) {
-                    // 1. Odczytaj, który motyw jest aktywny
                     final brightness = Theme.of(innerContext).brightness;
 
-                    // 2. Ustaw nasz "globalny przełącznik" w AppColor
                     AppColor.update(brightness);
-
-                    // 3. Zwróć resztę aplikacji
                     return child!;
                   },
                 );
@@ -157,6 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
             actions: <Widget>[
               IconButton(
                 onPressed: () {
+                  HapticFeedback.selectionClick();
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => MenuPage()),

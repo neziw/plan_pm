@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/global/student.dart';
@@ -58,6 +59,7 @@ class GroupSelectionPage extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
+                      HapticFeedback.lightImpact();
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
@@ -86,6 +88,7 @@ class GroupSelectionPage extends StatelessWidget {
                     ),
                   ),
                   onPressed: () async {
+                    HapticFeedback.lightImpact();
                     final SharedPreferences prefs =
                         await SharedPreferences.getInstance();
                     await prefs.setStringList(
@@ -102,7 +105,10 @@ class GroupSelectionPage extends StatelessWidget {
                       (r) => false,
                     );
                   },
-                  child: Text("Zapisz"),
+                  child: Text(
+                    "Zapisz",
+                    style: TextStyle(color: AppColor.onPrimary),
+                  ),
                 ),
               ),
             ),

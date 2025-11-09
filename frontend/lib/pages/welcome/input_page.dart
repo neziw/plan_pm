@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/global/student.dart';
@@ -128,6 +129,7 @@ class _InputPageState extends State<InputPage> {
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () {
+            HapticFeedback.lightImpact();
             Navigator.pop(context);
           },
           icon: Icon(
@@ -169,6 +171,7 @@ class _InputPageState extends State<InputPage> {
                       ),
                     ),
                     onPressed: () {
+                      HapticFeedback.lightImpact();
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
@@ -210,6 +213,7 @@ class _InputPageState extends State<InputPage> {
                                 selectedSpecialisation != "" &&
                                 selectedTerm != null)
                       ? () async {
+                          HapticFeedback.lightImpact();
                           Student.degreeCourse = selectedDegreeCourse != ""
                               ? selectedDegreeCourse
                               : null;
@@ -284,6 +288,7 @@ class _InputPageState extends State<InputPage> {
                   hint: "Wybierz wydział",
                   itemList: faculties,
                   onChanged: (value) {
+                    HapticFeedback.lightImpact();
                     setState(() {
                       if (selectedFaculty != value) {
                         selectedFaculty = value!;
@@ -308,6 +313,7 @@ class _InputPageState extends State<InputPage> {
                       : [""],
                   selectedValue: selectedDegreeCourse,
                   onChanged: (value) {
+                    HapticFeedback.lightImpact();
                     setState(() {
                       if (selectedDegreeCourse != value) {
                         selectedDegreeCourse = value!;
@@ -319,6 +325,7 @@ class _InputPageState extends State<InputPage> {
                 SizedBox(height: 20),
                 ButtonSwitch(
                   onValueChanged: (year) {
+                    HapticFeedback.lightImpact();
                     setState(() {
                       selectedYear = year + 1;
                       selectedSpecialisation = "";
@@ -347,6 +354,7 @@ class _InputPageState extends State<InputPage> {
                             : [""],
                         selectedValue: selectedSpecialisation,
                         onChanged: (value) {
+                          HapticFeedback.lightImpact();
                           setState(() {
                             if (selectedSpecialisation != value) {
                               selectedSpecialisation = value!;
@@ -358,6 +366,7 @@ class _InputPageState extends State<InputPage> {
                 SizedBox(height: 10),
                 ButtonSwitch(
                   onValueChanged: (term) {
+                    HapticFeedback.lightImpact();
                     setState(() {
                       selectedTerm = term + 1;
                     });

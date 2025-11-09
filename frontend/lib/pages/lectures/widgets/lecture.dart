@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/pages/lectures/widgets/description_item.dart';
@@ -89,6 +90,7 @@ class _LectureState extends State<Lecture> {
   bool expanded = false;
   void switchExpanded() {
     setState(() {
+      HapticFeedback.lightImpact();
       expanded = !expanded;
     });
   }

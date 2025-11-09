@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/global/student.dart';
@@ -29,6 +30,7 @@ class StudentInfo extends StatelessWidget {
               height: 35,
               child: ThemedOutlineButton(
                 onPressed: () {
+                  HapticFeedback.lightImpact();
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const InputPage()),
@@ -107,18 +109,18 @@ class InfoText extends StatelessWidget {
             title,
             style: TextStyle(fontSize: 14, color: AppColor.onSurfaceVariant),
           ),
-          Row(
-            children: [
-              Text(
-                content ?? "Brak danych",
-                softWrap: true,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: AppColor.onSurface,
-                ),
+          SizedBox(
+            width: double.infinity,
+            child: Text(
+              content ?? "Brak danych",
+              softWrap: true,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: AppColor.onSurface,
               ),
-            ],
+              textAlign: TextAlign.start,
+            ),
           ),
         ],
       ),
