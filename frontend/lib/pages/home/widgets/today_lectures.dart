@@ -178,52 +178,49 @@ class NoUpcomingClasses extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: DottedBorder(
-        options: RoundedRectDottedBorderOptions(
-          dashPattern: [10, 5],
-          radius: Radius.circular(12),
-          color: AppColor.outline,
+    return DottedBorder(
+      options: RoundedRectDottedBorderOptions(
+        dashPattern: [10, 5],
+        radius: Radius.circular(12),
+        color: AppColor.outline,
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColor.surface,
+          borderRadius: BorderRadius.circular(12),
         ),
-        child: Container(
-          decoration: BoxDecoration(
-            color: AppColor.surface,
-            borderRadius: BorderRadius.circular(12),
-          ),
 
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              spacing: 5,
-              children: [
-                Icon(
-                  LucideIcons.calendarX,
-                  size: 32,
-                  color: AppColor.onSurfaceVariant,
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            spacing: 5,
+            children: [
+              Icon(
+                LucideIcons.calendarX,
+                size: 32,
+                color: AppColor.onSurfaceVariant,
+              ),
+              Text(
+                "Brak zajęć na dziś",
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 18,
+                  color: AppColor.onSurface,
                 ),
-                Text(
-                  "Brak zajęć na dziś",
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Text(
+                  "Jesteś na bieżąco! Skorzystaj z wolnego czasu lub przejrzyj swój harmonogram.",
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 18,
-                    color: AppColor.onSurface,
+                    fontSize: 14,
+                    color: AppColor.onSurfaceVariant,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Text(
-                    "Jesteś na bieżąco! Skorzystaj z wolnego czasu lub przejrzyj swój harmonogram.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: AppColor.onSurfaceVariant,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

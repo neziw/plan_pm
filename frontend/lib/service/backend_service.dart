@@ -1,9 +1,9 @@
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:plan_pm/api/models/lecture_model.dart';
+import 'package:plan_pm/api/models/news_model.dart';
 import 'package:plan_pm/global/student.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-// import 'dart:developer' as developer;
 
 class BackendService {
   static final BackendService _backendService = BackendService._internal();
@@ -92,5 +92,33 @@ class BackendService {
         .map((group) => group.values.first as String)
         .toList();
     return data;
+  }
+
+  Future<List<NewsModel>> fetchNews({int limit = 20}) async {
+    final response = await Supabase.instance.client
+        .from("news")
+        .select()
+        .limit(limit);
+    final data = response;
+    if (data.isNotEmpty) {
+      final news = data.map((json) {
+        final id = json["id"] as String;
+        final url = Supabase.instance.client.storage
+            .from("Files")
+            .getPublicUrl("News/$id.png");
+
+        final thumbnail = url != "" ? NetworkImage(url) : null;
+        return NewsModel(
+          id: json["id"] as String,
+          createdAt: DateTime.parse(json["created_at"]),
+          title: json["title"] as String,
+          content: json["content"] as String,
+          messageType: json["message_type"] as String,
+          thumbnail: thumbnail,
+        );
+      }).toList();
+      return news;
+    }
+    return [];
   }
 }

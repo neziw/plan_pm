@@ -67,7 +67,10 @@ class _LecturesPageState extends State<LecturesPage> {
             // print(snapshot.data);
             if (unfilteredLectures.isEmpty &&
                 snapshot.connectionState == ConnectionState.done) {
-              return NoUpcomingClasses();
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: NoUpcomingClasses(),
+              );
             }
 
             print(unfilteredLectures);
@@ -79,7 +82,10 @@ class _LecturesPageState extends State<LecturesPage> {
                   lectureDate.day == currentDate.day;
             }).toList();
             if (lectures.isEmpty) {
-              return NoUpcomingClasses();
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: NoUpcomingClasses(),
+              );
             }
 
             return Expanded(
