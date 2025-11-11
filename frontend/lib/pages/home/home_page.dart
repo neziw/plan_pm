@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:plan_pm/pages/home/widgets/home_section.dart';
 import 'package:plan_pm/pages/home/widgets/today_lectures.dart';
-import 'package:plan_pm/pages/home/widgets/university_news.dart';
+import 'package:plan_pm/pages/news/widgets/news_builder.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -13,7 +14,13 @@ class HomePage extends StatelessWidget {
         child: Column(
           spacing: 20,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[UniversityNews(), TodayLectures()],
+          children: <Widget>[
+            HomeSection(
+              title: "Nowości z uczelni",
+              child: NewsBuilder(limit: 3),
+            ),
+            TodayLectures(),
+          ],
         ),
       ),
     );

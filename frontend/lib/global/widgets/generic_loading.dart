@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:plan_pm/global/colors.dart';
 
-class NewsLoading extends StatelessWidget {
-  const NewsLoading({super.key});
+class GenericLoading extends StatelessWidget {
+  const GenericLoading({super.key, required this.label});
+
+  final String label;
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +30,7 @@ class NewsLoading extends StatelessWidget {
                 color: AppColor.onSurfaceVariant,
                 size: 48,
               ),
-              Text(
-                "Ładowanie aktualności",
-                style: TextStyle(color: AppColor.onSurfaceVariant),
-              ),
+              Text(label, style: TextStyle(color: AppColor.onSurfaceVariant)),
             ],
           ),
         ),

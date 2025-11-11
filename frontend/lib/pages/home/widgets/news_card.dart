@@ -1,63 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:plan_pm/api/models/news_model.dart';
 import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/pages/news/full_news_page.dart';
-import 'package:plan_pm/pages/news/widgets/news_loading.dart';
-import 'package:plan_pm/service/backend_service.dart';
 import 'package:flutter_html/flutter_html.dart';
-
-class UniversityNews extends StatelessWidget {
-  const UniversityNews({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final _backendService = BackendService();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Nowości z uczelni",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-            color: AppColor.onBackground,
-          ),
-        ),
-        FutureBuilder<List<NewsModel>>(
-          future: _backendService.fetchNews(limit: 3),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return Center(
-                child: Text('Błąd w FutureBuilder ${snapshot.error}'),
-              );
-            }
-            if (snapshot.connectionState != ConnectionState.done) {
-              return NewsLoading();
-            }
-            if (snapshot.data != null && snapshot.data!.isEmpty) {
-              return Text("No news for u");
-            }
-            final List<NewsModel> data = snapshot.data!;
-            return Column(
-              children: data
-                  .map(
-                    (news) => NewsCard(
-                      title: news.title,
-                      messageType: news.messageType,
-                      description: news.content,
-                      timestamp: news.createdAt,
-                      image: news.thumbnail,
-                    ),
-                  )
-                  .toList(),
-            );
-          },
-        ),
-      ],
-    );
-  }
-}
 
 class NewsCard extends StatelessWidget {
   const NewsCard({
