@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:plan_pm/global/student.dart';
-import 'package:plan_pm/l10n/app_localizations.dart';
 import 'package:plan_pm/pages/home/widgets/today_lectures.dart';
 import 'package:plan_pm/pages/home/widgets/university_news.dart';
 

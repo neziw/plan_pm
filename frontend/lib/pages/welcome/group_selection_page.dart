@@ -163,7 +163,7 @@ class GroupSelectionPage extends StatelessWidget {
                   }
                   if (snapshot.hasError) {
                     return Center(
-                      child: Text('Błąd w FutureBuilder ${snapshot.error}'),
+                      child: Text(AppLocalizations.of(context)!.pageErrorMess(snapshot.error.toString())),
                     );
                   }
                   if (snapshot.data == null) {

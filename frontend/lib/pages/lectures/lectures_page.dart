@@ -39,7 +39,7 @@ class _LecturesPageState extends State<LecturesPage> {
   @override
   Widget build(BuildContext context) {
     final _backendService = BackendService();
-
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       children: [
         Padding(
@@ -61,16 +61,14 @@ class _LecturesPageState extends State<LecturesPage> {
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return Center(
-                  // child: Text('Błąd w FutureBuilder ${snapshot.error}'),
-                  child: Text(AppLocalizations.of(context)!.lecturesPageErrorMess(snapshot.error.toString())),
+                  child: Text(l10n.pageErrorMess(snapshot.error.toString())),
                 );
               }
               final unfilteredLectures = snapshot.data ?? [];
               // print(snapshot.data);
               if (unfilteredLectures.isEmpty &&
                   snapshot.connectionState == ConnectionState.done) {
-                // return Center(child: Text("No data"));
-                return Center(child: Text(AppLocalizations.of(context)!.dataNaN));
+                return Center(child: Text(l10n.dataNaN));
               }
 
               final lectures = unfilteredLectures.where((lecture) {
@@ -80,7 +78,7 @@ class _LecturesPageState extends State<LecturesPage> {
                     lectureDate.day == currentDate.day;
               }).toList();
               if (lectures.isEmpty) {
-                return Center(child: Text(AppLocalizations.of(context)!.todayDataNaN));
+                return Center(child: Text(l10n.todayDataNaN));
               }
 
               return Padding(
@@ -92,8 +90,7 @@ class _LecturesPageState extends State<LecturesPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          // "${lectures.length} zajęcia",
-                          AppLocalizations.of(context)!.lectureLength(lectures.length.toString()),
+                          l10n.lectureLength(lectures.length),
                           style: TextStyle(color: AppColor.onBackgroundVariant),
                         ),
                       ],

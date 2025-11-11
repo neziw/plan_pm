@@ -1,62 +1,122 @@
 {
-  "stage1Title": " ",
+  "@@locale": "uk",
+
+  "stage1Title": "",
   "stage1Button": "Ласкаво просимо до Plan PM",
 
-  "stage2Title": "Переглядайте всі свої заняття у чіткому тижневому розкладі.",
+  "stage2Title": "Перегляньте всі заняття у зручному тижневому розкладі.",
   "stage2Button": "Далі",
 
-  "stage3Title": "Легко знаходьте аудиторії завдяки детальній інформації про місцезнаходження.",
+  "stage3Title": "Легко знаходьте свої аудиторії завдяки детальній інформації про місцезнаходження.",
   "stage3Button": "Далі",
 
-  "stage4Title": "Отримуйте нагадування перед кожним заняттям, щоб ніколи не пропустити.",
-  "stage4Button": "Почати",
-
+  "stage4Title": "Отримуйте нагадування перед кожним заняттям, щоб ніколи їх не пропустити.",
+  "stage4Button": "Розпочати",
 
   "welcomePageSelectionText": "Повернутися до WelcomeScreen",
   "inputPageSelectionText": "Повернутися до InputPage",
 
-
   "inputPageLabel": "Ваші академічні дані",
   
   "facultyLabel": "Факультет",
-  "facultyHintText": "Оберіть факультет",
+  "facultyHintText": "Виберіть факультет",
 
-  "fieldLabel": "Напрям навчання",
-  "fieldHintText": "Оберіть напрям навчання",
+  "fieldLabel": "Напрямок навчання",
+  "fieldHintText": "Виберіть напрямок навчання",
 
-  "yearLabel": "Курс",
+  "yearLabel": "Поточний рік",
 
   "specialisationLabel" : "Спеціалізація",
-  "specialisationHintText": "Оберіть спеціалізацію",
+  "specialisationHintText": "Виберіть спеціалізацію",
 
   "typeLabel": "Форма навчання",
-  "campusButton": "Денна",
+  
+  "campusButton": "Стаціонарна",
   "extramuralButton": "Заочна",
 
   "continueButton": "Продовжити",
 
-
-  "homePageLabel": "Дані студента: ",
+  "homePageLabel": "Дані студента:",
   "facultyText": "Факультет",
-  "fieldText": "Напрям",
+  "fieldText": "Напрямок",
   "specialisationText": "Спеціалізація",
-  "yearText": "Курс",
+  "yearText": "Рік",
   "typeText": "Форма навчання",
+  
   "dataNaN": "Немає даних",
 
   "studySettings": "Налаштування навчання",
+
   "skipButton": "Пропустити",
-  "fullTimeStudy": "Денна форма",
-  "partTimeStudy": "Заочна форма",
+  
+  "fullTimeStudy": "Стаціонарна",
+  "partTimeStudy": "Нестаціонарна",
+  
   "groupSelection": "Вибір групи",
-  "groupSelectionHint": "Оберіть свій факультет, напрямок і форму навчання, щоб персоналізувати свій розклад",
   
+  "groupSelectionHint": "Виберіть свій факультет, напрямок і форму, щоб персоналізувати розклад занять",
+
   "groupLoading": "Завантаження груп...",
-  "groupSettings": "Налаштування навчання",
-  "groupSelectionHint": "На основі ваших налаштувань навчання ми завантажили доступні групи. Оберіть одну або декілька, щоб відстежувати кілька розкладів.",
-  "save": "Зберегти",
   
-  "todayDataNaN": "Немає даних на сьогодні",
-  "lecturesPageErrorMess": "Помилка у FutureBuilder {snapshotError}",
-  "lectureLength": "{lecturesLength} заняття"
+  "groupSettings": "Налаштування навчання",
+  
+  "groupSelectionHintAfterLoad": "На основі ваших налаштувань навчання ми завантажили доступні групи. Виберіть одну або декілька, щоб відстежувати різні розклади.",
+  
+  "save": "Зберегти",
+
+  "todayDataNaN": "Немає занять на сьогодні",
+  
+  "pageErrorMess" : "Помилка у FutureBuilder {snapshotError}",
+
+  "lectureLength": "{lecturesLength, plural, one{1 заняття} few{{lecturesLength} заняття} many{{lecturesLength} занять} other{{lecturesLength} заняття}}",
+
+  "recentLecture" : "Ваше найближче заняття",
+
+  "lectureLoading" : "Завантаження розкладу",
+
+  "todayLecturesNaN" : "Немає занять на сьогодні",
+
+  "lectureWigetHint" : "Ви в курсі! Скористайтеся вільним часом або перегляньте свій розклад.",
+
+  "daysShortMon": "Пн",
+  "daysShortTue": "Вт",
+  "daysShortWed": "Ср",
+  "daysShortThu": "Чт",
+  "daysShortFri": "Пт",
+
+  "daysMon": "понеділок",
+  "daysTue": "вівторок",
+  "daysWed": "середа",
+  "daysThu": "четвер",
+  "daysFri": "п'ятниця",
+
+  "selectedGroupsHeader": "Вибрані групи",
+
+  "changeGroupsButton": "Змінити групи",
+
+  "selectedGroupsLabel": "Вибрані групи",
+
+  "noDataAvailable": "Дані недоступні",
+
+  "academicInfoHeader": "Академічна інформація",
+
+  "editButton": "Редагувати",
+
+  "studyYear": "{year, plural, one{1 рік} few{{year} роки} many{{year} років} other{{year} року}}",
+
+  "studyModeLabel": "Форма навчання",
+
+  "groupTypeAuditorium": "Аудиторія",
+  "groupTypeClasses": "Практичні заняття",
+  "groupTypeLabs": "Лабораторні роботи",
+  "groupTypeOther": "Інше",
+
+  "pageTitleHome": "Головна",
+  "pageTitleLectures": "Заняття",
+  "pageTitleMenu": "Меню",
+
+  "debugHeader": "Налагодження",
+  "returnToLabel": "Повернутися до",
+  "welcomeScreenButton": "Екран привітання",
+  "inputPageButton": "Екран вводу даних"
 }

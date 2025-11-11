@@ -9,6 +9,7 @@ import 'package:plan_pm/pages/lectures/widgets/lecture.dart';
 import 'package:plan_pm/service/backend_service.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:collection/collection.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 
 List<LectureModel> getClosestLectures(
   List<LectureModel> lectures,
@@ -48,7 +49,7 @@ class _TodayLecturesState extends State<TodayLectures> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Twoje najblizsze zajęcia",
+          AppLocalizations.of(context)!.recentLecture,
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
         FutureBuilder<List<LectureModel>>(
@@ -56,7 +57,7 @@ class _TodayLecturesState extends State<TodayLectures> {
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(
-                child: Text('Błąd w FutureBuilder ${snapshot.error}'),
+                child: Text(AppLocalizations.of(context)!.pageErrorMess(snapshot.error.toString())),
               );
             }
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -78,7 +79,7 @@ class _TodayLecturesState extends State<TodayLectures> {
                           size: 48,
                         ),
                         Text(
-                          "Ładowanie planu",
+                          AppLocalizations.of(context)!.lectureLoading,
                           style: TextStyle(color: AppColor.onSurfaceVariant),
                         ),
                       ],
@@ -198,13 +199,13 @@ class NoUpcomingClasses extends StatelessWidget {
                   color: AppColor.onSurfaceVariant,
                 ),
                 Text(
-                  "Brak zajęć na dziś",
+                  AppLocalizations.of(context)!.todayLecturesNaN,
                   style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Text(
-                    "Jesteś na bieżąco! Skorzystaj z wolnego czasu lub przejrzyj swój harmonogram.",
+                    AppLocalizations.of(context)!.lectureWigetHint,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 14,

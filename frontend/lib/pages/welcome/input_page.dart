@@ -28,6 +28,7 @@ class _InputPageState extends State<InputPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final List<String> faculties = [
       "Wydział Nawigacyjny",
       "Wydział Mechaniczny",
@@ -127,7 +128,7 @@ class _InputPageState extends State<InputPage> {
       appBar: AppBar(
         shape: Border(bottom: BorderSide(color: AppColor.outline)),
         title: Text(
-          AppLocalizations.of(context)!.studySettings,
+          l10n.studySettings,
           style: TextStyle(
             fontWeight: FontWeight.w600,
             color: AppColor.onBackground,
@@ -163,7 +164,7 @@ class _InputPageState extends State<InputPage> {
                       );
                     },
                     child: Text(
-                      AppLocalizations.of(context)!.skipButton,
+                      l10n.skipButton,
                       style: TextStyle(color: AppColor.onSurface),
                     ),
                   ),
@@ -202,8 +203,8 @@ class _InputPageState extends State<InputPage> {
                               ? selectedSpecialisation
                               : null;
                           Student.term = selectedTerm == 1
-                              ? AppLocalizations.of(context)!.fullTimeStudy
-                              : AppLocalizations.of(context)!.partTimeStudy;
+                              ? l10n.fullTimeStudy
+                              : l10n.partTimeStudy;
                           Student.year = selectedYear;
 
                           final SharedPreferences prefs =
@@ -226,8 +227,8 @@ class _InputPageState extends State<InputPage> {
                           await prefs.setString(
                             "term",
                             selectedTerm == 1
-                                ? AppLocalizations.of(context)!.fullTimeStudy
-                                : AppLocalizations.of(context)!.partTimeStudy,
+                                ? l10n.fullTimeStudy
+                                : l10n.partTimeStudy,
                           );
 
                           Navigator.push(
@@ -238,7 +239,7 @@ class _InputPageState extends State<InputPage> {
                           );
                         }
                       : null,
-                  child: Text(AppLocalizations.of(context)!.groupSelection),
+                  child: Text(l10n.groupSelection),
                 ),
               ),
             ),
@@ -252,7 +253,7 @@ class _InputPageState extends State<InputPage> {
             child: Column(
               children: [
                 Text(
-                  AppLocalizations.of(context)!.groupSelectionHint,
+                  l10n.groupSelectionHint,
                   style: TextStyle(
                     fontSize: 14,
                     color: AppColor.onBackgroundVariant,
@@ -261,9 +262,9 @@ class _InputPageState extends State<InputPage> {
                 SizedBox(height: 10),
                 FacultyDropDownMenu(
                   controller: facultyController,
-                  label: AppLocalizations.of(context)!.facultyLabel,
+                  label: l10n.facultyLabel,
                   icon: LucideIcons.school,
-                  hint: AppLocalizations.of(context)!.facultyHintText,
+                  hint: l10n.facultyHintText,
                   itemList: faculties,
                   onChanged: (value) {
                     setState(() {
@@ -282,9 +283,9 @@ class _InputPageState extends State<InputPage> {
                 FacultyDropDownMenu(
                   controller: degreeCourseController,
                   enabled: selectedFaculty == "" ? false : true,
-                  label: AppLocalizations.of(context)!.fieldLabel,
+                  label: l10n.fieldLabel,
                   icon: LucideIcons.bookOpen,
-                  hint: AppLocalizations.of(context)!.fieldHintText,
+                  hint: l10n.fieldHintText,
                   itemList: selectedFaculty != ""
                       ? degreeCourse[selectedFaculty]!
                       : [""],
@@ -310,7 +311,7 @@ class _InputPageState extends State<InputPage> {
                   buttonLabels: ["I", "II", "III", "IV"],
                   buttonAmount: 4,
                   icon: LucideIcons.graduationCap,
-                  label: AppLocalizations.of(context)!.yearLabel,
+                  label: l10n.yearLabel,
                 ),
                 SizedBox(height: 10),
                 selectedYear > 2
@@ -320,9 +321,9 @@ class _InputPageState extends State<InputPage> {
                             selectedFaculty == "" || selectedDegreeCourse == ""
                             ? false
                             : true,
-                        label: AppLocalizations.of(context)!.specialisationLabel,
+                        label: l10n.specialisationLabel,
                         icon: LucideIcons.glasses,
-                        hint: AppLocalizations.of(context)!.specialisationHintText,
+                        hint: l10n.specialisationHintText,
                         itemList:
                             selectedFaculty != "" && selectedDegreeCourse != ""
                             ? specialisations[selectedDegreeCourse] ?? [""]
@@ -344,10 +345,10 @@ class _InputPageState extends State<InputPage> {
                       selectedTerm = term + 1;
                     });
                   },
-                  buttonLabels: [AppLocalizations.of(context)!.campusButton, AppLocalizations.of(context)!.extramuralButton],
+                  buttonLabels: [l10n.campusButton, l10n.extramuralButton],
                   buttonAmount: 2,
                   icon: LucideIcons.graduationCap,
-                  label: AppLocalizations.of(context)!.typeLabel,
+                  label: l10n.typeLabel,
                 ),
 
                 SizedBox(height: 20),

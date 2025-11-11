@@ -4,12 +4,14 @@ import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/global/student.dart';
 import 'package:plan_pm/global/widgets/themed_outline_button.dart';
 import 'package:plan_pm/pages/welcome/input_page.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 
 class StudentInfo extends StatelessWidget {
   const StudentInfo({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       spacing: 5,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -18,7 +20,7 @@ class StudentInfo extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "Informacje akademickie",
+              l10n.academicInfoHeader,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
@@ -34,7 +36,7 @@ class StudentInfo extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => const InputPage()),
                   );
                 },
-                label: "Edytuj",
+                label: l10n.editButton,
                 icon: LucideIcons.edit3,
               ),
             ),
@@ -49,21 +51,21 @@ class StudentInfo extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              InfoText(title: "Wydział", content: Student.faculty),
+              InfoText(title: l10n.facultyLabel, content: Student.faculty),
               Divider(
                 height: 1,
                 thickness: 1,
                 indent: 12,
                 color: AppColor.outline,
               ),
-              InfoText(title: "Kierunek", content: Student.degreeCourse),
+              InfoText(title: l10n.fieldLabel, content: Student.degreeCourse),
               Divider(
                 height: 1,
                 thickness: 1,
                 indent: 12,
                 color: AppColor.outline,
               ),
-              InfoText(title: "Specjalizacja", content: Student.specialisation),
+              InfoText(title: l10n.specialisationLabel, content: Student.specialisation),
               Divider(
                 height: 1,
                 thickness: 1,
@@ -71,8 +73,8 @@ class StudentInfo extends StatelessWidget {
                 color: AppColor.outline,
               ),
               InfoText(
-                title: "Rok studiów",
-                content: "${Student.year.toString()} rok",
+                title: l10n.yearLabel,
+                content: l10n.studyYear(Student.year ?? 0),
               ),
               Divider(
                 height: 1,
@@ -80,7 +82,7 @@ class StudentInfo extends StatelessWidget {
                 indent: 12,
                 color: AppColor.outline,
               ),
-              InfoText(title: "Tryb studiów", content: Student.term),
+              InfoText(title: l10n.studyModeLabel, content: Student.term),
               SizedBox(height: 5),
             ],
           ),
@@ -98,6 +100,7 @@ class InfoText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.only(left: 12, right: 12, top: 12, bottom: 5),
       child: Column(
@@ -110,7 +113,7 @@ class InfoText extends StatelessWidget {
           Row(
             children: [
               Text(
-                content ?? "Brak danych",
+                content ?? l10n.dataNaN,
                 softWrap: true,
                 style: TextStyle(
                   fontSize: 16,

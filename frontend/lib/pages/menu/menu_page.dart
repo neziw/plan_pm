@@ -11,6 +11,7 @@ class MenuPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: SizedBox(
@@ -26,7 +27,7 @@ class MenuPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Debug",
+                  l10n.debugHeader,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
@@ -48,7 +49,7 @@ class MenuPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Powrót do",
+                              l10n.returnToLabel,
                               style: TextStyle(color: AppColor.onSurface),
                             ),
                             SizedBox(
@@ -65,7 +66,7 @@ class MenuPage extends StatelessWidget {
                                   );
                                 },
                                 child: Text(
-                                  "Welcome screen",
+                                  l10n.inputPageButton,
                                   style: TextStyle(color: AppColor.onPrimary),
                                 ),
                               ),
