@@ -11,6 +11,8 @@ import 'package:plan_pm/pages/menu/menu_page.dart';
 import 'package:plan_pm/pages/news/news_page.dart';
 import 'package:plan_pm/pages/welcome/input_page.dart';
 import 'package:plan_pm/pages/welcome/welcome_page.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -105,6 +107,17 @@ class App extends StatelessWidget {
                 );
               },
 
+              localizationsDelegates: [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: [
+              Locale('en'), // English
+              Locale('pl'), // Polish
+              Locale('uk'), // Ukrainian
+            ],
               home: skipWelcome.data == true
                   ? skipStudent.data == true
                         ? MyHomePage(title: "Strona główna")

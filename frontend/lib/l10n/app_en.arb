@@ -1,0 +1,46 @@
+{
+  "stage1Title": " ",
+  "stage1Button": "Welcome to Plan PM",
+
+  "stage2Title": "View all your classes in a clear weekly schedule.",
+  "stage2Button": "Next",
+
+  "stage3Title": "Find your destination easily with detailed location information.",
+  "stage3Button": "Next",
+
+  "stage4Title": "Get reminders before each class so you never miss them.",
+  "stage4Button": "Get Started",
+
+
+  "welcomePageSelectionText": "Back to WelcomeScreen",
+  "inputPageSelectionText": "Back to InputPage",
+
+
+  "inputPageLabel": "Your Academic Data",
+  
+  "facultyLabel": "Faculty",
+  "facultyHintText": "Select faculty",
+
+  "fieldLabel": "Field of Study",
+  "fieldHintText": "Select field of study",
+
+  "yearLabel": "Current Year",
+
+  "specialisationLabel" : "Specialization",
+  "specialisationHintText": "Select specialization",
+
+  "typeLabel": "Mode of Study",
+  "campusButton": "Full-time",
+  "extramuralButton": "Part-time",
+
+  "continueButton": "Continue",
+
+
+  "homePageLabel": "Student data is: ",
+  "facultyText": "Faculty",
+  "fieldText": "Field",
+  "specialisationText": "Specialization",
+  "yearText": "Year",
+  "typeText": "Mode of Study",
+  "dataNaN": "No data"
+}

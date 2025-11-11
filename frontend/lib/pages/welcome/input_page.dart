@@ -7,6 +7,7 @@ import 'package:plan_pm/main.dart';
 import 'package:plan_pm/pages/welcome/group_selection_page.dart';
 import 'package:plan_pm/pages/welcome/widgets/button_switch.dart';
 import 'package:plan_pm/pages/welcome/widgets/dropdown_menu.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class InputPage extends StatefulWidget {

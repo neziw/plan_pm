@@ -7,6 +7,8 @@ import 'package:plan_pm/pages/menu/widgets/group_info.dart';
 import 'package:plan_pm/pages/menu/widgets/menu_section.dart';
 import 'package:plan_pm/pages/menu/widgets/student_info.dart';
 import 'package:plan_pm/pages/welcome/welcome_page.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
+import 'package:plan_pm/pages/welcome/input_page.dart';
 
 class MenuPage extends StatelessWidget {
   const MenuPage({super.key});
