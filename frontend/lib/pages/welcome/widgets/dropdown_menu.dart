@@ -62,13 +62,23 @@ class _FacultyDropDownMenuState extends State<FacultyDropDownMenu> {
             menuStyle: MenuStyle(
               backgroundColor: WidgetStatePropertyAll(AppColor.surface),
             ),
+            textStyle: TextStyle(color: AppColor.onSurface),
             width: double.infinity,
             inputDecorationTheme: InputDecorationTheme(
-              fillColor: AppColor.surface,
+              hintStyle: TextStyle(color: AppColor.onSurfaceVariant),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: AppColor.outline),
                 borderRadius: BorderRadius.all(Radius.circular(12)),
               ),
+
+              disabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: AppColor.outline),
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+              ),
+              filled: true,
+              fillColor: AppColor.surface,
+              helperStyle: TextStyle(color: Colors.red),
+
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(12)),
               ),
@@ -77,10 +87,13 @@ class _FacultyDropDownMenuState extends State<FacultyDropDownMenu> {
             dropdownMenuEntries: widget.itemList
                 .map(
                   (faculty) => DropdownMenuEntry(
+                    style: MenuItemButton.styleFrom(
+                      foregroundColor: AppColor.onSurface,
+                    ),
                     value: faculty,
                     label: faculty,
                     leadingIcon: faculty == widget.selectedValue
-                        ? Icon(Icons.check)
+                        ? Icon(Icons.check, color: AppColor.onSurfaceVariant)
                         : null,
                   ),
                 )

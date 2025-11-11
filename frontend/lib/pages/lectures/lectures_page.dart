@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/api/models/lecture_model.dart';
 import 'package:plan_pm/global/colors.dart';
+import 'package:plan_pm/global/widgets/generic_no_resource.dart';
 import 'package:plan_pm/pages/lectures/widgets/day_selection.dart';
 import 'package:plan_pm/pages/lectures/widgets/lecture.dart';
 import 'package:plan_pm/service/backend_service.dart';
@@ -54,33 +56,38 @@ class _LecturesPageState extends State<LecturesPage> {
             },
           ),
         ),
-        Expanded(
-          child: FutureBuilder<List<LectureModel>>(
-            future: _backendService.fetchLectures(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Center(
-                  child: Text('Błąd w FutureBuilder ${snapshot.error}'),
-                );
-              }
-              final unfilteredLectures = snapshot.data ?? [];
-              // print(snapshot.data);
-              if (unfilteredLectures.isEmpty &&
-                  snapshot.connectionState == ConnectionState.done) {
-                return Center(child: Text("No data"));
-              }
+        FutureBuilder<List<LectureModel>>(
+          future: _backendService.fetchLectures(currentDate),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Center(
+                child: Text('Błąd w FutureBuilder ${snapshot.error}'),
+              );
+            }
 
-              final lectures = unfilteredLectures.where((lecture) {
-                final lectureDate = lecture.date;
-                return lectureDate.year == currentDate.year &&
-                    lectureDate.month == currentDate.month &&
-                    lectureDate.day == currentDate.day;
-              }).toList();
-              if (lectures.isEmpty) {
-                return Center(child: Text("No data for today"));
-              }
+            final unfilteredLectures = snapshot.data ?? [];
 
+            final lectures = unfilteredLectures.where((lecture) {
+              final lectureDate = lecture.date;
+              return lectureDate.year == currentDate.year &&
+                  lectureDate.month == currentDate.month &&
+                  lectureDate.day == currentDate.day;
+            }).toList();
+            if (snapshot.connectionState == ConnectionState.done &&
+                lectures.isEmpty) {
               return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GenericNoResource(
+                  label: "Brak zajęć na dziś",
+                  icon: LucideIcons.calendarX,
+                  description:
+                      "Jesteś na bieżąco! Skorzystaj z wolnego czasu lub przejrzyj swój harmonogram.",
+                ),
+              );
+            }
+
+            return Expanded(
+              child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
                   spacing: 10,
@@ -124,9 +131,9 @@ class _LecturesPageState extends State<LecturesPage> {
                     ),
                   ],
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ],
     );

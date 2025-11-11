@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/global/notifiers.dart';
@@ -15,6 +16,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     void setSelectedTab(int index) {
+      HapticFeedback.lightImpact();
       setState(() {
         selectedTab = index;
         Notifiers.selectedTab.value = index;
@@ -29,21 +31,23 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
             border: Border(top: BorderSide(color: AppColor.outline)),
           ),
           child: BottomNavigationBar(
+            backgroundColor: AppColor.background,
             selectedItemColor: AppColor.primary,
+            unselectedItemColor: AppColor.onBackgroundVariant,
             currentIndex: selectedTabNotifier,
             onTap: setSelectedTab,
             items: [
               BottomNavigationBarItem(
                 icon: Icon(LucideIcons.home),
-                label: "Home",
+                label: "Strona główna",
               ),
               BottomNavigationBarItem(
                 icon: Icon(LucideIcons.calendar),
-                label: "Lectures",
+                label: "Zajęcia",
               ),
               BottomNavigationBarItem(
-                icon: Icon(LucideIcons.menuSquare),
-                label: "Menu",
+                icon: Icon(LucideIcons.newspaper),
+                label: "Nowości",
               ),
             ],
           ),

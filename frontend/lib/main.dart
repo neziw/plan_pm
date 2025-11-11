@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/global/notifiers.dart';
 import 'package:plan_pm/global/student.dart';
@@ -6,6 +8,7 @@ import 'package:plan_pm/global/widgets/navigation_bar.dart';
 import 'package:plan_pm/pages/home/home_page.dart';
 import 'package:plan_pm/pages/lectures/lectures_page.dart';
 import 'package:plan_pm/pages/menu/menu_page.dart';
+import 'package:plan_pm/pages/news/news_page.dart';
 import 'package:plan_pm/pages/welcome/input_page.dart';
 import 'package:plan_pm/pages/welcome/welcome_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -73,12 +76,37 @@ class App extends StatelessWidget {
           future: skipStudentInfo(),
           builder: (context, skipStudent) {
             return MaterialApp(
+              themeMode: ThemeMode.system,
               title: 'Plan PM',
               debugShowCheckedModeBanner: false,
               theme: ThemeData(
                 fontFamily: "Inter",
-                colorScheme: ColorScheme.fromSeed(seedColor: AppColor.primary),
+                brightness: Brightness.light,
+                colorScheme: ColorScheme.fromSeed(
+                  seedColor: ColorThemes.lightPrimary,
+                  brightness: Brightness.light,
+                ),
               ),
+              darkTheme: ThemeData(
+                fontFamily: "Inter",
+                brightness: Brightness.dark,
+                colorScheme: ColorScheme.fromSeed(
+                  seedColor: ColorThemes.darkPrimary,
+                  brightness: Brightness.dark,
+                ),
+              ),
+
+              builder: (context, child) {
+                return Builder(
+                  builder: (BuildContext innerContext) {
+                    final brightness = Theme.of(innerContext).brightness;
+
+                    AppColor.update(brightness);
+                    return child!;
+                  },
+                );
+              },
+
               localizationsDelegates: [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
@@ -117,7 +145,7 @@ class MyHomePage extends StatefulWidget {
 List<Map<String, dynamic>> pages = [
   {"widget": const HomePage(), "title": "Strona główna"},
   {"widget": const LecturesPage(), "title": "Zajęcia"},
-  {"widget": const MenuPage(), "title": "Menu"},
+  {"widget": const NewsPage(), "title": "Nowości"},
 ];
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -129,6 +157,22 @@ class _MyHomePageState extends State<MyHomePage> {
         return Scaffold(
           backgroundColor: AppColor.background,
           appBar: AppBar(
+            backgroundColor: AppColor.background,
+            actions: <Widget>[
+              IconButton(
+                onPressed: () {
+                  HapticFeedback.selectionClick();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MenuPage()),
+                  );
+                },
+                icon: Icon(
+                  LucideIcons.settings,
+                  color: AppColor.onBackgroundVariant,
+                ),
+              ),
+            ],
             forceMaterialTransparency: true,
             shape: Border(bottom: BorderSide(color: AppColor.outline)),
             // Tytul jest brany dynamicznie z listy pages.

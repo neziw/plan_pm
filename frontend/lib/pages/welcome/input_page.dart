@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/global/student.dart';
@@ -124,7 +125,20 @@ class _InputPageState extends State<InputPage> {
     };
 
     return Scaffold(
+      backgroundColor: AppColor.background,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: () {
+            HapticFeedback.lightImpact();
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            LucideIcons.chevronLeft,
+            color: AppColor.onBackgroundVariant,
+          ),
+        ),
+        backgroundColor: AppColor.background,
         shape: Border(bottom: BorderSide(color: AppColor.outline)),
         title: Text(
           "Ustawienia studiów",
@@ -145,15 +159,20 @@ class _InputPageState extends State<InputPage> {
               child: SizedBox(
                 height: 50,
                 child: Container(
-                  color: AppColor.surface,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: AppColor.surface,
+                  ),
+
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
                       side: BorderSide(color: AppColor.outline),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadiusGeometry.circular(16),
+                        borderRadius: BorderRadius.circular(16),
                       ),
                     ),
                     onPressed: () {
+                      HapticFeedback.lightImpact();
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
@@ -176,6 +195,9 @@ class _InputPageState extends State<InputPage> {
                 child: FilledButton(
                   style: FilledButton.styleFrom(
                     backgroundColor: AppColor.primary,
+                    disabledBackgroundColor: AppColor.surface,
+                    foregroundColor: AppColor.onPrimary,
+                    disabledForegroundColor: AppColor.onSurface,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadiusGeometry.circular(16),
                     ),
@@ -192,6 +214,7 @@ class _InputPageState extends State<InputPage> {
                                 selectedSpecialisation != "" &&
                                 selectedTerm != null)
                       ? () async {
+                          HapticFeedback.lightImpact();
                           Student.degreeCourse = selectedDegreeCourse != ""
                               ? selectedDegreeCourse
                               : null;
@@ -266,6 +289,7 @@ class _InputPageState extends State<InputPage> {
                   hint: "Wybierz wydział",
                   itemList: faculties,
                   onChanged: (value) {
+                    HapticFeedback.lightImpact();
                     setState(() {
                       if (selectedFaculty != value) {
                         selectedFaculty = value!;
@@ -290,6 +314,7 @@ class _InputPageState extends State<InputPage> {
                       : [""],
                   selectedValue: selectedDegreeCourse,
                   onChanged: (value) {
+                    HapticFeedback.lightImpact();
                     setState(() {
                       if (selectedDegreeCourse != value) {
                         selectedDegreeCourse = value!;
@@ -301,6 +326,7 @@ class _InputPageState extends State<InputPage> {
                 SizedBox(height: 20),
                 ButtonSwitch(
                   onValueChanged: (year) {
+                    HapticFeedback.lightImpact();
                     setState(() {
                       selectedYear = year + 1;
                       selectedSpecialisation = "";
@@ -329,6 +355,7 @@ class _InputPageState extends State<InputPage> {
                             : [""],
                         selectedValue: selectedSpecialisation,
                         onChanged: (value) {
+                          HapticFeedback.lightImpact();
                           setState(() {
                             if (selectedSpecialisation != value) {
                               selectedSpecialisation = value!;
@@ -340,6 +367,7 @@ class _InputPageState extends State<InputPage> {
                 SizedBox(height: 10),
                 ButtonSwitch(
                   onValueChanged: (term) {
+                    HapticFeedback.lightImpact();
                     setState(() {
                       selectedTerm = term + 1;
                     });

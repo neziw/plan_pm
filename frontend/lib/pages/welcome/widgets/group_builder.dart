@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/global/student.dart';
 
@@ -76,6 +77,7 @@ class _GroupBuilderState extends State<GroupBuilder> {
                         ),
                       ),
                       onPressed: () {
+                        HapticFeedback.lightImpact();
                         setState(() {
                           if (isSelected) {
                             selectedGroups.remove(g["long"]);

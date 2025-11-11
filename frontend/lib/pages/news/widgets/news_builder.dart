@@ -1,0 +1,51 @@
+import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
+import 'package:plan_pm/api/models/news_model.dart';
+import 'package:plan_pm/global/widgets/generic_loading.dart';
+import 'package:plan_pm/global/widgets/generic_no_resource.dart';
+import 'package:plan_pm/pages/home/widgets/news_card.dart';
+import 'package:plan_pm/service/backend_service.dart';
+
+class NewsBuilder extends StatelessWidget {
+  const NewsBuilder({super.key, this.limit = 9999});
+
+  final int? limit;
+
+  @override
+  Widget build(BuildContext context) {
+    final _backendService = BackendService();
+    return FutureBuilder<List<NewsModel>>(
+      future: _backendService.fetchNews(limit: limit!),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(child: Text('Błąd w FutureBuilder ${snapshot.error}'));
+        }
+        if (snapshot.connectionState != ConnectionState.done) {
+          return GenericLoading(label: "Ładowanie aktualności");
+        }
+        if (snapshot.data != null && snapshot.data!.isEmpty) {
+          return GenericNoResource(
+            label: "Brak aktualności",
+            icon: LucideIcons.calendarX,
+            description:
+                "Brak nowych wiadomości. Sprawdź później, aby zobaczyć aktualizacje.",
+          );
+        }
+        final List<NewsModel> data = snapshot.data!;
+        return Column(
+          children: data
+              .map(
+                (news) => NewsCard(
+                  title: news.title,
+                  messageType: news.messageType,
+                  description: news.content,
+                  timestamp: news.createdAt,
+                  image: news.thumbnail,
+                ),
+              )
+              .toList(),
+        );
+      },
+    );
+  }
+}

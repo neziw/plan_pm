@@ -1,5 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/global/student.dart';
 import 'package:plan_pm/main.dart';
@@ -33,6 +35,7 @@ class GroupSelectionPage extends StatelessWidget {
     final _backendService = BackendService();
     Student.selectedGroups = [];
     return Scaffold(
+      backgroundColor: AppColor.background,
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterFloat,
       floatingActionButton: Padding(
@@ -44,15 +47,19 @@ class GroupSelectionPage extends StatelessWidget {
               child: SizedBox(
                 height: 50,
                 child: Container(
-                  color: AppColor.surface,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: AppColor.surface,
+                  ),
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
                       side: BorderSide(color: AppColor.outline),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadiusGeometry.circular(16),
+                        borderRadius: BorderRadius.circular(16),
                       ),
                     ),
                     onPressed: () {
+                      HapticFeedback.lightImpact();
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
@@ -81,6 +88,7 @@ class GroupSelectionPage extends StatelessWidget {
                     ),
                   ),
                   onPressed: () async {
+                    HapticFeedback.lightImpact();
                     final SharedPreferences prefs =
                         await SharedPreferences.getInstance();
                     await prefs.setStringList(
@@ -97,7 +105,10 @@ class GroupSelectionPage extends StatelessWidget {
                       (r) => false,
                     );
                   },
-                  child: Text("Zapisz"),
+                  child: Text(
+                    "Zapisz",
+                    style: TextStyle(color: AppColor.onPrimary),
+                  ),
                 ),
               ),
             ),
@@ -105,6 +116,17 @@ class GroupSelectionPage extends StatelessWidget {
         ),
       ),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            LucideIcons.chevronLeft,
+            color: AppColor.onBackgroundVariant,
+          ),
+        ),
+        backgroundColor: AppColor.background,
         shape: Border(bottom: BorderSide(color: AppColor.outline)),
         title: Text(
           "Ustawienia studiów",
@@ -132,7 +154,10 @@ class GroupSelectionPage extends StatelessWidget {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Container(
-                      color: AppColor.surface,
+                      decoration: BoxDecoration(
+                        color: AppColor.surface,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                       child: DottedBorder(
                         options: RoundedRectDottedBorderOptions(
                           radius: Radius.circular(12),
