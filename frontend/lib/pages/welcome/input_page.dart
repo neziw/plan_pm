@@ -3,12 +3,17 @@ import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/global/student.dart';
+import 'package:plan_pm/global/widgets/generic_loading.dart';
+import 'package:plan_pm/global/widgets/generic_no_resource.dart';
 import 'package:plan_pm/main.dart';
 import 'package:plan_pm/pages/welcome/group_selection_page.dart';
 import 'package:plan_pm/pages/welcome/widgets/button_switch.dart';
 import 'package:plan_pm/pages/welcome/widgets/dropdown_menu.dart';
 import 'package:plan_pm/l10n/app_localizations.dart';
+import 'package:plan_pm/service/backend_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+typedef UniversityData = Map<String, Map<String, List<String>>>;
 
 class InputPage extends StatefulWidget {
   const InputPage({super.key});
@@ -21,109 +26,38 @@ class _InputPageState extends State<InputPage> {
   String selectedFaculty = "";
   String selectedDegreeCourse = "";
   String selectedSpecialisation = "";
-  TextEditingController facultyController = TextEditingController();
-  TextEditingController degreeCourseController = TextEditingController();
-  TextEditingController specialisationController = TextEditingController();
+
   int selectedYear = 0;
   int? selectedTerm;
 
+  TextEditingController facultyController = TextEditingController();
+  TextEditingController degreeCourseController = TextEditingController();
+  TextEditingController specialisationController = TextEditingController();
+
+  final _backendService = BackendService();
+
+  late Future<UniversityData> _futureUniversityStructure;
+  UniversityData? _universityStructureData;
+
+  @override
+  void initState() {
+    super.initState();
+    _futureUniversityStructure = _backendService.fetchStructure().then((data) {
+      _universityStructureData = data;
+      return data;
+    });
+  }
+
+  @override
+  void dispose() {
+    facultyController.dispose();
+    degreeCourseController.dispose();
+    specialisationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final List<String> faculties = [
-      "Wydział Nawigacyjny",
-      "Wydział Mechaniczny",
-      "Wydział Inzynieryjno-Ekonomiczny Transportu",
-      "Wydział Informatyki i Telekomunikacji",
-      "Wydział Mechatroniki i Elektrotechniki",
-    ];
-
-    final Map<String, List<String>> degreeCourse = {
-      "Wydział Informatyki i Telekomunikacji": [
-        "Informatyka",
-        "Teleinformatyka",
-      ],
-      "Wydział Inzynieryjno-Ekonomiczny Transportu": [
-        "Logistyka",
-        "Transport",
-        "Zarządzanie",
-        "Zarządzanie i Inzynieria Produkcji",
-      ],
-      "Wydział Mechaniczny": [
-        "Inżynieria Modelowania Przestrzennego",
-        "Inżynieria przemysłowa i morskie elektrownie wiatrowe",
-        "Mechanika i Budowa Maszyn",
-      ],
-      "Wydział Mechatroniki i Elektrotechniki": [
-        "Automatyka i robotyka",
-        "Mechatronika",
-      ],
-      "Wydział Nawigacyjny": [
-        "Geodezja i Kartografia",
-        "Geoinformatyka",
-        "Nawigacja",
-        "Oceanotechnika",
-        "Oceanotechnika - Budowa Jachtów i Okrętów",
-        "Żegluga Śródlądowa",
-      ],
-    };
-
-    final Map<String, List<String>> specialisations = {
-      "Informatyka": [
-        "Programowanie",
-        "Programowanie systemów informatycznych",
-        "Programowanie systemów multimedialnych",
-        "Sztuczna Inteligencja",
-      ],
-      "Teleinformatyka": ["Eksploatacja systemów łączności"],
-      "Logistyka": [
-        "Logistyka i Zarządzanie w Europejskim Systemie Transportowym",
-        "Logistyka Łańcuchów Dostaw",
-        "Logistyka Offshore",
-        "Logistyka Przedsiębiorstw",
-      ],
-      "Transport": [
-        "Eksploatacja Portów i Floty Morskiej",
-        "Logistyka Transportu Zintegrowanego",
-      ],
-      "Zarządzanie": [
-        "Organizacja i Zarządzanie w Gospodarce Morskiej",
-        "Zarządzanie Zasobami Ludzkimi",
-      ],
-      "Zarządzanie i Inżynieria Produkcji": [
-        "Utrzymanie Ruchu w Przemyśle 4.0",
-        "Zarządzanie Innowacjami w Produkcji i Usługach",
-        "Zarządzanie Jakością Produkcji i Usług",
-        "Zarządzanie Zautomatyzowanymi Systemami Produkcyjnymi",
-      ],
-      "Inżynieria Modelowania Przestrzennego": ["Brak specjalizacji"],
-      "Inżynieria przemysłowa i morskie elektrownie wiatrowe": [
-        "Ekspolatacja siłowni wiatrowych",
-      ],
-      "Mechanika i Budowa Maszyn": [
-        "Budowa i Eksploatacja Morskich Systemów Energetycznych",
-        "Diagnostyka i Remonty Maszyn i Urządzeń Okrętowych",
-        "Eksploatacja Siłowni Okrętowych",
-      ],
-      "Automatyka i robotyka": ["Brak specjalizacji"],
-      "Mechatronika": ["Mechatronika i Elektrotechnika Przemysłowa"],
-      "Geodezja i Kartografia": ["Geoinformatyka", "Hydrografia"],
-      "Geoinformatyka": ["Brak specjalizacji"],
-      "Nawigacja": [
-        "Eksploatacja Jednostek Pływających Offshore",
-        "Inżynieria Ruchu Morskiego",
-        "Ratownictwo",
-        "Transport Morski",
-      ],
-      "Oceanotechnika": [
-        "Projektowanie i Budowa Jachtów",
-        "Projektowanie i Budowa Statków",
-      ],
-      "Oceanotechnika - Budowa Jachtów i Okrętów": [
-        "Projektowanie i Budowa Okrętów",
-      ],
-      "Żegluga Śródlądowa": ["Brak specjalizacji"],
-    };
-
     return Scaffold(
       backgroundColor: AppColor.background,
       appBar: AppBar(
@@ -211,7 +145,6 @@ class _InputPageState extends State<InputPage> {
                           : selectedFaculty != "" &&
                                 selectedDegreeCourse != "" &&
                                 selectedYear >= 2 &&
-                                selectedSpecialisation != "" &&
                                 selectedTerm != null)
                       ? () async {
                           HapticFeedback.lightImpact();
@@ -281,104 +214,152 @@ class _InputPageState extends State<InputPage> {
                     color: AppColor.onBackgroundVariant,
                   ),
                 ),
-                SizedBox(height: 10),
-                FacultyDropDownMenu(
-                  controller: facultyController,
-                  label: "Wydział",
-                  icon: LucideIcons.school,
-                  hint: "Wybierz wydział",
-                  itemList: faculties,
-                  onChanged: (value) {
-                    HapticFeedback.lightImpact();
-                    setState(() {
-                      if (selectedFaculty != value) {
-                        selectedFaculty = value!;
-                        selectedDegreeCourse = "";
-                        selectedSpecialisation = "";
-                        degreeCourseController.text = "";
-                        specialisationController.text = "";
-                      }
-                    });
-                  },
-                  selectedValue: selectedFaculty,
-                ),
-                SizedBox(height: 20),
-                FacultyDropDownMenu(
-                  controller: degreeCourseController,
-                  enabled: selectedFaculty == "" ? false : true,
-                  label: "Kierunek studiów",
-                  icon: LucideIcons.bookOpen,
-                  hint: "Wybierz kierunek studiów",
-                  itemList: selectedFaculty != ""
-                      ? degreeCourse[selectedFaculty]!
-                      : [""],
-                  selectedValue: selectedDegreeCourse,
-                  onChanged: (value) {
-                    HapticFeedback.lightImpact();
-                    setState(() {
-                      if (selectedDegreeCourse != value) {
-                        selectedDegreeCourse = value!;
-                        specialisationController.text = "";
-                      }
-                    });
-                  },
-                ),
-                SizedBox(height: 20),
-                ButtonSwitch(
-                  onValueChanged: (year) {
-                    HapticFeedback.lightImpact();
-                    setState(() {
-                      selectedYear = year + 1;
-                      selectedSpecialisation = "";
-                      specialisationController.text = "";
-                    });
-                  },
-                  buttonLabels: ["I", "II", "III", "IV"],
-                  buttonAmount: 4,
-                  icon: LucideIcons.graduationCap,
-                  label: "Aktualny Rok",
-                ),
-                SizedBox(height: 10),
-                selectedYear > 2
-                    ? FacultyDropDownMenu(
-                        controller: specialisationController,
-                        enabled:
-                            selectedFaculty == "" || selectedDegreeCourse == ""
-                            ? false
-                            : true,
-                        label: "Specjalizacja",
-                        icon: LucideIcons.glasses,
-                        hint: "Wybierz specjalizacje",
-                        itemList:
-                            selectedFaculty != "" && selectedDegreeCourse != ""
-                            ? specialisations[selectedDegreeCourse] ?? [""]
-                            : [""],
-                        selectedValue: selectedSpecialisation,
-                        onChanged: (value) {
-                          HapticFeedback.lightImpact();
-                          setState(() {
-                            if (selectedSpecialisation != value) {
-                              selectedSpecialisation = value!;
-                            }
-                          });
-                        },
-                      )
-                    : SizedBox(),
-                SizedBox(height: 10),
-                ButtonSwitch(
-                  onValueChanged: (term) {
-                    HapticFeedback.lightImpact();
-                    setState(() {
-                      selectedTerm = term + 1;
-                    });
-                  },
-                  buttonLabels: ["Stacjonarne", "Zaoczne"],
-                  buttonAmount: 2,
-                  icon: LucideIcons.graduationCap,
-                  label: "Tryb studiów",
-                ),
+                FutureBuilder(
+                  future: _futureUniversityStructure,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text('Błąd w FutureBuilder ${snapshot.error}'),
+                      );
+                    }
+                    if (snapshot.connectionState != ConnectionState.done) {
+                      return GenericLoading(
+                        label: "Ładowanie struktury uczelni",
+                      );
+                    }
+                    if (snapshot.data != null && snapshot.data!.isEmpty) {
+                      return GenericNoResource(
+                        label: "Brak aktualności",
+                        icon: LucideIcons.calendarX,
+                        description:
+                            "Struktura uczelni jest pusta. Czy jesteś podłączony do internetu?",
+                      );
+                    }
+                    final facultiesData = snapshot.data!;
+                    final List<String> faculties = facultiesData.keys.toList();
 
-                SizedBox(height: 20),
+                    final List<String> degreeCourses = selectedFaculty != ""
+                        ? facultiesData[selectedFaculty]!.keys.toList()
+                        : <String>[];
+
+                    final List<String> specialisations =
+                        selectedDegreeCourse != ""
+                        ? facultiesData[selectedFaculty]![selectedDegreeCourse]!
+                        : <String>[];
+
+                    return Column(
+                      children: [
+                        SizedBox(height: 10),
+                        FacultyDropDownMenu(
+                          controller: facultyController,
+                          label: "Wydział",
+                          icon: LucideIcons.school,
+                          hint: "Wybierz wydział",
+                          itemList: faculties,
+                          onChanged: (value) {
+                            HapticFeedback.lightImpact();
+                            setState(() {
+                              if (selectedFaculty != value) {
+                                selectedFaculty = value!;
+                                selectedDegreeCourse = "";
+                                selectedSpecialisation = "";
+                                degreeCourseController.text = "";
+                                specialisationController.text = "";
+                              }
+                            });
+                          },
+                          selectedValue: selectedFaculty,
+                        ),
+                        SizedBox(height: 20),
+                        FacultyDropDownMenu(
+                          controller: degreeCourseController,
+                          enabled: selectedFaculty == "" ? false : true,
+                          label: "Kierunek studiów",
+                          icon: LucideIcons.bookOpen,
+                          hint: "Wybierz kierunek studiów",
+                          itemList: selectedFaculty.isNotEmpty
+                              ? degreeCourses
+                              : [],
+                          selectedValue: selectedDegreeCourse,
+                          onChanged: (value) {
+                            HapticFeedback.lightImpact();
+                            setState(() {
+                              if (selectedDegreeCourse != value) {
+                                selectedDegreeCourse = value!;
+                                selectedSpecialisation = "";
+                                specialisationController.text = "";
+                              }
+                            });
+                          },
+                        ),
+                        SizedBox(height: 20),
+                        ButtonSwitch(
+                          onValueChanged: (year) {
+                            HapticFeedback.lightImpact();
+                            setState(() {
+                              selectedYear = year + 1;
+                              selectedSpecialisation = "";
+                              specialisationController.text = "";
+                            });
+                          },
+                          buttonLabels: ["I", "II", "III", "IV"],
+                          buttonAmount: 4,
+                          icon: LucideIcons.graduationCap,
+                          label: "Aktualny Rok",
+                        ),
+                        SizedBox(height: 10),
+                        if (selectedFaculty.isNotEmpty &&
+                            selectedDegreeCourse.isNotEmpty &&
+                            specialisations.isNotEmpty)
+                          FacultyDropDownMenu(
+                            controller: specialisationController,
+                            enabled: true,
+                            label: "Specjalizacja",
+                            icon: LucideIcons.glasses,
+                            hint: "Wybierz specjalizacje",
+                            itemList: specialisations,
+                            selectedValue: selectedSpecialisation,
+                            onChanged: (value) {
+                              HapticFeedback.lightImpact();
+                              setState(() {
+                                selectedSpecialisation = value!;
+                              });
+                            },
+                          )
+                        else if (selectedFaculty.isNotEmpty &&
+                            selectedDegreeCourse.isNotEmpty &&
+                            specialisations.isEmpty)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 8.0,
+                              horizontal: 16.0,
+                            ),
+                            child: Text(
+                              "Brak specjalizacji dla tego kierunku.",
+                              style: TextStyle(
+                                color: AppColor.onSurfaceVariant,
+                              ),
+                            ),
+                          ),
+                        SizedBox(height: 10),
+                        ButtonSwitch(
+                          onValueChanged: (term) {
+                            HapticFeedback.lightImpact();
+                            setState(() {
+                              selectedTerm = term + 1;
+                            });
+                          },
+                          buttonLabels: ["Stacjonarne", "Zaoczne"],
+                          buttonAmount: 2,
+                          icon: LucideIcons.graduationCap,
+                          label: "Tryb studiów",
+                        ),
+
+                        SizedBox(height: 20),
+                      ],
+                    );
+                  },
+                ),
               ],
             ),
           ),

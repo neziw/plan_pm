@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+// import 'dart:developer' as developer;
 import 'package:plan_pm/api/models/lecture_model.dart';
 import 'package:plan_pm/api/models/news_model.dart';
 import 'package:plan_pm/global/student.dart';
@@ -120,5 +121,35 @@ class BackendService {
       return news;
     }
     return [];
+  }
+
+  Future<Map<String, Map<String, List<String>>>> fetchStructure() async {
+    // select f.name as faculty, d.name as degree_course, s.name as specialisation from faculties f join degree_courses d on f.id = d.faculty_id left join specialisations s on d.id = s.degree_course_id;
+    final response = await Supabase.instance.client.from('faculties').select('''
+          name,
+          degree_courses!inner(
+            name,
+            specialisations!left(
+              name
+            )
+          )
+        ''');
+
+    if (response.isNotEmpty) {
+      final data = response;
+      final Map<String, Map<String, List<String>>> facultiesMap = {
+        for (var faculty in data)
+          faculty["name"] as String: {
+            for (var degreeCourse in faculty["degree_courses"])
+              degreeCourse["name"] as String: [
+                for (var specialisation in degreeCourse["specialisations"])
+                  specialisation["name"] as String,
+              ],
+          },
+      };
+      // developer.log(facultiesMap.toString());
+      return facultiesMap;
+    }
+    return {};
   }
 }

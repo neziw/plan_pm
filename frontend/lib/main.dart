@@ -48,9 +48,9 @@ class App extends StatelessWidget {
       Student.term = prefs.getString("term");
       Student.selectedGroups = prefs.getStringList("groups");
 
-      print(
-        'Student(name: ${Student.name ?? ""}, surname: ${Student.surname ?? ""}, course: ${Student.course ?? ""}, faculty: ${Student.faculty ?? ""}, degreeCourse: ${Student.degreeCourse ?? ""}, specialisation: ${Student.specialisation ?? ""}, year: ${Student.year?.toString() ?? ""}, term: ${Student.term ?? ""}, selectedGroups: ${Student.selectedGroups ?? []})',
-      );
+      // print(
+      //   'Student(name: ${Student.name ?? ""}, surname: ${Student.surname ?? ""}, course: ${Student.course ?? ""}, faculty: ${Student.faculty ?? ""}, degreeCourse: ${Student.degreeCourse ?? ""}, specialisation: ${Student.specialisation ?? ""}, year: ${Student.year?.toString() ?? ""}, term: ${Student.term ?? ""}, selectedGroups: ${Student.selectedGroups ?? []})',
+      // );
 
       final bool allNull =
           Student.course == null &&
@@ -108,16 +108,16 @@ class App extends StatelessWidget {
               },
 
               localizationsDelegates: [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: [
-              Locale('en'), // English
-              Locale('pl'), // Polish
-              Locale('uk'), // Ukrainian
-            ],
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: [
+                Locale('en'), // English
+                Locale('pl'), // Polish
+                Locale('uk'), // Ukrainian
+              ],
               home: skipWelcome.data == true
                   ? skipStudent.data == true
                         ? MyHomePage(title: "Strona główna")
