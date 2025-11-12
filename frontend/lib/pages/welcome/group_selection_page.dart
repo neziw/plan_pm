@@ -31,6 +31,7 @@ class GroupSelectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final _backendService = BackendService();
     Student.selectedGroups = [];
     return Scaffold(
@@ -64,7 +65,7 @@ class GroupSelectionPage extends StatelessWidget {
                       );
                     },
                     child: Text(
-                      AppLocalizations.of(context)!.skipButton,
+                      l10n.skipButton,
                       style: TextStyle(color: AppColor.onSurface),
                     ),
                   ),
@@ -98,7 +99,7 @@ class GroupSelectionPage extends StatelessWidget {
                       (r) => false,
                     );
                   },
-                  child: Text(AppLocalizations.of(context)!.save),
+                  child: Text(l10n.save),
                 ),
               ),
             ),
@@ -108,7 +109,7 @@ class GroupSelectionPage extends StatelessWidget {
       appBar: AppBar(
         shape: Border(bottom: BorderSide(color: AppColor.outline)),
         title: Text(
-          AppLocalizations.of(context)!.groupSettings,
+          l10n.groupSettings,
           style: TextStyle(
             fontWeight: FontWeight.w600,
             color: AppColor.onBackground,
@@ -122,7 +123,7 @@ class GroupSelectionPage extends StatelessWidget {
             spacing: 10,
             children: [
               Text(
-                AppLocalizations.of(context)!.groupSelectionHint,
+                l10n.groupSelectionHint,
                 style: TextStyle(
                   fontSize: 14,
                   color: AppColor.onBackgroundVariant,
@@ -150,7 +151,7 @@ class GroupSelectionPage extends StatelessWidget {
                                 size: 48,
                               ),
                               Text(
-                                AppLocalizations.of(context)!.groupLoading,
+                                l10n.groupLoading,
                                 style: TextStyle(
                                   color: AppColor.onSurfaceVariant,
                                 ),
@@ -163,7 +164,7 @@ class GroupSelectionPage extends StatelessWidget {
                   }
                   if (snapshot.hasError) {
                     return Center(
-                      child: Text(AppLocalizations.of(context)!.pageErrorMess(snapshot.error.toString())),
+                      child: Text(l10n.pageErrorMess(snapshot.error.toString())),
                     );
                   }
                   if (snapshot.data == null) {

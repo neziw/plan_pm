@@ -549,6 +549,36 @@ abstract class AppLocalizations {
   /// In pl, this message translates to:
   /// **'Input page'**
   String get inputPageButton;
+
+  /// lecture.dart - Label for the lecture wiget professor header.
+  ///
+  /// In pl, this message translates to:
+  /// **'Professor'**
+  String get professorLabel;
+
+  /// lecture.dart - Label for the lecture wiget group header.
+  ///
+  /// In pl, this message translates to:
+  /// **'Grupa'**
+  String get groupLabel;
+
+  /// lecture.dart - Label for the lecture wiget lecture length header.
+  ///
+  /// In pl, this message translates to:
+  /// **'Czas trwania'**
+  String get lengthLabel;
+
+  /// lecture.dart - Label for the lecture wiget notes header.
+  ///
+  /// In pl, this message translates to:
+  /// **'Notes'**
+  String get notesLabel;
+
+  /// lecture.dart - Label for the lecture wiget if there are no notes.
+  ///
+  /// In pl, this message translates to:
+  /// **'Empty'**
+  String get emptyNotesLabel;
 }
 
 class _AppLocalizationsDelegate

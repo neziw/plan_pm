@@ -42,6 +42,7 @@ class _TodayLecturesState extends State<TodayLectures> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     int idx = 0;
     final _backendService = BackendService();
     return Column(
@@ -49,7 +50,7 @@ class _TodayLecturesState extends State<TodayLectures> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          AppLocalizations.of(context)!.recentLecture,
+          l10n.recentLecture,
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
         FutureBuilder<List<LectureModel>>(
@@ -57,7 +58,7 @@ class _TodayLecturesState extends State<TodayLectures> {
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(
-                child: Text(AppLocalizations.of(context)!.pageErrorMess(snapshot.error.toString())),
+                child: Text(l10n.pageErrorMess(snapshot.error.toString())),
               );
             }
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -79,7 +80,7 @@ class _TodayLecturesState extends State<TodayLectures> {
                           size: 48,
                         ),
                         Text(
-                          AppLocalizations.of(context)!.lectureLoading,
+                          l10n.lectureLoading,
                           style: TextStyle(color: AppColor.onSurfaceVariant),
                         ),
                       ],
@@ -171,6 +172,7 @@ class NoUpcomingClasses extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Material(
       elevation: 1,
       borderRadius: BorderRadius.circular(12),
@@ -199,13 +201,13 @@ class NoUpcomingClasses extends StatelessWidget {
                   color: AppColor.onSurfaceVariant,
                 ),
                 Text(
-                  AppLocalizations.of(context)!.todayLecturesNaN,
+                  l10n.todayLecturesNaN,
                   style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Text(
-                    AppLocalizations.of(context)!.lectureWigetHint,
+                    l10n.lectureWigetHint,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 14,

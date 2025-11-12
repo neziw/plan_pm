@@ -118,5 +118,15 @@
   "debugHeader": "Налагодження",
   "returnToLabel": "Повернутися до",
   "welcomeScreenButton": "Екран привітання",
-  "inputPageButton": "Екран вводу даних"
+  "inputPageButton": "Екран вводу даних",
+
+  "professorLabel": "Професор",
+  "@professorLabel": {
+    "description": "lecture.dart - Label for the lecture wiget professor header."
+  },
+
+  "groupLabel": "Група",
+  "lengthLabel": "Тривалість",
+  "notesLabel": "Нотатки",
+  "emptyNotesLabel": "Пусто"
 }

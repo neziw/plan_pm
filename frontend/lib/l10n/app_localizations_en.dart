@@ -260,4 +260,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get inputPageButton => 'Input page';
+
+  @override
+  String get professorLabel => 'Professor';
+
+  @override
+  String get groupLabel => 'Group';
+
+  @override
+  String get lengthLabel => 'Duration';
+
+  @override
+  String get notesLabel => 'Notes';
+
+  @override
+  String get emptyNotesLabel => 'Empty';
 }

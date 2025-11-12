@@ -379,5 +379,30 @@
   "inputPageButton": "Input page",
   "@inputPageButton": {
     "description": "menu_page.dart - Label for the button that resets navigation to the Input Page."
+  },
+
+  "professorLabel": "Professor",
+  "@professorLabel": {
+    "description": "lecture.dart - Label for the lecture wiget professor header."
+  },
+
+  "groupLabel": "Grupa",
+  "@groupLabel": {
+    "description": "lecture.dart - Label for the lecture wiget group header."
+  },
+
+  "lengthLabel": "Czas trwania",
+  "@lengthLabel": {
+    "description": "lecture.dart - Label for the lecture wiget lecture length header."
+  },
+
+  "notesLabel": "Notes",
+  "@notesLabel": {
+    "description": "lecture.dart - Label for the lecture wiget notes header."
+  },
+
+  "emptyNotesLabel": "Empty",
+  "@emptyNotesLabel": {
+    "description": "lecture.dart - Label for the lecture wiget if there are no notes."
   }
 }

@@ -118,5 +118,11 @@
   "debugHeader": "Debug",
   "returnToLabel": "Return to",
   "welcomeScreenButton": "Welcome screen",
-  "inputPageButton": "Input page"
+  "inputPageButton": "Input page",
+
+  "professorLabel": "Professor",
+  "groupLabel": "Group",
+  "lengthLabel": "Duration",
+  "notesLabel": "Notes",
+  "emptyNotesLabel": "Empty"
 }

@@ -265,4 +265,19 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get inputPageButton => 'Екран вводу даних';
+
+  @override
+  String get professorLabel => 'Професор';
+
+  @override
+  String get groupLabel => 'Група';
+
+  @override
+  String get lengthLabel => 'Тривалість';
+
+  @override
+  String get notesLabel => 'Нотатки';
+
+  @override
+  String get emptyNotesLabel => 'Пусто';
 }
