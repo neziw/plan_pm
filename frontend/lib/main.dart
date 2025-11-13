@@ -13,6 +13,7 @@ import 'package:plan_pm/pages/welcome/input_page.dart';
 import 'package:plan_pm/pages/welcome/welcome_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:plan_pm/l10n/app_localizations.dart';
+import 'package:preload_page_view/preload_page_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -149,47 +150,77 @@ List<Map<String, dynamic>> pages = [
 ];
 
 class _MyHomePageState extends State<MyHomePage> {
+  int _currentIndex = 0;
+  late final PreloadPageController _preloadPageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _preloadPageController = PreloadPageController(initialPage: _currentIndex);
+  }
+
+  @override
+  void dispose() {
+    _preloadPageController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Jezeli wartosc notifiera selectedTab sie zmieni - przebuduj cala strone.
-    return ValueListenableBuilder(
-      builder: (context, selectedTab, child) {
-        return Scaffold(
-          backgroundColor: AppColor.background,
-          appBar: AppBar(
-            backgroundColor: AppColor.background,
-            actions: <Widget>[
-              IconButton(
-                onPressed: () {
-                  HapticFeedback.selectionClick();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MenuPage()),
-                  );
-                },
-                icon: Icon(
-                  LucideIcons.settings,
-                  color: AppColor.onBackgroundVariant,
-                ),
-              ),
-            ],
-            forceMaterialTransparency: true,
-            shape: Border(bottom: BorderSide(color: AppColor.outline)),
-            // Tytul jest brany dynamicznie z listy pages.
-            title: Text(
-              pages[selectedTab]['title'],
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                color: AppColor.onBackground,
-              ),
+    return Scaffold(
+      backgroundColor: AppColor.background,
+      appBar: AppBar(
+        backgroundColor: AppColor.background,
+        actions: <Widget>[
+          IconButton(
+            onPressed: () {
+              HapticFeedback.selectionClick();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MenuPage()),
+              );
+            },
+            icon: Icon(
+              LucideIcons.settings,
+              color: AppColor.onBackgroundVariant,
             ),
           ),
-          bottomNavigationBar: CustomNavigationBar(),
-          body: pages[selectedTab]['widget'],
-        );
-      },
-      // Wartość, którą zmian nasłuchujemy
-      valueListenable: Notifiers.selectedTab,
+        ],
+        forceMaterialTransparency: true,
+        shape: Border(bottom: BorderSide(color: AppColor.outline)),
+        // Tytul jest brany dynamicznie z listy pages.
+        title: Text(
+          pages[_currentIndex]['title'],
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            color: AppColor.onBackground,
+          ),
+        ),
+      ),
+      bottomNavigationBar: CustomNavigationBar(
+        index: _currentIndex,
+        onChange: (newIndex) {
+          setState(() {
+            _currentIndex = newIndex;
+          });
+          _preloadPageController.animateToPage(
+            newIndex,
+            duration: Duration(milliseconds: 200),
+            curve: Curves.easeOut,
+          );
+        },
+      ),
+      body: PreloadPageView.builder(
+        itemCount: pages.length,
+        itemBuilder: (context, index) => pages[index]["widget"],
+        preloadPagesCount: 2,
+        onPageChanged: (value) {
+          setState(() {
+            _currentIndex = value;
+          });
+        },
+        controller: _preloadPageController,
+      ),
     );
   }
 }

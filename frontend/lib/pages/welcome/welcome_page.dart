@@ -59,10 +59,8 @@ class WelcomePage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(100),
                           color: stages[index]["color"].withAlpha(50),
                         ),
-
                         child: Lottie.asset(
                           stages[index]["lottie"]!,
-
                           width: 250,
                           height: 250,
                         ),

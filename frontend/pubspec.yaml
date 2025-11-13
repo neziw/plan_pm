@@ -50,6 +50,7 @@ dependencies:
   # Provides localizations and translations for Flutter's built-in widgets.
   flutter_localizations:
     sdk: flutter
+  preload_page_view: ^0.2.0
 
 dev_dependencies:
   flutter_launcher_icons: ^0.14.4
