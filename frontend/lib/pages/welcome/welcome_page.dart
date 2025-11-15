@@ -11,29 +11,31 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final translations = AppLocalizations.of(context)!;
+
     final List<Map<String, dynamic>> stages = [
       {
-        "title": AppLocalizations.of(context)!.stage1Title,
+        "title": translations.stage1Title,
         "lottie": "assets/lotties/calendar.json",
-        "buttonLabel": AppLocalizations.of(context)!.stage1Button,
+        "buttonLabel": translations.stage1Button,
         "color": Colors.blueAccent,
       },
       {
-        "title": AppLocalizations.of(context)!.stage2Title,
+        "title": translations.stage2Title,
         "lottie": "assets/lotties/womanschedule.json",
-        "buttonLabel": AppLocalizations.of(context)!.stage2Button,
+        "buttonLabel": translations.stage2Button,
         "color": Colors.redAccent,
       },
       {
-        "title": AppLocalizations.of(context)!.stage3Title,
+        "title": translations.stage3Title,
         "lottie": "assets/lotties/search.json",
-        "buttonLabel": AppLocalizations.of(context)!.stage3Button,
+        "buttonLabel": translations.stage3Button,
         "color": Colors.amberAccent,
       },
       {
-        "title": AppLocalizations.of(context)!.stage4Title,
+        "title": translations.stage4Title,
         "lottie": "assets/lotties/bell.json",
-        "buttonLabel": AppLocalizations.of(context)!.stage4Button,
+        "buttonLabel": translations.stage4Button,
         "color": Colors.green,
       },
     ];
@@ -75,7 +77,7 @@ class WelcomePage extends StatelessWidget {
                   SizedBox(height: 10),
                   FilledButton(
                     style: FilledButton.styleFrom(
-                      minimumSize: Size(double.infinity, 50.0),
+                      minimumSize: Size(300, 50.0),
                       backgroundColor: stages[index]["color"].withAlpha(100),
                     ),
                     onPressed: () async {

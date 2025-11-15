@@ -8,6 +8,7 @@ import 'package:plan_pm/main.dart';
 import 'package:plan_pm/pages/welcome/widgets/group_builder.dart';
 import 'package:plan_pm/service/backend_service.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:plan_pm/service/cache_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 ButtonStyle buttonStyle = ButtonStyle(
@@ -95,6 +96,10 @@ class GroupSelectionPage extends StatelessWidget {
                       "groups",
                       Student.selectedGroups ?? [],
                     );
+
+                    final CacheService cacheService = CacheService();
+                    await cacheService.syncNews();
+                    await cacheService.syncLectures();
 
                     Navigator.pushAndRemoveUntil(
                       context,

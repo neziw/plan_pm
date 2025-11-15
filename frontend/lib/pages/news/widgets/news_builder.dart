@@ -4,7 +4,7 @@ import 'package:plan_pm/api/models/news_model.dart';
 import 'package:plan_pm/global/widgets/generic_loading.dart';
 import 'package:plan_pm/global/widgets/generic_no_resource.dart';
 import 'package:plan_pm/pages/home/widgets/news_card.dart';
-import 'package:plan_pm/service/backend_service.dart';
+import 'package:plan_pm/service/database_service.dart';
 
 class NewsBuilder extends StatelessWidget {
   const NewsBuilder({super.key, this.limit = 9999});
@@ -13,9 +13,9 @@ class NewsBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _backendService = BackendService();
+    final _databaseService = DatabaseService.instance;
     return FutureBuilder<List<NewsModel>>(
-      future: _backendService.fetchNews(limit: limit!),
+      future: _databaseService.fetchNews(limit: limit!),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Center(child: Text('Błąd w FutureBuilder ${snapshot.error}'));
@@ -40,7 +40,7 @@ class NewsBuilder extends StatelessWidget {
                   messageType: news.messageType,
                   description: news.content,
                   timestamp: news.createdAt,
-                  image: news.thumbnail,
+                  imageUrl: news.imageUrl,
                 ),
               )
               .toList(),

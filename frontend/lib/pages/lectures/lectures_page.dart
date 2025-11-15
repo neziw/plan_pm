@@ -6,6 +6,7 @@ import 'package:plan_pm/global/widgets/generic_no_resource.dart';
 import 'package:plan_pm/pages/lectures/widgets/day_selection.dart';
 import 'package:plan_pm/pages/lectures/widgets/lecture.dart';
 import 'package:plan_pm/service/backend_service.dart';
+import 'package:plan_pm/service/database_service.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class LecturesPage extends StatefulWidget {
@@ -40,6 +41,7 @@ class _LecturesPageState extends State<LecturesPage> {
   @override
   Widget build(BuildContext context) {
     final _backendService = BackendService();
+    final _databaseService = DatabaseService.instance;
 
     return Column(
       children: [
@@ -57,7 +59,7 @@ class _LecturesPageState extends State<LecturesPage> {
           ),
         ),
         FutureBuilder<List<LectureModel>>(
-          future: _backendService.fetchLectures(currentDate),
+          future: _databaseService.fetchLectures(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(

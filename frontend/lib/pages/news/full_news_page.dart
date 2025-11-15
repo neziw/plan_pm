@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -10,14 +11,14 @@ class FullNewsPage extends StatelessWidget {
     required this.messageType,
     required this.description,
     required this.timestamp,
-    this.image,
+    this.imageUrl,
   });
 
   final String title;
   final String messageType;
   final String description;
   final DateTime timestamp;
-  final NetworkImage? image;
+  final String? imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -58,12 +59,16 @@ class FullNewsPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (image != null)
-                  Image(
-                    image: image!,
+                if (imageUrl != null)
+                  CachedNetworkImage(
                     fit: BoxFit.cover,
                     width: double.infinity,
                     height: 300,
+                    imageUrl: imageUrl!,
+                    placeholder: (context, url) =>
+                        const CircularProgressIndicator(),
+                    errorWidget: (context, url, error) =>
+                        const Icon(LucideIcons.eggFried),
                   ),
 
                 Padding(

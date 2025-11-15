@@ -29,14 +29,14 @@ class BackendService {
 
   BackendService._internal();
 
-  Future<List<LectureModel>> fetchLectures(DateTime filterDate) async {
+  Future<List<LectureModel>> fetchLectures() async {
     if (Student.specialisation == null) {
       print("Specjalizacja studenta nie została ustawiona");
     }
     final List<String> selectedGroups = Student.selectedGroups ?? [];
 
-    final today = filterDate;
-    final tomorrow = filterDate.add(Duration(days: 1));
+    // final today = filterDate;
+    // final tomorrow = filterDate.add(Duration(days: 1));
 
     var query = Supabase.instance.client
         .from("classes")
@@ -53,8 +53,8 @@ class BackendService {
           building:building(name)
         )
       ''')
-        .gte('startTime', DateTimeToSupabase(today))
-        .lt('startTime', DateTimeToSupabase(tomorrow))
+        // .gte('startTime', DateTimeToSupabase(today))
+        // .lt('startTime', DateTimeToSupabase(tomorrow))
         .eq("programs.programType", Student.term?[0] ?? "S")
         .eq(
           "programs.name",
@@ -108,14 +108,13 @@ class BackendService {
             .from("Files")
             .getPublicUrl("News/$id.png");
 
-        final thumbnail = url != "" ? NetworkImage(url) : null;
         return NewsModel(
           id: json["id"] as String,
           createdAt: DateTime.parse(json["created_at"]),
           title: json["title"] as String,
           content: json["content"] as String,
           messageType: json["message_type"] as String,
-          thumbnail: thumbnail,
+          imageUrl: url,
         );
       }).toList();
       return news;

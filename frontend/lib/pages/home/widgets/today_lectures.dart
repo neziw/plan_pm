@@ -8,6 +8,7 @@ import 'package:plan_pm/global/widgets/generic_no_resource.dart';
 import 'package:plan_pm/pages/home/widgets/home_section.dart';
 import 'package:plan_pm/pages/lectures/widgets/lecture.dart';
 import 'package:plan_pm/service/backend_service.dart';
+import 'package:plan_pm/service/database_service.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:collection/collection.dart';
 
@@ -43,11 +44,11 @@ class _TodayLecturesState extends State<TodayLectures> {
   @override
   Widget build(BuildContext context) {
     int idx = 0;
-    final _backendService = BackendService();
+    final _databaseService = DatabaseService.instance;
     return HomeSection(
       title: "Twoje najblizsze zajęcia",
       child: FutureBuilder<List<LectureModel>>(
-        future: _backendService.fetchLectures(DateTime.now()),
+        future: _databaseService.fetchLectures(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Center(
