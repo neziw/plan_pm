@@ -4,11 +4,11 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/pages/feedback/feedback_page.dart';
 import 'package:plan_pm/pages/menu/widgets/group_info.dart';
+import 'package:plan_pm/pages/menu/widgets/menu_button.dart';
 import 'package:plan_pm/pages/menu/widgets/menu_section.dart';
 import 'package:plan_pm/pages/menu/widgets/student_info.dart';
 import 'package:plan_pm/pages/welcome/welcome_page.dart';
 import 'package:plan_pm/l10n/app_localizations.dart';
-import 'package:plan_pm/pages/welcome/input_page.dart';
 
 class MenuPage extends StatelessWidget {
   const MenuPage({super.key});
@@ -50,67 +50,37 @@ class MenuPage extends StatelessWidget {
               GroupInfo(),
               MenuSection(
                 title: "Opinie i sugestie",
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: InkWell(
-                    onTap: () {
-                      HapticFeedback.lightImpact();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const FeedbackPage(),
-                        ),
-                      );
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Prześlij opinie",
-                          style: TextStyle(color: AppColor.onSurface),
-                        ),
-                        Icon(
-                          LucideIcons.chevronRight,
-                          color: AppColor.onSurfaceVariant,
-                        ),
-                      ],
-                    ),
-                  ),
+                child: MenuButton(
+                  title: "Prześlij opinie",
+                  onTap: () {
+                    HapticFeedback.lightImpact();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const FeedbackPage(),
+                      ),
+                    );
+                  },
                 ),
               ),
               MenuSection(
                 title: "Debug",
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          HapticFeedback.lightImpact();
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const WelcomePage(),
-                            ),
-                          );
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Powrót do Welcome Screen",
-                              style: TextStyle(color: AppColor.onSurface),
-                            ),
-                            Icon(
-                              LucideIcons.chevronRight,
-                              color: AppColor.onSurfaceVariant,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    MenuButton(
+                      title: "Powrót do Welcome Screen",
+                      onTap: () {
+                        HapticFeedback.lightImpact();
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const WelcomePage(),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
             ],

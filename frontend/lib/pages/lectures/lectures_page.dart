@@ -5,7 +5,6 @@ import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/global/widgets/generic_no_resource.dart';
 import 'package:plan_pm/pages/lectures/widgets/day_selection.dart';
 import 'package:plan_pm/pages/lectures/widgets/lecture.dart';
-import 'package:plan_pm/service/backend_service.dart';
 import 'package:plan_pm/service/database_service.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -40,7 +39,6 @@ class _LecturesPageState extends State<LecturesPage> {
 
   @override
   Widget build(BuildContext context) {
-    final _backendService = BackendService();
     final _databaseService = DatabaseService.instance;
 
     return Column(
@@ -60,6 +58,10 @@ class _LecturesPageState extends State<LecturesPage> {
         ),
         FutureBuilder<List<LectureModel>>(
           future: _databaseService.fetchLectures(),
+          // future: Future.delayed(
+          //   Duration(seconds: 5),
+          //   () => _databaseService.fetchLectures(),
+          // ),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(
@@ -75,6 +77,7 @@ class _LecturesPageState extends State<LecturesPage> {
                   lectureDate.month == currentDate.month &&
                   lectureDate.day == currentDate.day;
             }).toList();
+
             if (snapshot.connectionState == ConnectionState.done &&
                 lectures.isEmpty) {
               return Padding(
@@ -105,9 +108,7 @@ class _LecturesPageState extends State<LecturesPage> {
                     ),
                     Expanded(
                       child: Skeletonizer(
-                        effect: const ShimmerEffect(
-                          baseColor: Color(0x4FFFFFFF),
-                        ),
+                        effect: const SoldColorEffect(color: Color(0x00000000)),
                         enabled:
                             snapshot.connectionState == ConnectionState.waiting,
                         child: ListView.separated(

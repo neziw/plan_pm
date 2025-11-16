@@ -25,42 +25,44 @@ class NewsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        HapticFeedback.lightImpact();
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => FullNewsPage(
-              title: title,
-              messageType: messageType,
-              description: description,
-              timestamp: timestamp,
-              imageUrl: imageUrl,
+    return Card(
+      color: AppColor.surface,
+      clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(color: AppColor.outline, width: 1),
+      ),
+      elevation: 1,
+      child: InkWell(
+        onTap: () {
+          HapticFeedback.lightImpact();
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => FullNewsPage(
+                title: title,
+                messageType: messageType,
+                description: description,
+                timestamp: timestamp,
+                imageUrl: imageUrl,
+              ),
             ),
-          ),
-        );
-      },
-      child: Card(
-        color: AppColor.surface,
-        clipBehavior: Clip.antiAlias,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-          side: BorderSide(color: AppColor.outline, width: 1),
-        ),
-        elevation: 1,
+          );
+        },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (imageUrl != null)
               CachedNetworkImage(
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: 150,
                 imageUrl: imageUrl!,
+                imageBuilder: (context, imageProvider) => Ink.image(
+                  image: imageProvider,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: 150,
+                ),
                 placeholder: (context, url) =>
                     Skeleton.leaf(child: SizedBox(height: 150)),
-                // Container(),
                 errorWidget: (context, url, error) =>
                     const Icon(LucideIcons.eggFried),
               ),
