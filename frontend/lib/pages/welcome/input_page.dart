@@ -59,6 +59,7 @@ class _InputPageState extends State<InputPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: AppColor.background,
       appBar: AppBar(
@@ -76,7 +77,7 @@ class _InputPageState extends State<InputPage> {
         backgroundColor: AppColor.background,
         shape: Border(bottom: BorderSide(color: AppColor.outline)),
         title: Text(
-          "Ustawienia studiów",
+          l10n.studySettings,
           style: TextStyle(
             fontWeight: FontWeight.w600,
             color: AppColor.onBackground,
@@ -117,7 +118,7 @@ class _InputPageState extends State<InputPage> {
                       );
                     },
                     child: Text(
-                      "Pomiń",
+                      l10n.skipButton,
                       style: TextStyle(color: AppColor.onSurface),
                     ),
                   ),
@@ -159,8 +160,8 @@ class _InputPageState extends State<InputPage> {
                               ? selectedSpecialisation
                               : null;
                           Student.term = selectedTerm == 1
-                              ? "Stacjonarne"
-                              : "Niestacjonarne";
+                              ? l10n.fullTimeStudy
+                              : l10n.partTimeStudy;
                           Student.year = selectedYear;
 
                           final SharedPreferences prefs =
@@ -183,8 +184,8 @@ class _InputPageState extends State<InputPage> {
                           await prefs.setString(
                             "term",
                             selectedTerm == 1
-                                ? "Stacjonarne"
-                                : "Niestacjonarne",
+                                ? l10n.fullTimeStudy
+                                : l10n.partTimeStudy,
                           );
                           final CacheService cacheService = CacheService();
                           await cacheService.syncNews();
@@ -197,7 +198,7 @@ class _InputPageState extends State<InputPage> {
                           );
                         }
                       : null,
-                  child: Text("Wybór grupy"),
+                  child: Text(l10n.groupSelection),
                 ),
               ),
             ),
@@ -211,7 +212,7 @@ class _InputPageState extends State<InputPage> {
             child: Column(
               children: [
                 Text(
-                  "Wybierz swój wydział, kierunek i tryb, aby spersonalizować plan zajęć",
+                  l10n.groupSelectionHint,
                   style: TextStyle(
                     fontSize: 14,
                     color: AppColor.onBackgroundVariant,
@@ -255,9 +256,9 @@ class _InputPageState extends State<InputPage> {
                         SizedBox(height: 10),
                         FacultyDropDownMenu(
                           controller: facultyController,
-                          label: "Wydział",
+                          label: l10n.facultyLabel,
                           icon: LucideIcons.school,
-                          hint: "Wybierz wydział",
+                          hint: l10n.facultyHintText,
                           itemList: faculties,
                           onChanged: (value) {
                             HapticFeedback.lightImpact();
@@ -277,9 +278,9 @@ class _InputPageState extends State<InputPage> {
                         FacultyDropDownMenu(
                           controller: degreeCourseController,
                           enabled: selectedFaculty == "" ? false : true,
-                          label: "Kierunek studiów",
+                          label: l10n.fieldLabel,
                           icon: LucideIcons.bookOpen,
-                          hint: "Wybierz kierunek studiów",
+                          hint: l10n.fieldHintText,
                           itemList: selectedFaculty.isNotEmpty
                               ? degreeCourses
                               : [],
@@ -308,7 +309,7 @@ class _InputPageState extends State<InputPage> {
                           buttonLabels: ["I", "II", "III", "IV"],
                           buttonAmount: 4,
                           icon: LucideIcons.graduationCap,
-                          label: "Aktualny Rok",
+                          label: l10n.yearLabel,
                         ),
                         SizedBox(height: 10),
                         if (selectedFaculty.isNotEmpty &&
@@ -317,9 +318,9 @@ class _InputPageState extends State<InputPage> {
                           FacultyDropDownMenu(
                             controller: specialisationController,
                             enabled: true,
-                            label: "Specjalizacja",
+                            label: l10n.specialisationLabel,
                             icon: LucideIcons.glasses,
-                            hint: "Wybierz specjalizacje",
+                            hint: l10n.specialisationHintText,
                             itemList: specialisations,
                             selectedValue: selectedSpecialisation,
                             onChanged: (value) {
@@ -352,10 +353,10 @@ class _InputPageState extends State<InputPage> {
                               selectedTerm = term + 1;
                             });
                           },
-                          buttonLabels: ["Stacjonarne", "Zaoczne"],
+                          buttonLabels: [l10n.campusButton, l10n.extramuralButton],
                           buttonAmount: 2,
                           icon: LucideIcons.graduationCap,
-                          label: "Tryb studiów",
+                          label: l10n.typeLabel,
                         ),
 
                         SizedBox(height: 20),

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/pages/lectures/widgets/description_item.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 
 List<LinearGradient> softHorizontalGradients = [
   LinearGradient(
@@ -98,6 +99,7 @@ class _LectureState extends State<Lecture> {
   //
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Card(
       color: AppColor.surface,
       child: Column(
@@ -206,26 +208,26 @@ class _LectureState extends State<Lecture> {
                           DescriptionItem(
                             icon: LucideIcons.user,
                             color: Colors.blue,
-                            name: "Professor",
+                            name: l10n.professorLabel,
                             content: widget.professor,
                           ),
                           DescriptionItem(
                             icon: LucideIcons.bookLock,
                             color: Colors.green,
-                            name: "Grupa",
+                            name: l10n.groupLabel,
                             content: longToShort(widget.group),
                           ),
                           DescriptionItem(
                             icon: LucideIcons.clock,
                             color: Colors.purple,
-                            name: "Czas trwania",
+                            name: l10n.lengthLabel,
                             content: widget.duration,
                           ),
                           DescriptionItem(
                             icon: LucideIcons.stickyNote,
                             color: Colors.yellow,
-                            name: "Notes",
-                            content: widget.notes ?? "Empty",
+                            name: l10n.notesLabel,
+                            content: widget.notes ?? l10n.emptyNotesLabel,
                           ),
                         ],
                       ),

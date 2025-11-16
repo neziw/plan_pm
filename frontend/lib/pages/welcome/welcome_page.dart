@@ -11,31 +11,30 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final translations = AppLocalizations.of(context)!;
-
+    final l10n = AppLocalizations.of(context)!;
     final List<Map<String, dynamic>> stages = [
       {
-        "title": translations.stage1Title,
+        "title": l10n.stage1Title,
         "lottie": "assets/lotties/calendar.json",
-        "buttonLabel": translations.stage1Button,
+        "buttonLabel": l10n.stage1Button,
         "color": Colors.blueAccent,
       },
       {
-        "title": translations.stage2Title,
+        "title": l10n.stage2Title,
         "lottie": "assets/lotties/womanschedule.json",
-        "buttonLabel": translations.stage2Button,
+        "buttonLabel": l10n.stage2Button,
         "color": Colors.redAccent,
       },
       {
-        "title": translations.stage3Title,
+        "title": l10n.stage3Title,
         "lottie": "assets/lotties/search.json",
-        "buttonLabel": translations.stage3Button,
+        "buttonLabel": l10n.stage3Button,
         "color": Colors.amberAccent,
       },
       {
-        "title": translations.stage4Title,
+        "title": l10n.stage4Title,
         "lottie": "assets/lotties/bell.json",
-        "buttonLabel": translations.stage4Button,
+        "buttonLabel": l10n.stage4Button,
         "color": Colors.green,
       },
     ];

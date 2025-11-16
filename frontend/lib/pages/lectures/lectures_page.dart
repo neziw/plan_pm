@@ -7,6 +7,7 @@ import 'package:plan_pm/pages/lectures/widgets/day_selection.dart';
 import 'package:plan_pm/pages/lectures/widgets/lecture.dart';
 import 'package:plan_pm/service/database_service.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 
 class LecturesPage extends StatefulWidget {
   const LecturesPage({super.key});
@@ -39,6 +40,7 @@ class _LecturesPageState extends State<LecturesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final _databaseService = DatabaseService.instance;
 
     return Column(
@@ -83,7 +85,7 @@ class _LecturesPageState extends State<LecturesPage> {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: GenericNoResource(
-                  label: "Brak zajęć na dziś",
+                  label: l10n.todayDataNaN,
                   icon: LucideIcons.calendarX,
                   description:
                       "Jesteś na bieżąco! Skorzystaj z wolnego czasu lub przejrzyj swój harmonogram.",
@@ -101,7 +103,7 @@ class _LecturesPageState extends State<LecturesPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "${lectures.length} zajęcia",
+                          l10n.lectureLength(lectures.length),
                           style: TextStyle(color: AppColor.onBackgroundVariant),
                         ),
                       ],

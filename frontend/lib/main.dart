@@ -146,12 +146,14 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-// To jest lista ze wszystkimi stronami i ich tytułami. W przyszłości będzie mozna dodać więcej parametrów.
-List<Map<String, dynamic>> pages = [
-  {"widget": const HomePage(), "title": "Strona główna"},
-  {"widget": const LecturesPage(), "title": "Zajęcia"},
-  {"widget": const NewsPage(), "title": "Nowości"},
-];
+List<Map<String, dynamic>> getPages(BuildContext context) {
+  final l10n = AppLocalizations.of(context)!;
+  return [
+    {"widget": const HomePage(), "title": l10n.pageTitleHome},
+    {"widget": const LecturesPage(), "title": l10n.pageTitleLectures},
+    {"widget": const MenuPage(), "title": l10n.pageTitleMenu},
+  ];
+}
 
 class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
@@ -161,6 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final pages = getPages(context);
     return Scaffold(
       backgroundColor: AppColor.background,
       appBar: AppBar(

@@ -10,6 +10,7 @@ import 'package:plan_pm/service/backend_service.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:plan_pm/service/cache_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 
 ButtonStyle buttonStyle = ButtonStyle(
   shape: WidgetStatePropertyAll(
@@ -33,6 +34,7 @@ class GroupSelectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final _backendService = BackendService();
     Student.selectedGroups = [];
     return Scaffold(
@@ -71,7 +73,7 @@ class GroupSelectionPage extends StatelessWidget {
                       );
                     },
                     child: Text(
-                      "Pomiń",
+                      l10n.skipButton,
                       style: TextStyle(color: AppColor.onSurface),
                     ),
                   ),
@@ -111,7 +113,7 @@ class GroupSelectionPage extends StatelessWidget {
                     );
                   },
                   child: Text(
-                    "Zapisz",
+                    l10n.save,
                     style: TextStyle(color: AppColor.onPrimary),
                   ),
                 ),
@@ -134,7 +136,7 @@ class GroupSelectionPage extends StatelessWidget {
         backgroundColor: AppColor.background,
         shape: Border(bottom: BorderSide(color: AppColor.outline)),
         title: Text(
-          "Ustawienia studiów",
+          l10n.groupSettings,
           style: TextStyle(
             fontWeight: FontWeight.w600,
             color: AppColor.onBackground,
@@ -148,7 +150,7 @@ class GroupSelectionPage extends StatelessWidget {
             spacing: 10,
             children: [
               Text(
-                "Na podstawie Twoich ustawień studiów pobraliśmy dostępne grupy. Wybierz jedną lub wiele, aby śledzić kilka planów.",
+                l10n.groupSelectionHint,
                 style: TextStyle(
                   fontSize: 14,
                   color: AppColor.onBackgroundVariant,
@@ -179,7 +181,7 @@ class GroupSelectionPage extends StatelessWidget {
                                 size: 48,
                               ),
                               Text(
-                                "Ładowanie grup...",
+                                l10n.groupLoading,
                                 style: TextStyle(
                                   color: AppColor.onSurfaceVariant,
                                 ),
@@ -192,7 +194,7 @@ class GroupSelectionPage extends StatelessWidget {
                   }
                   if (snapshot.hasError) {
                     return Center(
-                      child: Text('Błąd w FutureBuilder ${snapshot.error}'),
+                      child: Text(l10n.pageErrorMess(snapshot.error.toString())),
                     );
                   }
                   if (snapshot.data == null) {

@@ -10,6 +10,7 @@ import 'package:plan_pm/pages/lectures/widgets/lecture.dart';
 import 'package:plan_pm/service/database_service.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:collection/collection.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 
 List<LectureModel> getClosestLectures(
   List<LectureModel> lectures,
@@ -42,28 +43,29 @@ class _TodayLecturesState extends State<TodayLectures> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     int idx = 0;
     final _databaseService = DatabaseService.instance;
     return HomeSection(
-      title: "Twoje najblizsze zajęcia",
+      title: l10n.recentLecture,
       child: FutureBuilder<List<LectureModel>>(
         future: _databaseService.fetchLectures(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Center(
-              child: Text('Błąd w FutureBuilder ${snapshot.error}'),
+              child: Text(l10n.pageErrorMess(snapshot.error.toString())),
             );
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return GenericLoading(label: "Ładowanie planu");
+            return GenericLoading(label: l10n.lectureLoading);
           }
           final unfilteredLectures = snapshot.data ?? [];
           if (unfilteredLectures.isEmpty) {
             return GenericNoResource(
-              label: "Brak zajęć na dziś",
+              label: l10n.todayLecturesNaN,
               icon: LucideIcons.calendarX,
               description:
-                  "Jesteś na bieżąco! Skorzystaj z wolnego czasu lub przejrzyj swój harmonogram.",
+                  l10n.lectureWigetHint,
             );
           }
 

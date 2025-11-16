@@ -3,9 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 
-List<String> daysShort = ["Pon", "Wt", "Śr", "Czw", "Pt"];
-List<String> days = ["poniedziałek", "wtorek", "środa", "czwartek", "piątek"];
+List<String> days = [];
+List<String> daysShort = [];
 
 List<LinearGradient> softHorizontalGradients = [
   LinearGradient(
@@ -54,7 +55,6 @@ List<LinearGradient> softHorizontalGradients = [
     ], // #A035F5 -> #8B5CF6 (końcowy kolor oryginalny)
   ),
 ];
-
 class DaySelection extends StatefulWidget {
   const DaySelection({
     super.key,
@@ -84,6 +84,23 @@ class _DaySelectionState extends State<DaySelection> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    daysShort = [
+      l10n.daysShortMon,
+      l10n.daysShortTue,
+      l10n.daysShortWed,
+      l10n.daysShortThu,
+      l10n.daysShortFri,
+    ];
+
+    days = [
+      l10n.daysMon,
+      l10n.daysThu,
+      l10n.daysWed,
+      l10n.daysThu,
+      l10n.daysFri,
+    ];
+
     return Column(
       children: [
         Center(
