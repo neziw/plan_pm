@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/global/student.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 
 class GroupBuilder extends StatefulWidget {
   const GroupBuilder({super.key, required this.groups});
@@ -12,19 +13,19 @@ class GroupBuilder extends StatefulWidget {
   State<GroupBuilder> createState() => _GroupBuilderState();
 }
 
-String convertLetterToGroup(String letter) {
+String convertLetterToGroup(String letter, AppLocalizations l10n) {
   switch (letter.toLowerCase()) {
     case "a":
-      return "Audytorium";
+      return l10n.groupTypeAuditorium;
 
     case "c":
-      return "Ćwiczenia";
+      return l10n.groupTypeClasses;
 
     case "l":
-      return "Laboratoria";
+      return l10n.groupTypeLabs;
 
     default:
-      return "Inne";
+      return l10n.groupTypeOther;
   }
 }
 
@@ -33,6 +34,7 @@ class _GroupBuilderState extends State<GroupBuilder> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -44,7 +46,7 @@ class _GroupBuilderState extends State<GroupBuilder> {
                 spacing: 10,
                 children: [
                   Text(
-                    convertLetterToGroup(letter.key),
+                    convertLetterToGroup(letter.key, l10n),
                     style: TextStyle(
                       fontSize: 14,
                       color: AppColor.onBackgroundVariant,

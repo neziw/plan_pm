@@ -100,179 +100,485 @@ abstract class AppLocalizations {
     Locale('uk'),
   ];
 
-  /// No description provided for @stage1Title.
+  /// onboarding_screen.dart - Title/Header for the first onboarding step. (Empty value is intentional)
   ///
   /// In pl, this message translates to:
-  /// **' '**
+  /// **''**
   String get stage1Title;
 
-  /// No description provided for @stage1Button.
+  /// onboarding_screen.dart - Action button on the first welcome screen.
   ///
   /// In pl, this message translates to:
   /// **'Witaj w Plan PM'**
   String get stage1Button;
 
-  /// No description provided for @stage2Title.
+  /// onboarding_screen.dart - Feature description for the second step.
   ///
   /// In pl, this message translates to:
   /// **'Zobacz wszystkie zajęcia w przejrzystym planie tygodniowym.'**
   String get stage2Title;
 
-  /// No description provided for @stage2Button.
+  /// onboarding_screen.dart - Navigation button to the next onboarding step.
   ///
   /// In pl, this message translates to:
   /// **'Dalej'**
   String get stage2Button;
 
-  /// No description provided for @stage3Title.
+  /// onboarding_screen.dart - Feature description for the third step.
   ///
   /// In pl, this message translates to:
   /// **'Znajdź swoje sale łatwo dzięki szczegółowym informacjom o lokalizacji.'**
   String get stage3Title;
 
-  /// No description provided for @stage3Button.
+  /// onboarding_screen.dart - Navigation button to the next onboarding step.
   ///
   /// In pl, this message translates to:
   /// **'Dalej'**
   String get stage3Button;
 
-  /// No description provided for @stage4Title.
+  /// onboarding_screen.dart - Feature description for the final step.
   ///
   /// In pl, this message translates to:
-  /// **'Otrzymuj przypomnienia przed kadymi zajęciami, żeby nigdy ich nie przegapić.'**
+  /// **'Otrzymuj przypomnienia przed każdym zajęciami, żeby nigdy ich nie przegapić.'**
   String get stage4Title;
 
-  /// No description provided for @stage4Button.
+  /// onboarding_screen.dart - Button to finalize onboarding and start configuration.
   ///
   /// In pl, this message translates to:
   /// **'Rozpocznij'**
   String get stage4Button;
 
-  /// No description provided for @welcomePageSelectionText.
+  /// debug_menu.dart - Debug/Navigation link to return to the Welcome screen.
   ///
   /// In pl, this message translates to:
   /// **'Powrót do WelcomeScreen'**
   String get welcomePageSelectionText;
 
-  /// No description provided for @inputPageSelectionText.
+  /// debug_menu.dart - Debug/Navigation link to return to the Data Input screen.
   ///
   /// In pl, this message translates to:
   /// **'Powrót do InputPage'**
   String get inputPageSelectionText;
 
-  /// No description provided for @inputPageLabel.
+  /// input_page.dart - Header for the screen where the user enters academic data.
   ///
   /// In pl, this message translates to:
   /// **'Twoje Dane Akademickie'**
   String get inputPageLabel;
 
-  /// No description provided for @facultyLabel.
+  /// input_page.dart - Label for the 'Faculty' selection field.
   ///
   /// In pl, this message translates to:
   /// **'Wydział'**
   String get facultyLabel;
 
-  /// No description provided for @facultyHintText.
+  /// input_page.dart - Placeholder text for the faculty selection.
   ///
   /// In pl, this message translates to:
   /// **'Wybierz wydział'**
   String get facultyHintText;
 
-  /// No description provided for @fieldLabel.
+  /// input_page.dart - Label for the 'Field of Study' selection field.
   ///
   /// In pl, this message translates to:
   /// **'Kierunek studiów'**
   String get fieldLabel;
 
-  /// No description provided for @fieldHintText.
+  /// input_page.dart - Placeholder text for the field of study selection.
   ///
   /// In pl, this message translates to:
   /// **'Wybierz kierunek studiów'**
   String get fieldHintText;
 
-  /// No description provided for @yearLabel.
+  /// input_page.dart - Label for the 'Current Year' selector.
   ///
   /// In pl, this message translates to:
   /// **'Aktualny Rok'**
   String get yearLabel;
 
-  /// No description provided for @specialisationLabel.
+  /// input_page.dart - Label for the 'Specialization' selection field.
   ///
   /// In pl, this message translates to:
   /// **'Specjalizacja'**
   String get specialisationLabel;
 
-  /// No description provided for @specialisationHintText.
+  /// input_page.dart - Placeholder text for the specialization selection.
   ///
   /// In pl, this message translates to:
   /// **'Wybierz specjalizacje'**
   String get specialisationHintText;
 
-  /// No description provided for @typeLabel.
+  /// input_page.dart - Label for the Study Mode selection section.
   ///
   /// In pl, this message translates to:
   /// **'Tryb studiów'**
   String get typeLabel;
 
-  /// No description provided for @campusButton.
+  /// input_page.dart - Option button for 'Full-time' study mode.
   ///
   /// In pl, this message translates to:
   /// **'Stacjonarne'**
   String get campusButton;
 
-  /// No description provided for @extramuralButton.
+  /// input_page.dart - Option button for 'Part-time/Extramural' study mode.
   ///
   /// In pl, this message translates to:
   /// **'Zaoczne'**
   String get extramuralButton;
 
-  /// No description provided for @continueButton.
+  /// input_page.dart - Main action button to proceed after data input.
   ///
   /// In pl, this message translates to:
   /// **'Kontynuuj'**
   String get continueButton;
 
-  /// No description provided for @homePageLabel.
+  /// home_page.dart - Header for the student data summary section.
   ///
   /// In pl, this message translates to:
   /// **'Dane studenta to: '**
   String get homePageLabel;
 
-  /// No description provided for @facultyText.
+  /// home_page.dart - Label for the displayed 'Faculty' value.
   ///
   /// In pl, this message translates to:
   /// **'Wydział'**
   String get facultyText;
 
-  /// No description provided for @fieldText.
+  /// home_page.dart - Label for the displayed 'Field of Study' value.
   ///
   /// In pl, this message translates to:
   /// **'Kierunek'**
   String get fieldText;
 
-  /// No description provided for @specialisationText.
+  /// home_page.dart - Label for the displayed 'Specialization' value.
   ///
   /// In pl, this message translates to:
   /// **'Specjalizacja'**
   String get specialisationText;
 
-  /// No description provided for @yearText.
+  /// home_page.dart - Label for the displayed 'Year' value.
   ///
   /// In pl, this message translates to:
   /// **'Rok'**
   String get yearText;
 
-  /// No description provided for @typeText.
+  /// home_page.dart - Label for the displayed 'Study Mode' value.
   ///
   /// In pl, this message translates to:
   /// **'Tryb studiów'**
   String get typeText;
 
-  /// No description provided for @dataNaN.
+  /// home_page.dart - Message shown when specific academic data is missing.
   ///
   /// In pl, this message translates to:
   /// **'Brak danych'**
   String get dataNaN;
+
+  /// settings_page.dart - Title for the study settings section or button.
+  ///
+  /// In pl, this message translates to:
+  /// **'Ustawienia studiów'**
+  String get studySettings;
+
+  /// group_selection_page.dart - Button to skip the current configuration step.
+  ///
+  /// In pl, this message translates to:
+  /// **'Pomiń'**
+  String get skipButton;
+
+  /// settings_page.dart - Full name of the Full-time study mode.
+  ///
+  /// In pl, this message translates to:
+  /// **'Stacjonarne'**
+  String get fullTimeStudy;
+
+  /// settings_page.dart - Full name of the Part-time study mode.
+  ///
+  /// In pl, this message translates to:
+  /// **'Niestacjonarne'**
+  String get partTimeStudy;
+
+  /// group_selection_page.dart - Title for the Group Selection screen/section.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wybór grupy'**
+  String get groupSelection;
+
+  /// group_selection_page.dart - Initial hint/instruction for group selection.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wybierz swój wydział, kierunek i tryb, aby spersonalizować plan zajęć'**
+  String get groupSelectionHint;
+
+  /// group_selection_page.dart - Loading message while fetching available groups.
+  ///
+  /// In pl, this message translates to:
+  /// **'Ładowanie grup...'**
+  String get groupLoading;
+
+  /// group_selection_page.dart - Header for the study settings context within group selection.
+  ///
+  /// In pl, this message translates to:
+  /// **'Ustawienia studiów'**
+  String get groupSettings;
+
+  /// group_selection_page.dart - Hint/Instruction displayed after groups have been successfully loaded.
+  ///
+  /// In pl, this message translates to:
+  /// **'Na podstawie Twoich ustawień studiów pobraliśmy dostępne grupy. Wybierz jedną lub wiele, aby śledzić kilka planów.'**
+  String get groupSelectionHintAfterLoad;
+
+  /// group_selection_page.dart - Action button to save settings or selected groups.
+  ///
+  /// In pl, this message translates to:
+  /// **'Zapisz'**
+  String get save;
+
+  /// schedule_view.dart - Message shown on the 'Today' tab when no classes are scheduled.
+  ///
+  /// In pl, this message translates to:
+  /// **'Brak zajęć na dziś'**
+  String get todayDataNaN;
+
+  /// No description provided for @pageErrorMess.
+  ///
+  /// In pl, this message translates to:
+  /// **'Błąd w FutureBuilder {snapshotError}'**
+  String pageErrorMess(Object snapshotError);
+
+  /// No description provided for @lectureLength.
+  ///
+  /// In pl, this message translates to:
+  /// **'{lecturesLength} zajęcia'**
+  String lectureLength(num lecturesLength);
+
+  /// today_lectures.dart - Label for the next upcoming class/lecture.
+  ///
+  /// In pl, this message translates to:
+  /// **'Twoje najblizsze zajęcia'**
+  String get recentLecture;
+
+  /// schedule_view.dart - General loading indicator text for the schedule.
+  ///
+  /// In pl, this message translates to:
+  /// **'Ładowanie planu'**
+  String get lectureLoading;
+
+  /// today_lectures.dart - Message shown when there are no lectures for the current day.
+  ///
+  /// In pl, this message translates to:
+  /// **'Brak zajęć na dziś'**
+  String get todayLecturesNaN;
+
+  /// today_lectures.dart - Hint/message shown after the last lecture of the day has finished.
+  ///
+  /// In pl, this message translates to:
+  /// **'Jesteś na bieżąco! Skorzystaj z wolnego czasu lub przejrzyj swój harmonogram.'**
+  String get lectureWigetHint;
+
+  /// day_selection.dart - Short name for Monday (Poniedziałek).
+  ///
+  /// In pl, this message translates to:
+  /// **'Pon'**
+  String get daysShortMon;
+
+  /// day_selection.dart - Short name for Tuesday (Wtorek).
+  ///
+  /// In pl, this message translates to:
+  /// **'Wt'**
+  String get daysShortTue;
+
+  /// day_selection.dart - Short name for Wednesday (Środa).
+  ///
+  /// In pl, this message translates to:
+  /// **'Śr'**
+  String get daysShortWed;
+
+  /// day_selection.dart - Short name for Thursday (Czwartek).
+  ///
+  /// In pl, this message translates to:
+  /// **'Czw'**
+  String get daysShortThu;
+
+  /// day_selection.dart - Short name for Friday (Piątek).
+  ///
+  /// In pl, this message translates to:
+  /// **'Pt'**
+  String get daysShortFri;
+
+  /// day_selection.dart - Full lowercase name for Monday.
+  ///
+  /// In pl, this message translates to:
+  /// **'poniedziałek'**
+  String get daysMon;
+
+  /// day_selection.dart - Full lowercase name for Tuesday.
+  ///
+  /// In pl, this message translates to:
+  /// **'wtorek'**
+  String get daysTue;
+
+  /// day_selection.dart - Full lowercase name for Wednesday.
+  ///
+  /// In pl, this message translates to:
+  /// **'środa'**
+  String get daysWed;
+
+  /// day_selection.dart - Full lowercase name for Thursday.
+  ///
+  /// In pl, this message translates to:
+  /// **'czwartek'**
+  String get daysThu;
+
+  /// day_selection.dart - Full lowercase name for Friday.
+  ///
+  /// In pl, this message translates to:
+  /// **'piątek'**
+  String get daysFri;
+
+  /// group_info.dart - Header for the selected groups section.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wybrane grupy'**
+  String get selectedGroupsHeader;
+
+  /// group_info.dart - Label for the button to navigate to group selection.
+  ///
+  /// In pl, this message translates to:
+  /// **'Zmień grupy'**
+  String get changeGroupsButton;
+
+  /// group_info.dart - Small label/title above the list of selected group tags.
+  ///
+  /// In pl, this message translates to:
+  /// **'Wybrane grupy'**
+  String get selectedGroupsLabel;
+
+  /// group_info.dart - Placeholder text displayed when no groups have been selected.
+  ///
+  /// In pl, this message translates to:
+  /// **'Brak danych'**
+  String get noDataAvailable;
+
+  /// student_info.dart - Header for the section displaying the user's academic details.
+  ///
+  /// In pl, this message translates to:
+  /// **'Informacje akademickie'**
+  String get academicInfoHeader;
+
+  /// student_info.dart - Label for the button to navigate to the input/edit page.
+  ///
+  /// In pl, this message translates to:
+  /// **'Edytuj'**
+  String get editButton;
+
+  /// student_info.dart - Displays the current year of study with proper pluralization (e.g., 1 rok, 2 lata, 5 lat).
+  ///
+  /// In pl, this message translates to:
+  /// **'{year, plural, one{1 rok} few{{year} lata} many{{year} lat} other{{year} roku}}'**
+  String studyYear(int year);
+
+  /// student_info.dart - Label for the study mode (e.g., 'Full-time').
+  ///
+  /// In pl, this message translates to:
+  /// **'Tryb studiów'**
+  String get studyModeLabel;
+
+  /// group_builder.dart - Full name for group type 'A' (Audytorium).
+  ///
+  /// In pl, this message translates to:
+  /// **'Audytorium'**
+  String get groupTypeAuditorium;
+
+  /// group_builder.dart - Full name for group type 'C' (Classes/Ćwiczenia).
+  ///
+  /// In pl, this message translates to:
+  /// **'Ćwiczenia'**
+  String get groupTypeClasses;
+
+  /// group_builder.dart - Full name for group type 'L' (Laboratoria).
+  ///
+  /// In pl, this message translates to:
+  /// **'Laboratoria'**
+  String get groupTypeLabs;
+
+  /// group_builder.dart - Default name for unmapped group types.
+  ///
+  /// In pl, this message translates to:
+  /// **'Inne'**
+  String get groupTypeOther;
+
+  /// main.dart - Title for the Home page in the navigation bar.
+  ///
+  /// In pl, this message translates to:
+  /// **'Strona główna'**
+  String get pageTitleHome;
+
+  /// main.dart - Title for the Lectures/Schedule page in the navigation bar.
+  ///
+  /// In pl, this message translates to:
+  /// **'Zajęcia'**
+  String get pageTitleLectures;
+
+  /// main.dart - Title for the Menu/Settings page in the navigation bar.
+  ///
+  /// In pl, this message translates to:
+  /// **'Menu'**
+  String get pageTitleMenu;
+
+  /// menu_page.dart - Header for the debug/development section.
+  ///
+  /// In pl, this message translates to:
+  /// **'Debug'**
+  String get debugHeader;
+
+  /// menu_page.dart - Introductory label for navigation buttons in the debug section (e.g., 'Return to [Welcome screen]').
+  ///
+  /// In pl, this message translates to:
+  /// **'Powrót do'**
+  String get returnToLabel;
+
+  /// menu_page.dart - Label for the button that resets navigation to the Welcome Page.
+  ///
+  /// In pl, this message translates to:
+  /// **'Welcome screen'**
+  String get welcomeScreenButton;
+
+  /// menu_page.dart - Label for the button that resets navigation to the Input Page.
+  ///
+  /// In pl, this message translates to:
+  /// **'Input page'**
+  String get inputPageButton;
+
+  /// lecture.dart - Label for the lecture wiget professor header.
+  ///
+  /// In pl, this message translates to:
+  /// **'Professor'**
+  String get professorLabel;
+
+  /// lecture.dart - Label for the lecture wiget group header.
+  ///
+  /// In pl, this message translates to:
+  /// **'Grupa'**
+  String get groupLabel;
+
+  /// lecture.dart - Label for the lecture wiget lecture length header.
+  ///
+  /// In pl, this message translates to:
+  /// **'Czas trwania'**
+  String get lengthLabel;
+
+  /// lecture.dart - Label for the lecture wiget notes header.
+  ///
+  /// In pl, this message translates to:
+  /// **'Notes'**
+  String get notesLabel;
+
+  /// lecture.dart - Label for the lecture wiget if there are no notes.
+  ///
+  /// In pl, this message translates to:
+  /// **'Empty'**
+  String get emptyNotesLabel;
 }
 
 class _AppLocalizationsDelegate
