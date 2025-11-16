@@ -7,6 +7,7 @@ import 'package:plan_pm/global/widgets/generic_loading.dart';
 import 'package:plan_pm/global/widgets/generic_no_resource.dart';
 import 'package:plan_pm/pages/home/widgets/home_section.dart';
 import 'package:plan_pm/pages/lectures/widgets/lecture.dart';
+import 'package:plan_pm/service/backend_service.dart';
 import 'package:plan_pm/service/database_service.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:collection/collection.dart';
