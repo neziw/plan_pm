@@ -244,7 +244,10 @@ class AppLocalizationsPl extends AppLocalizations {
   String get pageTitleLectures => 'Zajęcia';
 
   @override
-  String get pageTitleMenu => 'Menu';
+  String get pageTitleSettings => 'Ustawienia';
+
+  @override
+  String get pageTitleNews => 'Nowości';
 
   @override
   String get debugHeader => 'Debug';
@@ -256,10 +259,10 @@ class AppLocalizationsPl extends AppLocalizations {
   String get welcomeScreenButton => 'Welcome screen';
 
   @override
-  String get inputPageButton => 'Input page';
+  String get inputPageButton => 'Podaj dane';
 
   @override
-  String get professorLabel => 'Professor';
+  String get professorLabel => 'Profesor';
 
   @override
   String get groupLabel => 'Grupa';
@@ -268,8 +271,17 @@ class AppLocalizationsPl extends AppLocalizations {
   String get lengthLabel => 'Czas trwania';
 
   @override
-  String get notesLabel => 'Notes';
+  String get notesLabel => 'Notatki';
 
   @override
-  String get emptyNotesLabel => 'Empty';
+  String get emptyNotesLabel => 'Puste';
+
+  @override
+  String get newsSectionLabel => 'Nowości z uczelni';
+
+  @override
+  String get feedbackHeader => 'Opinie i sugestie';
+
+  @override
+  String get sendFeedbackButton => 'Prześlij opinie';
 }

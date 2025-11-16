@@ -194,7 +194,9 @@ class GroupSelectionPage extends StatelessWidget {
                   }
                   if (snapshot.hasError) {
                     return Center(
-                      child: Text(l10n.pageErrorMess(snapshot.error.toString())),
+                      child: Text(
+                        l10n.pageErrorMess(snapshot.error.toString()),
+                      ),
                     );
                   }
                   if (snapshot.data == null) {
@@ -205,16 +207,6 @@ class GroupSelectionPage extends StatelessWidget {
                   final groups = data
                       .map((g) {
                         final group = g.toString();
-                        if (group.split(",").length > 1) {
-                          print("Shitty group found: $group");
-                          // Treat as "Other" and keep same short/long when parsing is ambiguous
-                          return {
-                            "Other": [
-                              {"short": longToShort(group), "long": group},
-                            ],
-                          };
-                        }
-
                         final first = group.split("/")[0];
                         final shortName = first;
                         final longName = group;

@@ -7,7 +7,7 @@ import 'package:plan_pm/global/student.dart';
 import 'package:plan_pm/global/widgets/navigation_bar.dart';
 import 'package:plan_pm/pages/home/home_page.dart';
 import 'package:plan_pm/pages/lectures/lectures_page.dart';
-import 'package:plan_pm/pages/menu/menu_page.dart';
+import 'package:plan_pm/pages/settings/settings_page.dart';
 import 'package:plan_pm/pages/news/news_page.dart';
 import 'package:plan_pm/pages/welcome/input_page.dart';
 import 'package:plan_pm/pages/welcome/welcome_page.dart';
@@ -151,7 +151,7 @@ List<Map<String, dynamic>> getPages(BuildContext context) {
   return [
     {"widget": const HomePage(), "title": l10n.pageTitleHome},
     {"widget": const LecturesPage(), "title": l10n.pageTitleLectures},
-    {"widget": const MenuPage(), "title": l10n.pageTitleMenu},
+    {"widget": const NewsPage(), "title": l10n.pageTitleSettings},
   ];
 }
 
@@ -174,7 +174,7 @@ class _MyHomePageState extends State<MyHomePage> {
               HapticFeedback.selectionClick();
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const MenuPage()),
+                MaterialPageRoute(builder: (context) => const SettingsPage()),
               );
             },
             icon: Icon(

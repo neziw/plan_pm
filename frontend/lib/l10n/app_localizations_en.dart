@@ -149,7 +149,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get recentLecture => 'Your next class';
+  String get recentLecture => 'Future classes';
 
   @override
   String get lectureLoading => 'Loading schedule';
@@ -247,7 +247,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pageTitleLectures => 'Classes';
 
   @override
-  String get pageTitleMenu => 'Menu';
+  String get pageTitleSettings => 'Settings';
+
+  @override
+  String get pageTitleNews => 'News';
 
   @override
   String get debugHeader => 'Debug';
@@ -275,4 +278,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get emptyNotesLabel => 'Empty';
+
+  @override
+  String get newsSectionLabel => 'Recent news';
+
+  @override
+  String get feedbackHeader => 'Opinie i sugestie';
+
+  @override
+  String get sendFeedbackButton => 'Prześlij opinie';
 }

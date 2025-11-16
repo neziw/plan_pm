@@ -252,7 +252,10 @@ class AppLocalizationsUk extends AppLocalizations {
   String get pageTitleLectures => 'Заняття';
 
   @override
-  String get pageTitleMenu => 'Меню';
+  String get pageTitleSettings => 'Ustawienia';
+
+  @override
+  String get pageTitleNews => 'Nowości';
 
   @override
   String get debugHeader => 'Налагодження';
@@ -280,4 +283,13 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get emptyNotesLabel => 'Пусто';
+
+  @override
+  String get newsSectionLabel => 'Nowości z uczelni';
+
+  @override
+  String get feedbackHeader => 'Opinie i sugestie';
+
+  @override
+  String get sendFeedbackButton => 'Prześlij opinie';
 }

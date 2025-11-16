@@ -4,7 +4,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/global/student.dart';
 import 'package:plan_pm/global/widgets/themed_outline_button.dart';
-import 'package:plan_pm/pages/menu/widgets/menu_section.dart';
+import 'package:plan_pm/pages/settings/widgets/menu_section.dart';
 import 'package:plan_pm/pages/welcome/input_page.dart';
 import 'package:plan_pm/l10n/app_localizations.dart';
 
@@ -39,7 +39,10 @@ class StudentInfo extends StatelessWidget {
           Divider(height: 1, thickness: 1, indent: 12, color: AppColor.outline),
           InfoText(title: l10n.fieldLabel, content: Student.degreeCourse),
           Divider(height: 1, thickness: 1, indent: 12, color: AppColor.outline),
-          InfoText(title: l10n.specialisationLabel, content: Student.specialisation),
+          InfoText(
+            title: l10n.specialisationLabel,
+            content: Student.specialisation,
+          ),
           Divider(height: 1, thickness: 1, indent: 12, color: AppColor.outline),
           InfoText(
             title: l10n.yearLabel,

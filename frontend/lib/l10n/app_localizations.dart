@@ -520,11 +520,17 @@ abstract class AppLocalizations {
   /// **'Zajęcia'**
   String get pageTitleLectures;
 
-  /// main.dart - Title for the Menu/Settings page in the navigation bar.
+  /// main.dart - Title for the Settings page in the navigation bar.
   ///
   /// In pl, this message translates to:
-  /// **'Menu'**
-  String get pageTitleMenu;
+  /// **'Ustawienia'**
+  String get pageTitleSettings;
+
+  /// news_page.dart - Title for the NewsPage page in the navigation bar.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nowości'**
+  String get pageTitleNews;
 
   /// menu_page.dart - Header for the debug/development section.
   ///
@@ -547,13 +553,13 @@ abstract class AppLocalizations {
   /// menu_page.dart - Label for the button that resets navigation to the Input Page.
   ///
   /// In pl, this message translates to:
-  /// **'Input page'**
+  /// **'Podaj dane'**
   String get inputPageButton;
 
   /// lecture.dart - Label for the lecture wiget professor header.
   ///
   /// In pl, this message translates to:
-  /// **'Professor'**
+  /// **'Profesor'**
   String get professorLabel;
 
   /// lecture.dart - Label for the lecture wiget group header.
@@ -571,14 +577,32 @@ abstract class AppLocalizations {
   /// lecture.dart - Label for the lecture wiget notes header.
   ///
   /// In pl, this message translates to:
-  /// **'Notes'**
+  /// **'Notatki'**
   String get notesLabel;
 
   /// lecture.dart - Label for the lecture wiget if there are no notes.
   ///
   /// In pl, this message translates to:
-  /// **'Empty'**
+  /// **'Puste'**
   String get emptyNotesLabel;
+
+  /// news_page.dart - Label/header for the section showing university news.
+  ///
+  /// In pl, this message translates to:
+  /// **'Nowości z uczelni'**
+  String get newsSectionLabel;
+
+  /// settings_page.dart - Header for the feedback and suggestions section.
+  ///
+  /// In pl, this message translates to:
+  /// **'Opinie i sugestie'**
+  String get feedbackHeader;
+
+  /// settings_page.dart - Button label to submit feedback/suggestions.
+  ///
+  /// In pl, this message translates to:
+  /// **'Prześlij opinie'**
+  String get sendFeedbackButton;
 }
 
 class _AppLocalizationsDelegate

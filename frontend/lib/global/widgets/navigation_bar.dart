@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 
 class CustomNavigationBar extends StatefulWidget {
   const CustomNavigationBar({
@@ -21,6 +22,8 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
   int selectedTab = 0;
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     void setSelectedTab(int index) {
       HapticFeedback.lightImpact();
       setState(() {
@@ -42,15 +45,15 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(LucideIcons.home),
-            label: "Strona główna",
+            label: l10n.pageTitleHome,
           ),
           BottomNavigationBarItem(
             icon: Icon(LucideIcons.calendar),
-            label: "Zajęcia",
+            label: l10n.pageTitleLectures,
           ),
           BottomNavigationBarItem(
             icon: Icon(LucideIcons.newspaper),
-            label: "Nowości",
+            label: l10n.pageTitleNews,
           ),
         ],
       ),

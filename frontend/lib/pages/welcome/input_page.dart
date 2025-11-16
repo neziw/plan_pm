@@ -38,13 +38,11 @@ class _InputPageState extends State<InputPage> {
   final _backendService = BackendService();
 
   late Future<UniversityData> _futureUniversityStructure;
-  UniversityData? _universityStructureData;
 
   @override
   void initState() {
     super.initState();
     _futureUniversityStructure = _backendService.fetchStructure().then((data) {
-      _universityStructureData = data;
       return data;
     });
   }
@@ -160,8 +158,8 @@ class _InputPageState extends State<InputPage> {
                               ? selectedSpecialisation
                               : null;
                           Student.term = selectedTerm == 1
-                              ? l10n.fullTimeStudy
-                              : l10n.partTimeStudy;
+                              ? "Stacjonarne"
+                              : "Niestacjonarne";
                           Student.year = selectedYear;
 
                           final SharedPreferences prefs =
@@ -184,8 +182,8 @@ class _InputPageState extends State<InputPage> {
                           await prefs.setString(
                             "term",
                             selectedTerm == 1
-                                ? l10n.fullTimeStudy
-                                : l10n.partTimeStudy,
+                                ? "Stacjonarne"
+                                : "Niestacjonarne",
                           );
                           final CacheService cacheService = CacheService();
                           await cacheService.syncNews();
@@ -353,7 +351,10 @@ class _InputPageState extends State<InputPage> {
                               selectedTerm = term + 1;
                             });
                           },
-                          buttonLabels: [l10n.campusButton, l10n.extramuralButton],
+                          buttonLabels: [
+                            l10n.campusButton,
+                            l10n.extramuralButton,
+                          ],
                           buttonAmount: 2,
                           icon: LucideIcons.graduationCap,
                           label: l10n.typeLabel,
