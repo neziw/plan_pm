@@ -27,7 +27,13 @@ class MenuButton extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(title, style: TextStyle(color: AppColor.onSurface)),
+              Expanded(
+                child: Text(
+                  title,
+                  style: TextStyle(color: AppColor.onSurface),
+                  softWrap: true,
+                ),
+              ),
               Icon(icon, color: AppColor.onSurfaceVariant),
             ],
           ),

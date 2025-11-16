@@ -603,6 +603,42 @@ abstract class AppLocalizations {
   /// In pl, this message translates to:
   /// **'Prześlij opinie'**
   String get sendFeedbackButton;
+
+  /// General - Relative time label like '1 dzień temu', '0 dni temu (dzisiaj)', '4 dni temu'.
+  ///
+  /// In pl, this message translates to:
+  /// **'{days, plural, =0{dzisiaj} one{1 dzień temu} few{{days} dni temu} many{{days} dni temu} other{{days} dni temu}}'**
+  String daysAgo(int days);
+
+  /// lecture.dart - Message shown when a lecture has no professor assigned.
+  ///
+  /// In pl, this message translates to:
+  /// **'Brak wykładowcy'**
+  String get professorNaN;
+
+  /// lecture.dart - Message shown when a lecture has no assigned room.
+  ///
+  /// In pl, this message translates to:
+  /// **'Brak sali'**
+  String get roomNaN;
+
+  /// Ogólne — data w formacie dd.MM.yyyy oraz skrócony dzień tygodnia (EEE). Przykład: 16.11.2025 - nie
+  ///
+  /// In pl, this message translates to:
+  /// **'{date}'**
+  String dateWithWeekday(DateTime date);
+
+  /// Ogólne — pełna nazwa dnia tygodnia (EEEE). Przykład: „poniedziałek”
+  ///
+  /// In pl, this message translates to:
+  /// **'{date1}'**
+  String dateDayMonth(DateTime date1);
+
+  /// No description provided for @details.
+  ///
+  /// In pl, this message translates to:
+  /// **'Szczegóły'**
+  String get details;
 }
 
 class _AppLocalizationsDelegate

@@ -84,10 +84,10 @@ class DatabaseService {
     required String name,
     required String startTime,
     required String endTime,
-    required String room,
-    required String building,
-    required String location,
-    required String professor,
+    String? room,
+    String? building,
+    String? location,
+    String? professor,
     required String group,
     required String duration,
     required DateTime date,
@@ -131,17 +131,17 @@ class DatabaseService {
     final lectures = data.map((lecture) {
       final date = DateTime.fromMillisecondsSinceEpoch(lecture["date"] as int);
       return LectureModel(
-        lecture["location"] as String,
-        lecture["duration"] as String,
-        lecture["notes"] as String?,
+        location: lecture["location"] as String?,
+        duration: lecture["duration"] as String,
+        notes: lecture["notes"] as String?,
         id: lecture["id"].toString(),
         name: lecture["name"] as String,
         startTime: lecture["start_time"] as String,
         endTime: lecture["end_time"] as String,
-        room: lecture["room"] as String,
-        building: lecture["building"] as String,
+        room: lecture["room"] as String?,
+        building: lecture["building"] as String?,
         group: lecture["group_name"] as String,
-        professor: lecture["professor"] as String,
+        professor: lecture["professor"] as String?,
         date: date,
       );
     }).toList();

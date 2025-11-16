@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 
 class FullNewsPage extends StatelessWidget {
   const FullNewsPage({
@@ -22,6 +23,7 @@ class FullNewsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: AppColor.background,
       appBar: AppBar(
@@ -38,7 +40,7 @@ class FullNewsPage extends StatelessWidget {
         backgroundColor: AppColor.background,
         shape: Border(bottom: BorderSide(color: AppColor.outline)),
         title: Text(
-          "Szczegóły",
+          l10n.details,
           style: TextStyle(
             fontWeight: FontWeight.w600,
             color: AppColor.onBackground,

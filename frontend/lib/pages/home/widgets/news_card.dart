@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 import 'package:plan_pm/pages/news/full_news_page.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -25,6 +26,7 @@ class NewsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Card(
       color: AppColor.surface,
       clipBehavior: Clip.antiAlias,
@@ -86,7 +88,9 @@ class NewsCard extends StatelessWidget {
                         style: TextStyle(color: AppColor.onSurfaceVariant),
                       ),
                       Text(
-                        "${DateTime.now().difference(timestamp).inDays} dni temu",
+                        l10n.daysAgo(
+                          DateTime.now().difference(timestamp).inDays,
+                        ),
                         style: TextStyle(color: AppColor.onSurfaceVariant),
                       ),
                     ],

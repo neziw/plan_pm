@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/api/models/lecture_model.dart';
 import 'package:plan_pm/global/colors.dart';
@@ -124,9 +123,7 @@ class _TodayLecturesState extends State<TodayLectures> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          DateFormat(
-                            'dd.MM.yyyy - EEE',
-                          ).format(groups.keys.toList()[index]),
+                          l10n.dateWithWeekday(groups.keys.toList()[index]),
                           style: TextStyle(color: AppColor.onBackgroundVariant),
                         ),
                         ...lecturesWidgets,

@@ -1,132 +1,97 @@
 {
   "@@locale": "uk",
-
   "stage1Title": "",
   "stage1Button": "Ласкаво просимо до Plan PM",
-
   "stage2Title": "Перегляньте всі заняття у зручному тижневому розкладі.",
   "stage2Button": "Далі",
-
   "stage3Title": "Легко знаходьте свої аудиторії завдяки детальній інформації про місцезнаходження.",
   "stage3Button": "Далі",
-
   "stage4Title": "Отримуйте нагадування перед кожним заняттям, щоб ніколи їх не пропустити.",
   "stage4Button": "Розпочати",
-
   "welcomePageSelectionText": "Повернутися до WelcomeScreen",
   "inputPageSelectionText": "Повернутися до InputPage",
-
   "inputPageLabel": "Ваші академічні дані",
-  
   "facultyLabel": "Факультет",
   "facultyHintText": "Виберіть факультет",
-
   "fieldLabel": "Напрямок навчання",
   "fieldHintText": "Виберіть напрямок навчання",
-
   "yearLabel": "Поточний рік",
-
-  "specialisationLabel" : "Спеціалізація",
+  "specialisationLabel": "Спеціалізація",
   "specialisationHintText": "Виберіть спеціалізацію",
-
   "typeLabel": "Форма навчання",
-  
   "campusButton": "Стаціонарна",
   "extramuralButton": "Заочна",
-
   "continueButton": "Продовжити",
-
   "homePageLabel": "Дані студента:",
   "facultyText": "Факультет",
   "fieldText": "Напрямок",
   "specialisationText": "Спеціалізація",
   "yearText": "Рік",
   "typeText": "Форма навчання",
-  
   "dataNaN": "Немає даних",
-
   "studySettings": "Налаштування навчання",
-
   "skipButton": "Пропустити",
-  
   "fullTimeStudy": "Стаціонарна",
   "partTimeStudy": "Нестаціонарна",
-  
   "groupSelection": "Вибір групи",
-  
   "groupSelectionHint": "Виберіть свій факультет, напрямок і форму, щоб персоналізувати розклад занять",
-
   "groupLoading": "Завантаження груп...",
-  
   "groupSettings": "Налаштування навчання",
-  
   "groupSelectionHintAfterLoad": "На основі ваших налаштувань навчання ми завантажили доступні групи. Виберіть одну або декілька, щоб відстежувати різні розклади.",
-  
   "save": "Зберегти",
-
   "todayDataNaN": "Немає занять на сьогодні",
-  
-  "pageErrorMess" : "Помилка у FutureBuilder {snapshotError}",
-
+  "pageErrorMess": "Помилка у FutureBuilder {snapshotError}",
   "lectureLength": "{lecturesLength, plural, one{1 заняття} few{{lecturesLength} заняття} many{{lecturesLength} занять} other{{lecturesLength} заняття}}",
-
-  "recentLecture" : "Ваше найближче заняття",
-
-  "lectureLoading" : "Завантаження розкладу",
-
-  "todayLecturesNaN" : "Немає занять на сьогодні",
-
-  "lectureWigetHint" : "Ви в курсі! Скористайтеся вільним часом або перегляньте свій розклад.",
-
+  "recentLecture": "Ваше найближче заняття",
+  "lectureLoading": "Завантаження розкладу",
+  "todayLecturesNaN": "Немає занять на сьогодні",
+  "lectureWigetHint": "Ви в курсі! Скористайтеся вільним часом або перегляньте свій розклад.",
   "daysShortMon": "Пн",
   "daysShortTue": "Вт",
   "daysShortWed": "Ср",
   "daysShortThu": "Чт",
   "daysShortFri": "Пт",
-
   "daysMon": "понеділок",
   "daysTue": "вівторок",
   "daysWed": "середа",
   "daysThu": "четвер",
   "daysFri": "п'ятниця",
-
   "selectedGroupsHeader": "Вибрані групи",
-
   "changeGroupsButton": "Змінити групи",
-
   "selectedGroupsLabel": "Вибрані групи",
-
   "noDataAvailable": "Дані недоступні",
-
   "academicInfoHeader": "Академічна інформація",
-
   "editButton": "Редагувати",
-
   "studyYear": "{year, plural, one{1 рік} few{{year} роки} many{{year} років} other{{year} року}}",
-
   "studyModeLabel": "Форма навчання",
-
   "groupTypeAuditorium": "Аудиторія",
   "groupTypeClasses": "Практичні заняття",
   "groupTypeLabs": "Лабораторні роботи",
   "groupTypeOther": "Інше",
-
   "pageTitleHome": "Головна",
   "pageTitleLectures": "Заняття",
   "pageTitleMenu": "Меню",
-
   "debugHeader": "Налагодження",
   "returnToLabel": "Повернутися до",
   "welcomeScreenButton": "Екран привітання",
   "inputPageButton": "Екран вводу даних",
-
   "professorLabel": "Професор",
   "@professorLabel": {
     "description": "lecture.dart - Label for the lecture wiget professor header."
   },
-
   "groupLabel": "Група",
   "lengthLabel": "Тривалість",
   "notesLabel": "Нотатки",
-  "emptyNotesLabel": "Пусто"
+  "emptyNotesLabel": "Пусто",
+  "pageTitleSettings": "Налаштування",
+  "feedbackHeader": "Відгуки та пропозиції",
+  "sendFeedbackButton": "Надіслати відгук",
+  "pageTitleNews": "Новини",
+  "newsSectionLabel": "Останні новини",
+  "professorNaN": "Немає професора",
+  "roomNaN": "Немає аудиторії",
+  "daysAgo": "{days, plural, =0{сьогодні} one{1 день тому} few{{days} дні тому} many{{days} днів тому} other{{days} дня тому}}",
+  "dateWithWeekday": "{date}",
+  "dateDayMonth": "{date1}",
+  "details": "Деталі"
 }

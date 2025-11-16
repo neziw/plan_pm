@@ -71,8 +71,8 @@
   "pageTitleHome": "Home",
   "pageTitleLectures": "Classes",
   "pageTitleSettings": "Settings",
-  "feedbackHeader": "Opinie i sugestie",
-  "sendFeedbackButton": "Prześlij opinie",
+  "feedbackHeader": "Feedback and suggestions",
+  "sendFeedbackButton": "Send feedback",
   "pageTitleNews": "News",
   "debugHeader": "Debug",
   "returnToLabel": "Return to",
@@ -83,5 +83,11 @@
   "lengthLabel": "Duration",
   "notesLabel": "Notes",
   "emptyNotesLabel": "Empty",
-  "newsSectionLabel": "Recent news"
+  "newsSectionLabel": "Recent news",
+  "professorNaN": "No professor",
+  "roomNaN": "No room",
+  "daysAgo": "{days, plural, =0{today} one{1 day ago} other{{days} days ago}}",
+  "dateWithWeekday": "{date}",
+  "dateDayMonth": "{date1}",
+  "details": "Details"
 }

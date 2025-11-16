@@ -284,4 +284,43 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get sendFeedbackButton => 'Prześlij opinie';
+
+  @override
+  String daysAgo(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days dni temu',
+      many: '$days dni temu',
+      few: '$days dni temu',
+      one: '1 dzień temu',
+      zero: 'dzisiaj',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get professorNaN => 'Brak wykładowcy';
+
+  @override
+  String get roomNaN => 'Brak sali';
+
+  @override
+  String dateWithWeekday(DateTime date) {
+    final intl.DateFormat dateDateFormat = intl.DateFormat.yMMMEd(localeName);
+    final String dateString = dateDateFormat.format(date);
+
+    return '$dateString';
+  }
+
+  @override
+  String dateDayMonth(DateTime date1) {
+    final intl.DateFormat date1DateFormat = intl.DateFormat.MMMM(localeName);
+    final String date1String = date1DateFormat.format(date1);
+
+    return '$date1String';
+  }
+
+  @override
+  String get details => 'Szczegóły';
 }

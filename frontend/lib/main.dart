@@ -151,9 +151,11 @@ List<Map<String, dynamic>> getPages(BuildContext context) {
   return [
     {"widget": const HomePage(), "title": l10n.pageTitleHome},
     {"widget": const LecturesPage(), "title": l10n.pageTitleLectures},
-    {"widget": const NewsPage(), "title": l10n.pageTitleSettings},
+    {"widget": const NewsPage(), "title": l10n.pageTitleNews},
   ];
 }
+// prze†łumaczyć date w today Lectures
+// przetlumaczyc date w dayselection
 
 class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;

@@ -347,5 +347,44 @@
   "sendFeedbackButton": "Prześlij opinie",
   "@sendFeedbackButton": {
     "description": "settings_page.dart - Button label to submit feedback/suggestions."
-  }
+  },
+  "daysAgo": "{days, plural, =0{dzisiaj} one{1 dzień temu} few{{days} dni temu} many{{days} dni temu} other{{days} dni temu}}",
+  "@daysAgo": {
+    "description": "General - Relative time label like '1 dzień temu', '0 dni temu (dzisiaj)', '4 dni temu'.",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "professorNaN": "Brak wykładowcy",
+  "@professorNaN": {
+    "description": "lecture.dart - Message shown when a lecture has no professor assigned."
+  },
+  "roomNaN": "Brak sali",
+  "@roomNaN": {
+    "description": "lecture.dart - Message shown when a lecture has no assigned room."
+  },
+  "dateWithWeekday": "{date}",
+  "@dateWithWeekday": {
+    "description": "Ogólne — data w formacie dd.MM.yyyy oraz skrócony dzień tygodnia (EEE). Przykład: 16.11.2025 - nie",
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMMMEd"
+      }
+    }
+  },
+  "dateDayMonth": "{date1}",
+  "@dateDayMonth": {
+    "description": "Ogólne — pełna nazwa dnia tygodnia (EEEE). Przykład: „poniedziałek”",
+    "placeholders": {
+      "date1": {
+        "type": "DateTime",
+        "format": "MMMM"
+      }
+    }
+  },
+  "details": "Szczegóły",
+  "@details": {}
 }

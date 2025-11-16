@@ -283,8 +283,45 @@ class AppLocalizationsEn extends AppLocalizations {
   String get newsSectionLabel => 'Recent news';
 
   @override
-  String get feedbackHeader => 'Opinie i sugestie';
+  String get feedbackHeader => 'Feedback and suggestions';
 
   @override
-  String get sendFeedbackButton => 'Prześlij opinie';
+  String get sendFeedbackButton => 'Send feedback';
+
+  @override
+  String daysAgo(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days ago',
+      one: '1 day ago',
+      zero: 'today',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get professorNaN => 'No professor';
+
+  @override
+  String get roomNaN => 'No room';
+
+  @override
+  String dateWithWeekday(DateTime date) {
+    final intl.DateFormat dateDateFormat = intl.DateFormat.yMMMEd(localeName);
+    final String dateString = dateDateFormat.format(date);
+
+    return '$dateString';
+  }
+
+  @override
+  String dateDayMonth(DateTime date1) {
+    final intl.DateFormat date1DateFormat = intl.DateFormat.MMMM(localeName);
+    final String date1String = date1DateFormat.format(date1);
+
+    return '$date1String';
+  }
+
+  @override
+  String get details => 'Details';
 }

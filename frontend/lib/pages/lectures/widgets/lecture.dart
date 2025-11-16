@@ -66,8 +66,8 @@ class Lecture extends StatefulWidget {
     required this.name,
     required this.timeFrom,
     required this.timeTo,
-    required this.location,
-    required this.professor,
+    this.location,
+    this.professor,
     required this.group,
     required this.duration,
     this.notes,
@@ -77,8 +77,8 @@ class Lecture extends StatefulWidget {
   final String name;
   final String timeFrom;
   final String timeTo;
-  final String location;
-  final String professor;
+  final String? location;
+  final String? professor;
   final String group;
   final String duration;
   final String? notes;
@@ -174,9 +174,13 @@ class _LectureState extends State<Lecture> {
                               // Ten kod jest po to, zeby nie dodawać spacji przed przecinkiem jezeli są więcej niz dwie sale.
                               // Przed: ' , ' Po: ', '
                               // Ludzie nie stawiajcie spacji przed przecinkiem!!!!!!!!
-                              widget.location.split(" , ").length == 1
-                                  ? widget.location
-                                  : widget.location.split(" , ").join(", "),
+                              widget.location != null
+                                  ? widget.location!.split(" , ").length == 1
+                                        ? widget.location!
+                                        : widget.location!
+                                              .split(" , ")
+                                              .join(", ")
+                                  : l10n.roomNaN,
                               style: TextStyle(color: AppColor.onPrimary),
                             ),
                           ),
@@ -209,7 +213,7 @@ class _LectureState extends State<Lecture> {
                             icon: LucideIcons.user,
                             color: Colors.blue,
                             name: l10n.professorLabel,
-                            content: widget.professor,
+                            content: widget.professor ?? l10n.professorNaN,
                           ),
                           DescriptionItem(
                             icon: LucideIcons.bookLock,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
+import 'package:plan_pm/global/extensions.dart';
 import 'package:plan_pm/l10n/app_localizations.dart';
 
 List<String> days = [];
@@ -55,6 +55,7 @@ List<LinearGradient> softHorizontalGradients = [
     ], // #A035F5 -> #8B5CF6 (końcowy kolor oryginalny)
   ),
 ];
+
 class DaySelection extends StatefulWidget {
   const DaySelection({
     super.key,
@@ -126,7 +127,7 @@ class _DaySelectionState extends State<DaySelection> {
                 ),
               ),
               Text(
-                DateFormat("d MMMM").format(currentDate),
+                "${currentDate.day} ${l10n.dateDayMonth(currentDate).toCapitalized}",
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
