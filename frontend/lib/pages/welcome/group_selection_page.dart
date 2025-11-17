@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/global/student.dart';
+import 'package:plan_pm/global/widgets/generic_no_resource.dart';
 import 'package:plan_pm/main.dart';
 import 'package:plan_pm/pages/welcome/widgets/group_builder.dart';
 import 'package:plan_pm/service/backend_service.dart';
@@ -35,7 +36,7 @@ class GroupSelectionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final _backendService = BackendService();
+    final backendService = BackendService();
     Student.selectedGroups = [];
     return Scaffold(
       backgroundColor: AppColor.background,
@@ -157,7 +158,7 @@ class GroupSelectionPage extends StatelessWidget {
                 ),
               ),
               FutureBuilder(
-                future: _backendService.fetchGroups(),
+                future: backendService.fetchGroups(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Container(
@@ -193,10 +194,10 @@ class GroupSelectionPage extends StatelessWidget {
                     );
                   }
                   if (snapshot.hasError) {
-                    return Center(
-                      child: Text(
-                        l10n.pageErrorMess(snapshot.error.toString()),
-                      ),
+                    return GenericNoResource(
+                      label: l10n.unexpectedError,
+                      icon: LucideIcons.bug,
+                      description: snapshot.error.toString(),
                     );
                   }
                   if (snapshot.data == null) {

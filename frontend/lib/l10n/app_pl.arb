@@ -386,5 +386,25 @@
     }
   },
   "details": "Szczegóły",
-  "@details": {}
+  "@details": {},
+  "universityStructureLoading": "Ładowanie struktury uczelni",
+  "@universityStructureLoading": {
+    "description": "university_structure.dart - Loading message while fetching the university structure."
+  },
+  "noNews": "Brak aktualności",
+  "@noNews": {
+    "description": "news_page.dart - Message shown when there are no news items."
+  },
+  "universityStructureEmpty": "Struktura uczelni jest pusta. Czy jesteś podłączony do internetu?",
+  "@universityStructureEmpty": {
+    "description": "university_structure.dart - Message shown when the university structure couldn't be loaded; suggests checking internet connection."
+  },
+  "noSpecialisationForField": "Brak specjalizacji dla tego kierunku",
+  "@noSpecialisationForField": {
+    "description": "group_selection_page.dart - Message shown when there are no specialisations available for the selected field."
+  },
+  "unexpectedError": "Ojej! Coś poszło nie tak.",
+  "@unexpectedError": {
+    "description": "Ogólny komunikat wyświetlany, gdy w kodzie wystąpi wyjątek."
+  }
 }

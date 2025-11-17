@@ -41,7 +41,7 @@ class _LecturesPageState extends State<LecturesPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final _databaseService = DatabaseService.instance;
+    final databaseService = DatabaseService.instance;
 
     return Column(
       children: [
@@ -59,11 +59,16 @@ class _LecturesPageState extends State<LecturesPage> {
           ),
         ),
         FutureBuilder<List<LectureModel>>(
-          future: _databaseService.fetchLectures(),
+          future: databaseService.fetchLectures(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return Center(
-                child: Text('Błąd w FutureBuilder ${snapshot.error}'),
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GenericNoResource(
+                  label: l10n.unexpectedError,
+                  icon: LucideIcons.bug,
+                  description: snapshot.error.toString(),
+                ),
               );
             }
 
@@ -82,8 +87,7 @@ class _LecturesPageState extends State<LecturesPage> {
                 child: GenericNoResource(
                   label: l10n.todayDataNaN,
                   icon: LucideIcons.calendarX,
-                  description:
-                      "Jesteś na bieżąco! Skorzystaj z wolnego czasu lub przejrzyj swój harmonogram.",
+                  description: l10n.lectureWigetHint,
                 ),
               );
             }

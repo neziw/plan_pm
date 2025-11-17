@@ -220,21 +220,22 @@ class _InputPageState extends State<InputPage> {
                   future: _futureUniversityStructure,
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
-                      return Center(
-                        child: Text('Błąd w FutureBuilder ${snapshot.error}'),
+                      return GenericNoResource(
+                        label: l10n.unexpectedError,
+                        icon: LucideIcons.bug,
+                        description: snapshot.error.toString(),
                       );
                     }
                     if (snapshot.connectionState != ConnectionState.done) {
                       return GenericLoading(
-                        label: "Ładowanie struktury uczelni",
+                        label: l10n.universityStructureLoading,
                       );
                     }
                     if (snapshot.data != null && snapshot.data!.isEmpty) {
                       return GenericNoResource(
-                        label: "Brak aktualności",
+                        label: l10n.noNews,
                         icon: LucideIcons.calendarX,
-                        description:
-                            "Struktura uczelni jest pusta. Czy jesteś podłączony do internetu?",
+                        description: l10n.universityStructureEmpty,
                       );
                     }
                     final facultiesData = snapshot.data!;
@@ -337,7 +338,7 @@ class _InputPageState extends State<InputPage> {
                               horizontal: 16.0,
                             ),
                             child: Text(
-                              "Brak specjalizacji dla tego kierunku.",
+                              l10n.noSpecialisationForField,
                               style: TextStyle(
                                 color: AppColor.onSurfaceVariant,
                               ),

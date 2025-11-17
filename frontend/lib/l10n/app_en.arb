@@ -89,5 +89,10 @@
   "daysAgo": "{days, plural, =0{today} one{1 day ago} other{{days} days ago}}",
   "dateWithWeekday": "{date}",
   "dateDayMonth": "{date1}",
-  "details": "Details"
+  "details": "Details",
+  "universityStructureLoading": "Loading university structure...",
+  "noNews": "No news",
+  "universityStructureEmpty": "The university structure is empty. Are you connected to the internet?",
+  "noSpecialisationForField": "No specialisation available for this field",
+  "unexpectedError": "Oops! Something went wrong."
 }

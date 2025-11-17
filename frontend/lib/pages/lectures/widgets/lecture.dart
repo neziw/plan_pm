@@ -209,12 +209,15 @@ class _LectureState extends State<Lecture> {
                       child: Column(
                         spacing: 10,
                         children: [
-                          DescriptionItem(
-                            icon: LucideIcons.user,
-                            color: Colors.blue,
-                            name: l10n.professorLabel,
-                            content: widget.professor ?? l10n.professorNaN,
-                          ),
+                          widget.professor != null
+                              ? DescriptionItem(
+                                  icon: LucideIcons.user,
+                                  color: Colors.blue,
+                                  name: l10n.professorLabel,
+                                  content:
+                                      widget.professor ?? l10n.professorNaN,
+                                )
+                              : Container(),
                           DescriptionItem(
                             icon: LucideIcons.bookLock,
                             color: Colors.green,
@@ -227,12 +230,14 @@ class _LectureState extends State<Lecture> {
                             name: l10n.lengthLabel,
                             content: widget.duration,
                           ),
-                          DescriptionItem(
-                            icon: LucideIcons.stickyNote,
-                            color: Colors.yellow,
-                            name: l10n.notesLabel,
-                            content: widget.notes ?? l10n.emptyNotesLabel,
-                          ),
+                          widget.notes != null
+                              ? DescriptionItem(
+                                  icon: LucideIcons.stickyNote,
+                                  color: Colors.yellow,
+                                  name: l10n.notesLabel,
+                                  content: widget.notes ?? l10n.emptyNotesLabel,
+                                )
+                              : Container(),
                         ],
                       ),
                     ),

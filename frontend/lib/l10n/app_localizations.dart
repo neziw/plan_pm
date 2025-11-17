@@ -639,6 +639,36 @@ abstract class AppLocalizations {
   /// In pl, this message translates to:
   /// **'Szczegóły'**
   String get details;
+
+  /// university_structure.dart - Loading message while fetching the university structure.
+  ///
+  /// In pl, this message translates to:
+  /// **'Ładowanie struktury uczelni'**
+  String get universityStructureLoading;
+
+  /// news_page.dart - Message shown when there are no news items.
+  ///
+  /// In pl, this message translates to:
+  /// **'Brak aktualności'**
+  String get noNews;
+
+  /// university_structure.dart - Message shown when the university structure couldn't be loaded; suggests checking internet connection.
+  ///
+  /// In pl, this message translates to:
+  /// **'Struktura uczelni jest pusta. Czy jesteś podłączony do internetu?'**
+  String get universityStructureEmpty;
+
+  /// group_selection_page.dart - Message shown when there are no specialisations available for the selected field.
+  ///
+  /// In pl, this message translates to:
+  /// **'Brak specjalizacji dla tego kierunku'**
+  String get noSpecialisationForField;
+
+  /// Ogólny komunikat wyświetlany, gdy w kodzie wystąpi wyjątek.
+  ///
+  /// In pl, this message translates to:
+  /// **'Ojej! Coś poszło nie tak.'**
+  String get unexpectedError;
 }
 
 class _AppLocalizationsDelegate

@@ -93,5 +93,10 @@
   "daysAgo": "{days, plural, =0{сьогодні} one{1 день тому} few{{days} дні тому} many{{days} днів тому} other{{days} дня тому}}",
   "dateWithWeekday": "{date}",
   "dateDayMonth": "{date1}",
-  "details": "Деталі"
+  "details": "Деталі",
+  "universityStructureLoading": "Завантаження структури університету",
+  "noNews": "Немає новин",
+  "universityStructureEmpty": "Структура університету порожня. Ви підключені до інтернету?",
+  "noSpecialisationForField": "Немає спеціалізацій для цього напрямку",
+  "unexpectedError": "Упс! Щось пішло не так."
 }

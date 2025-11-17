@@ -324,4 +324,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get details => 'Details';
+
+  @override
+  String get universityStructureLoading => 'Loading university structure...';
+
+  @override
+  String get noNews => 'No news';
+
+  @override
+  String get universityStructureEmpty =>
+      'The university structure is empty. Are you connected to the internet?';
+
+  @override
+  String get noSpecialisationForField =>
+      'No specialisation available for this field';
+
+  @override
+  String get unexpectedError => 'Oops! Something went wrong.';
 }

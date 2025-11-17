@@ -44,15 +44,17 @@ class _TodayLecturesState extends State<TodayLectures> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     int idx = 0;
-    final _databaseService = DatabaseService.instance;
+    final databaseService = DatabaseService.instance;
     return HomeSection(
       title: l10n.recentLecture,
       child: FutureBuilder<List<LectureModel>>(
-        future: _databaseService.fetchLectures(),
+        future: databaseService.fetchLectures(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return Center(
-              child: Text(l10n.pageErrorMess(snapshot.error.toString())),
+            return GenericNoResource(
+              label: l10n.unexpectedError,
+              icon: LucideIcons.bug,
+              description: snapshot.error.toString(),
             );
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -78,10 +80,9 @@ class _TodayLecturesState extends State<TodayLectures> {
 
           if (lectures.isEmpty) {
             return GenericNoResource(
-              label: "Brak zajęć na dziś",
+              label: l10n.todayLecturesNaN,
               icon: LucideIcons.calendarX,
-              description:
-                  "Jesteś na bieżąco! Skorzystaj z wolnego czasu lub przejrzyj swój harmonogram.",
+              description: l10n.lectureWigetHint,
             );
           }
 

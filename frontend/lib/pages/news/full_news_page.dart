@@ -91,7 +91,9 @@ class FullNewsPage extends StatelessWidget {
                             style: TextStyle(color: AppColor.onSurfaceVariant),
                           ),
                           Text(
-                            "${DateTime.now().difference(timestamp).inDays} dni temu",
+                            l10n.daysAgo(
+                              DateTime.now().difference(timestamp).inDays,
+                            ),
                             style: TextStyle(color: AppColor.onSurfaceVariant),
                           ),
                         ],

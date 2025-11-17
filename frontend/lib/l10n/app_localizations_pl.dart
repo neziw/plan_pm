@@ -323,4 +323,20 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get details => 'Szczegóły';
+
+  @override
+  String get universityStructureLoading => 'Ładowanie struktury uczelni';
+
+  @override
+  String get noNews => 'Brak aktualności';
+
+  @override
+  String get universityStructureEmpty =>
+      'Struktura uczelni jest pusta. Czy jesteś podłączony do internetu?';
+
+  @override
+  String get noSpecialisationForField => 'Brak specjalizacji dla tego kierunku';
+
+  @override
+  String get unexpectedError => 'Ojej! Coś poszło nie tak.';
 }

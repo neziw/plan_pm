@@ -331,4 +331,22 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get details => 'Деталі';
+
+  @override
+  String get universityStructureLoading =>
+      'Завантаження структури університету';
+
+  @override
+  String get noNews => 'Немає новин';
+
+  @override
+  String get universityStructureEmpty =>
+      'Структура університету порожня. Ви підключені до інтернету?';
+
+  @override
+  String get noSpecialisationForField =>
+      'Немає спеціалізацій для цього напрямку';
+
+  @override
+  String get unexpectedError => 'Упс! Щось пішло не так.';
 }

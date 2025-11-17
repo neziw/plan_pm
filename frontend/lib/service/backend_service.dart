@@ -148,6 +148,7 @@ class BackendService {
       // developer.log(facultiesMap.toString());
       return facultiesMap;
     }
+
     return {};
   }
 }

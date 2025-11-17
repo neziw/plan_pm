@@ -41,6 +41,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
         selectedItemColor: AppColor.primary,
         unselectedItemColor: AppColor.onBackgroundVariant,
         currentIndex: widget.index,
+        enableFeedback: false,
         onTap: setSelectedTab,
         items: [
           BottomNavigationBarItem(

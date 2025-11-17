@@ -1,7 +1,6 @@
 import 'package:plan_pm/api/models/lecture_model.dart';
 import 'package:plan_pm/api/models/news_model.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:sqflite/sqlite_api.dart';
 import 'package:path/path.dart';
 
 class DatabaseService {
