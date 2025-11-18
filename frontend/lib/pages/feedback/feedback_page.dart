@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class FeedbackPage extends StatefulWidget {
@@ -15,6 +16,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
     ..loadRequest(Uri.parse("https://forms.gle/E8sLgZ1X49kaX5jA6"));
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: AppColor.background,
       appBar: AppBar(
@@ -30,7 +32,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
           ),
         ),
         title: Text(
-          "Prześlij opinie",
+          l10n.sendFeedbackButton,
           style: TextStyle(
             fontWeight: FontWeight.w600,
             color: AppColor.onBackground,

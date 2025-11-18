@@ -1,5 +1,5 @@
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+// import 'dart:developer' as developer;
 import 'package:plan_pm/api/models/lecture_model.dart';
 import 'package:plan_pm/api/models/news_model.dart';
 import 'package:plan_pm/global/student.dart';
@@ -28,14 +28,14 @@ class BackendService {
 
   BackendService._internal();
 
-  Future<List<LectureModel>> fetchLectures(DateTime filterDate) async {
+  Future<List<LectureModel>> fetchLectures() async {
     if (Student.specialisation == null) {
       print("Specjalizacja studenta nie została ustawiona");
     }
     final List<String> selectedGroups = Student.selectedGroups ?? [];
 
-    final today = filterDate;
-    final tomorrow = filterDate.add(Duration(days: 1));
+    // final today = filterDate;
+    // final tomorrow = filterDate.add(Duration(days: 1));
 
     var query = Supabase.instance.client
         .from("classes")
@@ -52,8 +52,8 @@ class BackendService {
           building:building(name)
         )
       ''')
-        .gte('startTime', DateTimeToSupabase(today))
-        .lt('startTime', DateTimeToSupabase(tomorrow))
+        // .gte('startTime', DateTimeToSupabase(today))
+        // .lt('startTime', DateTimeToSupabase(tomorrow))
         .eq("programs.programType", Student.term?[0] ?? "S")
         .eq(
           "programs.name",
@@ -107,18 +107,48 @@ class BackendService {
             .from("Files")
             .getPublicUrl("News/$id.png");
 
-        final thumbnail = url != "" ? NetworkImage(url) : null;
         return NewsModel(
           id: json["id"] as String,
           createdAt: DateTime.parse(json["created_at"]),
           title: json["title"] as String,
           content: json["content"] as String,
           messageType: json["message_type"] as String,
-          thumbnail: thumbnail,
+          imageUrl: url,
         );
       }).toList();
       return news;
     }
     return [];
+  }
+
+  Future<Map<String, Map<String, List<String>>>> fetchStructure() async {
+    // select f.name as faculty, d.name as degree_course, s.name as specialisation from faculties f join degree_courses d on f.id = d.faculty_id left join specialisations s on d.id = s.degree_course_id;
+    final response = await Supabase.instance.client.from('faculties').select('''
+          name,
+          degree_courses!inner(
+            name,
+            specialisations!left(
+              name
+            )
+          )
+        ''');
+
+    if (response.isNotEmpty) {
+      final data = response;
+      final Map<String, Map<String, List<String>>> facultiesMap = {
+        for (var faculty in data)
+          faculty["name"] as String: {
+            for (var degreeCourse in faculty["degree_courses"])
+              degreeCourse["name"] as String: [
+                for (var specialisation in degreeCourse["specialisations"])
+                  specialisation["name"] as String,
+              ],
+          },
+      };
+      // developer.log(facultiesMap.toString());
+      return facultiesMap;
+    }
+
+    return {};
   }
 }

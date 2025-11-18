@@ -5,8 +5,9 @@ import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/global/widgets/generic_no_resource.dart';
 import 'package:plan_pm/pages/lectures/widgets/day_selection.dart';
 import 'package:plan_pm/pages/lectures/widgets/lecture.dart';
-import 'package:plan_pm/service/backend_service.dart';
+import 'package:plan_pm/service/database_service.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 
 class LecturesPage extends StatefulWidget {
   const LecturesPage({super.key});
@@ -39,7 +40,8 @@ class _LecturesPageState extends State<LecturesPage> {
 
   @override
   Widget build(BuildContext context) {
-    final _backendService = BackendService();
+    final l10n = AppLocalizations.of(context)!;
+    final databaseService = DatabaseService.instance;
 
     return Column(
       children: [
@@ -57,11 +59,16 @@ class _LecturesPageState extends State<LecturesPage> {
           ),
         ),
         FutureBuilder<List<LectureModel>>(
-          future: _backendService.fetchLectures(currentDate),
+          future: databaseService.fetchLectures(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return Center(
-                child: Text('Błąd w FutureBuilder ${snapshot.error}'),
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GenericNoResource(
+                  label: l10n.unexpectedError,
+                  icon: LucideIcons.bug,
+                  description: snapshot.error.toString(),
+                ),
               );
             }
 
@@ -78,10 +85,9 @@ class _LecturesPageState extends State<LecturesPage> {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: GenericNoResource(
-                  label: "Brak zajęć na dziś",
+                  label: l10n.todayDataNaN,
                   icon: LucideIcons.calendarX,
-                  description:
-                      "Jesteś na bieżąco! Skorzystaj z wolnego czasu lub przejrzyj swój harmonogram.",
+                  description: l10n.lectureWigetHint,
                 ),
               );
             }
@@ -96,16 +102,14 @@ class _LecturesPageState extends State<LecturesPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "${lectures.length} zajęcia",
+                          l10n.lectureLength(lectures.length),
                           style: TextStyle(color: AppColor.onBackgroundVariant),
                         ),
                       ],
                     ),
                     Expanded(
                       child: Skeletonizer(
-                        effect: const ShimmerEffect(
-                          baseColor: Color(0x4FFFFFFF),
-                        ),
+                        effect: const SoldColorEffect(color: Color(0x00000000)),
                         enabled:
                             snapshot.connectionState == ConnectionState.waiting,
                         child: ListView.separated(

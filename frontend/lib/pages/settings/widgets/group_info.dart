@@ -4,16 +4,18 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/global/student.dart';
 import 'package:plan_pm/global/widgets/themed_outline_button.dart';
-import 'package:plan_pm/pages/menu/widgets/menu_section.dart';
+import 'package:plan_pm/pages/settings/widgets/menu_section.dart';
 import 'package:plan_pm/pages/welcome/group_selection_page.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 
 class GroupInfo extends StatelessWidget {
   const GroupInfo({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return MenuSection(
-      title: "Wybrane grupy",
+      title: l10n.selectedGroupsHeader,
       action: [
         SizedBox(
           height: 35,
@@ -27,7 +29,7 @@ class GroupInfo extends StatelessWidget {
                 ),
               );
             },
-            label: "Zmień grupy",
+            label: l10n.changeGroupsButton,
             icon: LucideIcons.edit3,
           ),
         ),
@@ -42,7 +44,7 @@ class GroupInfo extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Wybrane grupy",
+                  l10n.selectedGroupsLabel,
                   style: TextStyle(
                     fontSize: 14,
                     color: AppColor.onSurfaceVariant,
@@ -82,7 +84,7 @@ class GroupInfo extends StatelessWidget {
                             .toList()
                       : [
                           Text(
-                            "Brak danych",
+                            l10n.noDataAvailable,
                             style: TextStyle(color: AppColor.onSurface),
                           ),
                         ],

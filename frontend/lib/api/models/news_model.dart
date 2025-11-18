@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
-
 class NewsModel {
   final String id;
   final DateTime createdAt;
-  final NetworkImage? thumbnail;
+  final String? imageUrl;
   final String title;
   final String content;
   final String messageType;
@@ -14,12 +12,12 @@ class NewsModel {
     required this.title,
     required this.content,
     required this.messageType,
-    this.thumbnail,
+    this.imageUrl,
   });
 
   @override
   String toString() {
-    final thumb = thumbnail == null ? 'null' : thumbnail!;
+    final thumb = imageUrl == null ? 'null' : imageUrl!;
     final contentPreview = content.length > 120
         ? '${content.substring(0, 120)}...'
         : content;

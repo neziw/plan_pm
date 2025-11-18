@@ -4,11 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/global/student.dart';
+import 'package:plan_pm/global/widgets/generic_no_resource.dart';
 import 'package:plan_pm/main.dart';
 import 'package:plan_pm/pages/welcome/widgets/group_builder.dart';
 import 'package:plan_pm/service/backend_service.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:plan_pm/service/cache_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 
 ButtonStyle buttonStyle = ButtonStyle(
   shape: WidgetStatePropertyAll(
@@ -32,7 +35,8 @@ class GroupSelectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _backendService = BackendService();
+    final l10n = AppLocalizations.of(context)!;
+    final backendService = BackendService();
     Student.selectedGroups = [];
     return Scaffold(
       backgroundColor: AppColor.background,
@@ -70,7 +74,7 @@ class GroupSelectionPage extends StatelessWidget {
                       );
                     },
                     child: Text(
-                      "Pomiń",
+                      l10n.skipButton,
                       style: TextStyle(color: AppColor.onSurface),
                     ),
                   ),
@@ -96,6 +100,10 @@ class GroupSelectionPage extends StatelessWidget {
                       Student.selectedGroups ?? [],
                     );
 
+                    final CacheService cacheService = CacheService();
+                    await cacheService.syncNews();
+                    await cacheService.syncLectures();
+
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
@@ -106,7 +114,7 @@ class GroupSelectionPage extends StatelessWidget {
                     );
                   },
                   child: Text(
-                    "Zapisz",
+                    l10n.save,
                     style: TextStyle(color: AppColor.onPrimary),
                   ),
                 ),
@@ -129,7 +137,7 @@ class GroupSelectionPage extends StatelessWidget {
         backgroundColor: AppColor.background,
         shape: Border(bottom: BorderSide(color: AppColor.outline)),
         title: Text(
-          "Ustawienia studiów",
+          l10n.groupSettings,
           style: TextStyle(
             fontWeight: FontWeight.w600,
             color: AppColor.onBackground,
@@ -143,14 +151,14 @@ class GroupSelectionPage extends StatelessWidget {
             spacing: 10,
             children: [
               Text(
-                "Na podstawie Twoich ustawień studiów pobraliśmy dostępne grupy. Wybierz jedną lub wiele, aby śledzić kilka planów.",
+                l10n.groupSelectionHint,
                 style: TextStyle(
                   fontSize: 14,
                   color: AppColor.onBackgroundVariant,
                 ),
               ),
               FutureBuilder(
-                future: _backendService.fetchGroups(),
+                future: backendService.fetchGroups(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Container(
@@ -174,7 +182,7 @@ class GroupSelectionPage extends StatelessWidget {
                                 size: 48,
                               ),
                               Text(
-                                "Ładowanie grup...",
+                                l10n.groupLoading,
                                 style: TextStyle(
                                   color: AppColor.onSurfaceVariant,
                                 ),
@@ -186,8 +194,10 @@ class GroupSelectionPage extends StatelessWidget {
                     );
                   }
                   if (snapshot.hasError) {
-                    return Center(
-                      child: Text('Błąd w FutureBuilder ${snapshot.error}'),
+                    return GenericNoResource(
+                      label: l10n.unexpectedError,
+                      icon: LucideIcons.bug,
+                      description: snapshot.error.toString(),
                     );
                   }
                   if (snapshot.data == null) {
@@ -198,16 +208,6 @@ class GroupSelectionPage extends StatelessWidget {
                   final groups = data
                       .map((g) {
                         final group = g.toString();
-                        if (group.split(",").length > 1) {
-                          print("Shitty group found: $group");
-                          // Treat as "Other" and keep same short/long when parsing is ambiguous
-                          return {
-                            "Other": [
-                              {"short": longToShort(group), "long": group},
-                            ],
-                          };
-                        }
-
                         final first = group.split("/")[0];
                         final shortName = first;
                         final longName = group;

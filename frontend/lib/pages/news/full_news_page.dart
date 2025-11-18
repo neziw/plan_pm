@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 
 class FullNewsPage extends StatelessWidget {
   const FullNewsPage({
@@ -10,17 +12,18 @@ class FullNewsPage extends StatelessWidget {
     required this.messageType,
     required this.description,
     required this.timestamp,
-    this.image,
+    this.imageUrl,
   });
 
   final String title;
   final String messageType;
   final String description;
   final DateTime timestamp;
-  final NetworkImage? image;
+  final String? imageUrl;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: AppColor.background,
       appBar: AppBar(
@@ -37,7 +40,7 @@ class FullNewsPage extends StatelessWidget {
         backgroundColor: AppColor.background,
         shape: Border(bottom: BorderSide(color: AppColor.outline)),
         title: Text(
-          "Szczegóły",
+          l10n.details,
           style: TextStyle(
             fontWeight: FontWeight.w600,
             color: AppColor.onBackground,
@@ -58,12 +61,16 @@ class FullNewsPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (image != null)
-                  Image(
-                    image: image!,
+                if (imageUrl != null)
+                  CachedNetworkImage(
                     fit: BoxFit.cover,
                     width: double.infinity,
                     height: 300,
+                    imageUrl: imageUrl!,
+                    placeholder: (context, url) =>
+                        const CircularProgressIndicator(),
+                    errorWidget: (context, url, error) =>
+                        const Icon(LucideIcons.eggFried),
                   ),
 
                 Padding(
@@ -84,7 +91,9 @@ class FullNewsPage extends StatelessWidget {
                             style: TextStyle(color: AppColor.onSurfaceVariant),
                           ),
                           Text(
-                            "${DateTime.now().difference(timestamp).inDays} dni temu",
+                            l10n.daysAgo(
+                              DateTime.now().difference(timestamp).inDays,
+                            ),
                             style: TextStyle(color: AppColor.onSurfaceVariant),
                           ),
                         ],

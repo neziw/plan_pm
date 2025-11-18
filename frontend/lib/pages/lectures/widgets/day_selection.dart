@@ -1,11 +1,60 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
+import 'package:plan_pm/global/extensions.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 
-List<String> daysShort = ["Pon", "Wt", "Śr", "Czw", "Pt"];
-List<String> days = ["poniedziałek", "wtorek", "środa", "czwartek", "piątek"];
+List<String> days = [];
+List<String> daysShort = [];
+
+List<LinearGradient> softHorizontalGradients = [
+  LinearGradient(
+    // Gradient 1: od 0% do ~14.28%
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [Color(0xFF3B82F6), Color(0xFF4C75F6)], // #3B82F6 -> #4C75F6
+  ),
+  LinearGradient(
+    // Gradient 2: od ~14.28% do ~28.57%
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [Color(0xFF4C75F6), Color(0xFF5D68F5)], // #4C75F6 -> #5D68F5
+  ),
+  LinearGradient(
+    // Gradient 3: od ~28.57% do ~42.85%
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [Color(0xFF5D68F5), Color(0xFF6E5CF5)], // #5D68F5 -> #6E5CF5
+  ),
+  LinearGradient(
+    // Gradient 4: od ~42.85% do ~57.14%
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [Color(0xFF6E5CF5), Color(0xFF7E4FF5)], // #6E5CF5 -> #7E4FF5
+  ),
+  LinearGradient(
+    // Gradient 5: od ~57.14% do ~71.42%
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [Color(0xFF7E4FF5), Color(0xFF8F42F5)], // #7E4FF5 -> #8F42F5
+  ),
+  LinearGradient(
+    // Gradient 6: od ~71.42% do ~85.71%
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [Color(0xFF8F42F5), Color(0xFFA035F5)], // #8F42F5 -> #A035F5
+  ),
+  LinearGradient(
+    // Gradient 7: od ~85.71% do 100%
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      Color(0xFFA035F5),
+      Color(0xFF8B5CF6),
+    ], // #A035F5 -> #8B5CF6 (końcowy kolor oryginalny)
+  ),
+];
 
 class DaySelection extends StatefulWidget {
   const DaySelection({
@@ -36,6 +85,23 @@ class _DaySelectionState extends State<DaySelection> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    daysShort = [
+      l10n.daysShortMon,
+      l10n.daysShortTue,
+      l10n.daysShortWed,
+      l10n.daysShortThu,
+      l10n.daysShortFri,
+    ];
+
+    days = [
+      l10n.daysMon,
+      l10n.daysThu,
+      l10n.daysWed,
+      l10n.daysThu,
+      l10n.daysFri,
+    ];
+
     return Column(
       children: [
         Center(
@@ -61,7 +127,7 @@ class _DaySelectionState extends State<DaySelection> {
                 ),
               ),
               Text(
-                DateFormat("d MMMM").format(currentDate),
+                "${currentDate.day} ${l10n.dateDayMonth(currentDate).toCapitalized}",
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
@@ -96,58 +162,65 @@ class _DaySelectionState extends State<DaySelection> {
             borderRadius: BorderRadius.all(Radius.circular(10)),
             color: AppColor.surface,
           ),
-
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: List.generate(
-              daysShort.length,
-              (index) => index == selectedDay
-                  ? Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            padding: EdgeInsets.zero,
-                            backgroundColor: AppColor.primary,
-                            side: BorderSide.none,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                          ),
-                          onPressed: null,
-                          child: Text(
-                            daysShort[index],
-                            textAlign: TextAlign.center,
-                            softWrap: false,
-                            style: TextStyle(
-                              color: AppColor.onPrimary,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+            children: List.generate(daysShort.length, (index) {
+              final isSelected = index == selectedDay;
+              final selectedBgColor =
+                  softHorizontalGradients[index].colors.first;
+              return Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 250),
+                    curve: Curves.easeInOut,
+                    decoration: BoxDecoration(
+                      color: isSelected ? selectedBgColor : Colors.transparent,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        side: BorderSide.none,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
-                    )
-                  : Expanded(
-                      child: TextButton(
-                        onPressed: () {
-                          HapticFeedback.selectionClick();
-                          setState(() {
-                            selectedDay = index;
-                            currentDate = currentDate = getDateFromIndex(
-                              currentDate,
-                              index,
-                            );
-                            widget.onChange(selectedDay, currentDate);
-                          });
-                        },
+                      onPressed: isSelected
+                          ? null
+                          : () {
+                              HapticFeedback.selectionClick();
+                              setState(() {
+                                selectedDay = index;
+                                currentDate = getDateFromIndex(
+                                  currentDate,
+                                  index,
+                                );
+                                widget.onChange(selectedDay, currentDate);
+                              });
+                            },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 40,
                         child: Text(
                           daysShort[index],
                           textAlign: TextAlign.center,
-                          style: TextStyle(color: AppColor.onSurfaceVariant),
+                          style: TextStyle(
+                            color: isSelected
+                                ? AppColor.onPrimary
+                                : AppColor.onSurfaceVariant,
+                            fontWeight: isSelected
+                                ? FontWeight.bold
+                                : FontWeight.normal,
+                          ),
                         ),
                       ),
                     ),
-            ),
+                  ),
+                ),
+              );
+            }),
           ),
         ),
       ],

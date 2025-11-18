@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:plan_pm/global/colors.dart';
 import 'package:plan_pm/pages/lectures/widgets/description_item.dart';
+import 'package:plan_pm/l10n/app_localizations.dart';
 
 List<LinearGradient> softHorizontalGradients = [
   LinearGradient(
@@ -65,8 +66,8 @@ class Lecture extends StatefulWidget {
     required this.name,
     required this.timeFrom,
     required this.timeTo,
-    required this.location,
-    required this.professor,
+    this.location,
+    this.professor,
     required this.group,
     required this.duration,
     this.notes,
@@ -76,8 +77,8 @@ class Lecture extends StatefulWidget {
   final String name;
   final String timeFrom;
   final String timeTo;
-  final String location;
-  final String professor;
+  final String? location;
+  final String? professor;
   final String group;
   final String duration;
   final String? notes;
@@ -98,6 +99,7 @@ class _LectureState extends State<Lecture> {
   //
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Card(
       color: AppColor.surface,
       child: Column(
@@ -172,9 +174,13 @@ class _LectureState extends State<Lecture> {
                               // Ten kod jest po to, zeby nie dodawać spacji przed przecinkiem jezeli są więcej niz dwie sale.
                               // Przed: ' , ' Po: ', '
                               // Ludzie nie stawiajcie spacji przed przecinkiem!!!!!!!!
-                              widget.location.split(" , ").length == 1
-                                  ? widget.location
-                                  : widget.location.split(" , ").join(", "),
+                              widget.location != null
+                                  ? widget.location!.split(" , ").length == 1
+                                        ? widget.location!
+                                        : widget.location!
+                                              .split(" , ")
+                                              .join(", ")
+                                  : l10n.roomNaN,
                               style: TextStyle(color: AppColor.onPrimary),
                             ),
                           ),
@@ -203,30 +209,35 @@ class _LectureState extends State<Lecture> {
                       child: Column(
                         spacing: 10,
                         children: [
-                          DescriptionItem(
-                            icon: LucideIcons.user,
-                            color: Colors.blue,
-                            name: "Professor",
-                            content: widget.professor,
-                          ),
+                          widget.professor != null
+                              ? DescriptionItem(
+                                  icon: LucideIcons.user,
+                                  color: Colors.blue,
+                                  name: l10n.professorLabel,
+                                  content:
+                                      widget.professor ?? l10n.professorNaN,
+                                )
+                              : Container(),
                           DescriptionItem(
                             icon: LucideIcons.bookLock,
                             color: Colors.green,
-                            name: "Grupa",
+                            name: l10n.groupLabel,
                             content: longToShort(widget.group),
                           ),
                           DescriptionItem(
                             icon: LucideIcons.clock,
                             color: Colors.purple,
-                            name: "Czas trwania",
+                            name: l10n.lengthLabel,
                             content: widget.duration,
                           ),
-                          DescriptionItem(
-                            icon: LucideIcons.stickyNote,
-                            color: Colors.yellow,
-                            name: "Notes",
-                            content: widget.notes ?? "Empty",
-                          ),
+                          widget.notes != null
+                              ? DescriptionItem(
+                                  icon: LucideIcons.stickyNote,
+                                  color: Colors.yellow,
+                                  name: l10n.notesLabel,
+                                  content: widget.notes ?? l10n.emptyNotesLabel,
+                                )
+                              : Container(),
                         ],
                       ),
                     ),

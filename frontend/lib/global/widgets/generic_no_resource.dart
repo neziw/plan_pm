@@ -23,6 +23,7 @@ class GenericNoResource extends StatelessWidget {
         color: AppColor.outline,
       ),
       child: Container(
+        width: double.infinity,
         decoration: BoxDecoration(
           color: AppColor.surface,
           borderRadius: BorderRadius.circular(12),
