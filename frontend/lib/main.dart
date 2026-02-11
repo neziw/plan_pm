@@ -13,6 +13,7 @@ import 'package:plan_pm/pages/welcome/input_page.dart';
 import 'package:plan_pm/pages/welcome/welcome_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:plan_pm/l10n/app_localizations.dart';
+import 'package:plan_pm/secrets.dart';
 import 'package:plan_pm/service/cache_service.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -66,10 +67,16 @@ Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
+  if (Secrets.supabaseUrl.isEmpty || Secrets.supabaseAnonKey.isEmpty) {
+    print(
+      "Secrets file is not defined! Visit secrets_example.dart for more information!",
+    );
+    return;
+  }
+
   await Supabase.initialize(
-    url: "https://nfujukqusxcwkewpeikw.supabase.co",
-    anonKey:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5mdWp1a3F1c3hjd2tld3BlaWt3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ0MTAyODcsImV4cCI6MjA2OTk4NjI4N30.UbH0dCf15sJxq-aI1HlFt2XxrPAIerod1KeHdEKA6WA",
+    url: Secrets.supabaseUrl,
+    anonKey: Secrets.supabaseAnonKey,
   );
   runApp(const App());
 }
